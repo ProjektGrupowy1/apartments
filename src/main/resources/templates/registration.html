@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+    <link rel="stylesheet" href="css/registration.css" type="text/css">
+</head>
+<body>
+<header>
+    <h1><b>Rejestracja</b></h1>
+</header>
+<main>
+    <h2>Podaj dane do rejestracji:</h2>
+    <form th:name='new_user' th:action="@{/registration}" th:object="${new_user}" th:method='post'>
+        <table>
+            <tr>
+                <td><b>Imie:</b></td>
+                <td><input type='text' name='name'></td>
+            </tr>
+            <tr>
+                <td><b>Nazwisko:</b></td>
+                <td><input type='text' name='surname'/></td>
+            </tr>
+            <tr>
+                <td><b>Login:</b></td>
+                <td><input type='text' name='username'></td>
+            </tr>
+            <tr>
+                <td><b>Hasło:</b></td>
+                <td><input type='password' name='password'/></td>
+            </tr>
+            <tr>
+                <td><b>Profil:</b></td>
+                <td><input type='text' name='rola'/></td>
+            </tr>
+        </table>
+        <input name="submit" type="submit" value="Zarejestruj się"/>
+    </form>
+</main>
+<footer></footer>
+</body>
+</html>
