@@ -1,16 +1,19 @@
 package com.booking.apartments.config;
 
-import com.booking.apartments.entity.UserEntity;
+import com.booking.apartments.entity.ProfileEntity;
+import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
 import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.utility.Session;
 import com.booking.apartments.utility.SessionBeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -20,7 +23,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 public class Beans {
 
-    @Scope(scopeName = "session")
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, scopeName = "session")
     @Bean
     public Session session() {
         return new Session();
@@ -32,8 +35,8 @@ public class Beans {
     }
 
     @Bean
-    public AuthenticationService authenticationService(UserRepository userRepository){
-        return new AuthenticationService(userRepository);
+    public AuthenticationService authenticationService(UserRepository userRepository, ProfileRepository profileRepository) {
+        return new AuthenticationService(userRepository, profileRepository);
     }
 
     @Bean
@@ -52,11 +55,22 @@ public class Beans {
     }
 
     @Bean
-    CommandLineRunner insertToDatabase(UserRepository userRepository) {
+    CommandLineRunner insertToDatabase(UserRepository userRepository, ProfileRepository profileRepository) {
         return args -> {
-            userRepository.save(new UserEntity("Tomasz", "Nowak", "user", "password", "Client", 1));
-            userRepository.save(new UserEntity("Jan", "Kowalski", "user2", "password", "Admin", 1));
-            userRepository.save(new UserEntity("Jan", "Kowalski", "user3", "$2a$04$qRz8rKuG9IjxHcIcLUAJzurefZj2Vy7.7k3cnJT74PGEyF2OIckNK", "Client", 1));
+
+            profileRepository.save(new ProfileEntity("Client"));
+            profileRepository.save(new ProfileEntity("Owner"));
+            profileRepository.save(new ProfileEntity("Admin"));
+
+//            userRepository.save(new UserEntity("Tomasz", "Nowak", "user", "password", "Client", 1));
+//            userRepository.save(new UserEntity("Jan", "Kowalski", "user2", "password", "Admin", 1));
+//            userRepository.save(new UserEntity("Jan", "Kowalski", "user3", "$2a$04$qRz8rKuG9IjxHcIcLUAJzurefZj2Vy7.7k3cnJT74PGEyF2OIckNK", "Client", 1));
         };
     }
+
+    @Bean
+    public ServletContextInitializer initializer() {
+        return servletContext -> servletContext.getSessionCookieConfig();
+    }
+
 }

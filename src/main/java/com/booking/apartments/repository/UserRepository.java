@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity,Long> {
 
-    @Query("select u from UserEntity u where u.username = :username")
-    List<UserEntity> getUserByLogin(@Param("username") String username);
+    @Query("select u from UserEntity u where u.email = :email")
+    List<UserEntity> getUserByEmail(@Param("email") String email);
 
 //    @Query("select u.username, u.password from UserEntity u where u.username = :username")
 //    List<UserEntity> getUserByLogin(@Param("username") String username);

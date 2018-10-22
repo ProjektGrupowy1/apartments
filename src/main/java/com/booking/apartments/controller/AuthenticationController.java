@@ -4,7 +4,7 @@ import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.utility.ApartmentException;
 import com.booking.apartments.utility.Session;
-import com.booking.apartments.utility.enums.Role;
+import com.booking.apartments.utility.enums.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,10 @@ public class AuthenticationController {
     Session session;
 
     @RequestMapping(value = "/screenname", method = RequestMethod.POST)
-    public RedirectView loginIn(@PathVariable("username") String username, @PathVariable("password") String password) throws ApartmentException {
+    public RedirectView loginIn(@PathVariable("email") String email, @PathVariable("password") String password) throws ApartmentException {
 
-        session.addParam("username", username);
-        String role = authenticationService.getUserRole(username);
-
-        return redirectUser(role);
+        session.addParam("email", email);
+        return redirectUser(authenticationService.getUserProfile(email));
     }
 
     @RequestMapping(value = "/screenname", method = RequestMethod.GET)
@@ -45,10 +43,13 @@ public class AuthenticationController {
     @AllArgsConstructor
     public class NewUser {
         private String name;
-        private String surname;
-        private String username;
+        private String lastname;
+        private String street;
+        private String city;
+        private String phone;
+        private String email;
         private String password;
-        private String rola;
+        private String profile;
     }
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
@@ -62,26 +63,29 @@ public class AuthenticationController {
 
         UserEntity user = new UserEntity();
         user.setName(newUser.getName());
-        user.setSurname(newUser.getSurname());
-        user.setUsername(newUser.getUsername());
+        user.setLastname(newUser.getLastname());
+        user.setStreet(newUser.getStreet());
+        user.setCityId(1L); // trzeba wyszukać na podstawie nazwy miasta identyfikator
+        user.setPhone(newUser.getPhone());
+        user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        user.setRole(newUser.getRola());
+        user.setIdProfile(authenticationService.getProfileId(newUser.getProfile()));
         user.setEnabled(1);
 
         authenticationService.addNewUser(user);
-        session.addParam("username", user.getUsername());
+        session.addParam("email", user.getEmail());
 
-        return redirectUser(user.getRole());
+        return redirectUser(newUser.getProfile());
     }
 
-    private RedirectView redirectUser(String role) throws ApartmentException {
+    private RedirectView redirectUser(String profile) throws ApartmentException {
         RedirectView redirectView = null;
 
-        if (Role.Client.toString().contains(role)) {
+        if (Profile.Client.toString().contains(profile)) {
             redirectView = new RedirectView("/search_engine");
-        } else if (Role.Owner.toString().contains(role)) {
+        } else if (Profile.Owner.toString().contains(profile)) {
             redirectView = new RedirectView("/manage_hotels");
-        } else if (Role.Admin.toString().contains(role)) {
+        } else if (Profile.Admin.toString().contains(profile)) {
             redirectView = new RedirectView("/manage_account");
         } else {
             throw new ApartmentException("Błąd biznesowy","W systemie nie ma takie profilu.");
@@ -93,7 +97,7 @@ public class AuthenticationController {
     public ModelAndView correctLogout() {
         ModelAndView modelAndView = new ModelAndView("logout");
 
-        session.removeParam("username");
+        session.removeParam("email");
 
         return modelAndView;
     }

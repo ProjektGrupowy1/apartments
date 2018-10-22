@@ -1,6 +1,7 @@
 package com.booking.apartments.service;
 
 import com.booking.apartments.entity.UserEntity;
+import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,21 @@ public class AuthenticationService {
 
     UserRepository userRepository;
 
+    ProfileRepository profileRepository;
+
     public UserEntity addNewUser(UserEntity user) {
         userRepository.save(user);
         return user;
     }
 
-    public String getUserRole(String username) {
-        return userRepository.getUserByLogin(username).get(0).getRole();
+    public String getUserProfile(String email) {
+
+        UserEntity user = userRepository.getUserByEmail(email).get(0);
+
+        return profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
+    }
+
+    public Long getProfileId(String profileName) {
+        return profileRepository.getIdByProfileName(profileName).get(0).getIdProfile();
     }
 }

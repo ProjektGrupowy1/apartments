@@ -12,11 +12,11 @@
 </header>
 <main>
     <h2>Podaj login i hasło</h2>
-    <form name='login_form' th:action="@{/screenname/${username}/${password}}" method='post'>
+    <form name='login_form' th:action="@{/screenname/${email}/${password}}" method='post'>
         <table>
             <tr>
                 <td><b>Login:</b></td>
-                <td><input type='text' name='username' value=''></td>
+                <td><input type='text' name='email' value=''></td>
             </tr>
             <tr>
                 <td><b>Hasło:</b></td>

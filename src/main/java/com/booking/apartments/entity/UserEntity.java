@@ -8,39 +8,57 @@ import java.io.Serializable;
 public class UserEntity implements Serializable {
 
     @Id
+    @Column(name="id_user")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long idUser;
 
     private String name;
 
-    private String surname;
+    private String lastname;
 
     @Column(unique = true)
-    private String username;
+    private String email;
 
     private String password;
 
-    private String role;
+    private String phone;
+
+    private String street;
+
+    @Column(name="id_profile")
+    private Long idProfile;
+
+    @Column(name="id_city")
+    private Long cityId;
+
+//    private String role;
 
     private int enabled;
 
+    @JoinColumn(name = "idProfile", referencedColumnName = "id_profile", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    public ProfileEntity profile;
+
     public UserEntity() { }
 
-    public UserEntity(String name, String surname, String username, String password, String role, int enabled) {
+    public UserEntity(String name, String lastname, String email, String password, String phone, String street, Long idProfile, Long cityId, int enabled) {
         this.name = name;
-        this.surname = surname;
-        this.username = username;
+        this.lastname = lastname;
+        this.email = email;
         this.password = password;
-        this.role = role;
+        this.phone = phone;
+        this.street = street;
+        this.idProfile = idProfile;
+        this.cityId = cityId;
         this.enabled = enabled;
     }
 
-    public Long getId() {
-        return Id;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getName() {
@@ -51,20 +69,20 @@ public class UserEntity implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -75,12 +93,36 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public Long getIdProfile() {
+        return idProfile;
+    }
+
+    public void setIdProfile(Long idProfile) {
+        this.idProfile = idProfile;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public int getEnabled() {

@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = {DatabaseConfig.class})
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@SessionAttributes("username")
+@SessionAttributes("email")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/screenname/${username}/${password}")
-                .usernameParameter("username")
+                .loginProcessingUrl("/screenname/${email}/${password}")
+                .usernameParameter("email")
                 .passwordParameter("password")
                 .failureUrl("/login_error")
                 .permitAll()
@@ -62,8 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select username, role from users where username=?")
+                .usersByUsernameQuery("select email, password, enabled from users where email=?")
+                .authoritiesByUsernameQuery("select users.email, profiles.profileName from users join profiles on profiles.id_profile = users.id_profile where users.email=?")
                 .passwordEncoder(passwordEncoder());
     }
 
