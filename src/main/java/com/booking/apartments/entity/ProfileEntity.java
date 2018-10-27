@@ -13,7 +13,7 @@ public class ProfileEntity {
     @Column(name="id_profile")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long idProfile;
+    private int idProfile;
 
     @Column(name = "name")
     private String profileName;
@@ -27,11 +27,11 @@ public class ProfileEntity {
         this.profileName = profileName;
     }
 
-    public Long getIdProfile() {
+    public int getIdProfile() {
         return idProfile;
     }
 
-    public void setIdProfile(Long idProfile) {
+    public void setIdProfile(int idProfile) {
         this.idProfile = idProfile;
     }
 

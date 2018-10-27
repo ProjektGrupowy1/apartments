@@ -11,7 +11,7 @@ public class UserEntity implements Serializable {
     @Id
     @Column(name="id_user")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private int idUser;
 
     private String name;
 
@@ -27,10 +27,10 @@ public class UserEntity implements Serializable {
     private String street;
 
     @Column(name="id_profile")
-    private Long idProfile;
+    private int idProfile;
 
     @Column(name="id_city")
-    private Long cityId;
+    private int cityId;
 
     private int enabled;
 
@@ -41,9 +41,16 @@ public class UserEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     public List<ReservationEntity> userReservations;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
+    public List<HotelEntity> hotels;
+
+    @JoinColumn(name = "id_city", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    public CityEntity city;
+
     public UserEntity() { }
 
-    public UserEntity(String name, String lastname, String email, String password, String phone, String street, Long idProfile, Long cityId, int enabled) {
+    public UserEntity(String name, String lastname, String email, String password, String phone, String street, int idProfile, int cityId, int enabled) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -55,11 +62,11 @@ public class UserEntity implements Serializable {
         this.enabled = enabled;
     }
 
-    public Long getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Long idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 
@@ -111,19 +118,19 @@ public class UserEntity implements Serializable {
         this.street = street;
     }
 
-    public Long getIdProfile() {
+    public int getIdProfile() {
         return idProfile;
     }
 
-    public void setIdProfile(Long idProfile) {
+    public void setIdProfile(int idProfile) {
         this.idProfile = idProfile;
     }
 
-    public Long getCityId() {
+    public int getCityId() {
         return cityId;
     }
 
-    public void setCityId(Long cityId) {
+    public void setCityId(int cityId) {
         this.cityId = cityId;
     }
 

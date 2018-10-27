@@ -26,7 +26,7 @@ public class AuthenticationService {
         return profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
     }
 
-    public Long getProfileId(String profileName) {
+    public int getProfileId(String profileName) {
         return profileRepository.getIdByProfileName(profileName).get(0).getIdProfile();
     }
 }

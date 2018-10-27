@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProfileRepository extends CrudRepository<ProfileEntity,Long> {
+public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer> {
     @Query("select p from ProfileEntity p where p.idProfile = :idProfile")
-    List<ProfileEntity> getProfileById(@Param("idProfile") Long idProfile);
+    List<ProfileEntity> getProfileById(@Param("idProfile") int idProfile);
 
     @Query("select p from ProfileEntity p where p.profileName = :profileName")
     List<ProfileEntity> getIdByProfileName(@Param("profileName") String profileName);

@@ -22,6 +22,8 @@ public class CityEntity {
     @Column(name = "postal_code")
     private String postalCode;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city")
+    private List<UserEntity> users ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city")
     public List<HotelEntity> hotels;

@@ -35,6 +35,10 @@ public class HotelEntity {
 
     private String street;
 
+    @JoinColumn(name = "id_owner", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    public UserEntity owner;
+
     public HotelEntity() {
 
     }

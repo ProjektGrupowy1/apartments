@@ -65,7 +65,7 @@ public class AuthenticationController {
         user.setName(newUser.getName());
         user.setLastname(newUser.getLastname());
         user.setStreet(newUser.getStreet());
-        user.setCityId(1L); // trzeba wyszukać na podstawie nazwy miasta identyfikator
+        user.setCityId(1); // trzeba wyszukać na podstawie nazwy miasta identyfikator
         user.setPhone(newUser.getPhone());
         user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
