@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackageClasses = {DatabaseConfig.class})
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @SessionAttributes("email")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -62,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select email, password, enabled from users where email=?")
-                .authoritiesByUsernameQuery("select users.email, profiles.profileName from users join profiles on profiles.id_profile = users.id_profile where users.email=?")
+                .usersByUsernameQuery("select email, password, enabled from user where email=?")
+                .authoritiesByUsernameQuery("select user.email, profile.name from user join profile on profile.id_profile = user.id_profile where user.email=?")
                 .passwordEncoder(passwordEncoder());
     }
 

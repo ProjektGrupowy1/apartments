@@ -2,9 +2,10 @@ package com.booking.apartments.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserEntity implements Serializable {
 
     @Id
@@ -31,13 +32,14 @@ public class UserEntity implements Serializable {
     @Column(name="id_city")
     private Long cityId;
 
-//    private String role;
-
     private int enabled;
 
-    @JoinColumn(name = "idProfile", referencedColumnName = "id_profile", insertable = false, updatable = false)
+    @JoinColumn(name = "id_Profile", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public ProfileEntity profile;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    public List<ReservationEntity> userReservations;
 
     public UserEntity() { }
 

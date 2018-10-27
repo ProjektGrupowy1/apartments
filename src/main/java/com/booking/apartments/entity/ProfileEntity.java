@@ -2,21 +2,24 @@ package com.booking.apartments.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "profiles")
+@Table(name = "profile")
 public class ProfileEntity {
 
     @Id
     @Column(name="id_profile")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long idProfile;
 
+    @Column(name = "name")
     private String profileName;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
-    private Set<UserEntity> user = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile")
+    private List<UserEntity> user ;
 
     public ProfileEntity() {}
 
