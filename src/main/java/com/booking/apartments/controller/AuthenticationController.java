@@ -72,6 +72,7 @@ public class AuthenticationController {
         user.setIdProfile(authenticationService.getProfileId(newUser.getProfile()));
         user.setEnabled(1);
 
+        
         authenticationService.addNewUser(user);
         session.addParam("email", user.getEmail());
 
