@@ -1,11 +1,19 @@
 package com.booking.apartments.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "apartment")
-public class ApartmentEntity {
+public class ApartmentEntity implements Serializable {
 
     @Id
     @Column(name = "id_apartment")
@@ -23,13 +31,12 @@ public class ApartmentEntity {
 
     private int status;
 
-    @JoinColumn(name = "id_hotel", insertable = false, updatable = false)
+    @JoinColumn(name = "id_hotel", referencedColumnName = "id_hotel", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public HotelEntity hotel;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "apartment")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idApartment")
     public List<ReservationEntity> reservations;
-
 
     public ApartmentEntity(int idApartment, int idHotel, String name, int size, float price, int status) {
         this.idApartment = idApartment;
@@ -37,54 +44,6 @@ public class ApartmentEntity {
         this.name = name;
         this.size = size;
         this.price = price;
-        this.status = status;
-    }
-
-    public int getIdApartment() {
-        return idApartment;
-    }
-
-    public void setIdApartment(int idApartment) {
-        this.idApartment = idApartment;
-    }
-
-    public int getIdHotel() {
-        return idHotel;
-    }
-
-    public void setIdHotel(int idHotel) {
-        this.idHotel = idHotel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
         this.status = status;
     }
 }

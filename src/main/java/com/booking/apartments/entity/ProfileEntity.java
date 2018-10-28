@@ -1,13 +1,21 @@
 package com.booking.apartments.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "profile")
-public class ProfileEntity {
+public class ProfileEntity implements Serializable {
 
     @Id
     @Column(name="id_profile")
@@ -18,28 +26,11 @@ public class ProfileEntity {
     @Column(name = "name")
     private String profileName;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
     private List<UserEntity> user ;
-
-    public ProfileEntity() {}
 
     public ProfileEntity(String profileName) {
         this.profileName = profileName;
     }
 
-    public int getIdProfile() {
-        return idProfile;
-    }
-
-    public void setIdProfile(int idProfile) {
-        this.idProfile = idProfile;
-    }
-
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
-    }
 }

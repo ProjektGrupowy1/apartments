@@ -8,9 +8,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class ManageTheHotelController {
 
-    @RequestMapping(value = "/manage_hotels",method = RequestMethod.GET)
-    public ModelAndView getManageHotelsPage(){
-        ModelAndView searchEngineModelAndView = new ModelAndView("/owner/manage_hotels");
-        return searchEngineModelAndView;
+    @RequestMapping(value = "/manage_hotels", method = RequestMethod.GET)
+    public ModelAndView getManageHotelsPage() {
+        ModelAndView manageHotelsModelAndView = new ModelAndView("/owner/manage_hotels");
+        return manageHotelsModelAndView;
+    }
+
+    @RequestMapping(value = "/details_of_the_hotel", method = RequestMethod.GET)
+    public ModelAndView getDetailsOfTheHotelPage() {
+        ModelAndView detailsOfTheHotelModelAndView = new ModelAndView("/owner/details_of_the_hotel");
+        return detailsOfTheHotelModelAndView;
     }
 }

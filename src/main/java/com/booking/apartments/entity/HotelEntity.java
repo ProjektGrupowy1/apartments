@@ -1,11 +1,19 @@
 package com.booking.apartments.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "hotel")
-public class HotelEntity {
+public class HotelEntity implements Serializable {
 
     @Id
     @Column(name = "id_hotel")
@@ -25,23 +33,18 @@ public class HotelEntity {
     @Column(name = "id_city")
     private int idCity;
 
-    @JoinColumn(name = "id_city", insertable = false, updatable = false)
+    @JoinColumn(name = "id_city", referencedColumnName = "id_city" , insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public CityEntity city;
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hotel")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idHotel")
     public List<ApartmentEntity> apartments;
 
     private String street;
 
-    @JoinColumn(name = "id_owner", insertable = false, updatable = false)
+    @JoinColumn(name = "id_owner", referencedColumnName = "id_user", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public UserEntity owner;
-
-    public HotelEntity() {
-
-    }
 
     public HotelEntity(String name, int rating, String description, int idOwner, int idCity, String street) {
         this.name = name;
@@ -52,59 +55,4 @@ public class HotelEntity {
         this.street = street;
     }
 
-    public int getIdHotel() {
-        return idHotel;
-    }
-
-    public void setIdHotel(int idHotel) {
-        this.idHotel = idHotel;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getIdOwner() {
-        return idOwner;
-    }
-
-    public void setIdOwner(int idOwner) {
-        this.idOwner = idOwner;
-    }
-
-    public int getIdCity() {
-        return idCity;
-    }
-
-    public void setIdCity(int idCity) {
-        this.idCity = idCity;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
 }

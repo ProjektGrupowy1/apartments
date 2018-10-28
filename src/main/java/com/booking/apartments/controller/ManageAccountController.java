@@ -7,9 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class ManageAccountController {
-    @RequestMapping(value = "/manage_account",method = RequestMethod.GET)
-    public ModelAndView getManageAccountPage(){
-        ModelAndView searchEngineModelAndView = new ModelAndView("/admin/manage_account");
-        return searchEngineModelAndView;
+    @RequestMapping(value = "/manage_account", method = RequestMethod.GET)
+    public ModelAndView getManageAccountPage() {
+        ModelAndView manageAccountModelAndView = new ModelAndView("/admin/manage_account");
+        return manageAccountModelAndView;
     }
 }

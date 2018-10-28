@@ -1,6 +1,7 @@
 package com.booking.apartments.config;
 
 import com.booking.apartments.entity.ProfileEntity;
+import com.booking.apartments.repository.CityRepository;
 import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
 import com.booking.apartments.service.AuthenticationService;
@@ -11,7 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ViewResolver;
@@ -34,8 +34,8 @@ public class Beans {
     }
 
     @Bean
-    public AuthenticationService authenticationService(UserRepository userRepository, ProfileRepository profileRepository) {
-        return new AuthenticationService(userRepository, profileRepository);
+    public AuthenticationService authenticationService(UserRepository userRepository, ProfileRepository profileRepository, CityRepository cityRepository) {
+        return new AuthenticationService(session(), userRepository, profileRepository, cityRepository);
     }
 
     @Bean
@@ -54,12 +54,14 @@ public class Beans {
     }
 
     @Bean
-    CommandLineRunner insertToDatabase(UserRepository userRepository, ProfileRepository profileRepository) {
+    CommandLineRunner insertToDatabase(UserRepository userRepository, ProfileRepository profileRepository, CityRepository cityRepository) {
         return args -> {
 
             profileRepository.save(new ProfileEntity("Client"));
             profileRepository.save(new ProfileEntity("Owner"));
             profileRepository.save(new ProfileEntity("Admin"));
+
+//            cityRepository.save(new CityEntity("Warszawa","PL","Mazowieckie","00-300"));
 
 //            userRepository.save(new UserEntity("Tomasz", "Nowak", "user", "password", "Client", 1));
 //            userRepository.save(new UserEntity("Jan", "Kowalski", "user2", "password", "Admin", 1));
