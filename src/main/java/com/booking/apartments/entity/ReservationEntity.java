@@ -1,11 +1,19 @@
 package com.booking.apartments.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "reservation")
-public class ReservationEntity {
+public class ReservationEntity implements Serializable {
 
     @Id
     @Column(name = "id_reservation")
@@ -23,76 +31,22 @@ public class ReservationEntity {
     @Column(name = "id_apartment")
     private int idApartment;
 
-
     @Column(name = "id_user")
     private int idUser;
 
-
-    @JoinColumn(name = "id_user", insertable = false, updatable = false)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public UserEntity user;
 
-    @JoinColumn(name = "id_apartment", insertable = false, updatable = false)
+    @JoinColumn(name = "id_apartment", referencedColumnName = "id_apartment", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public ApartmentEntity apartment;
-
-    public ReservationEntity() {
-
-    }
 
     public ReservationEntity(Date startDate, Date endDate, float price, int idApartment, int idUser) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.idApartment = idApartment;
-        this.idUser = idUser;
-    }
-
-    public int getIdReservation() {
-        return idReservation;
-    }
-
-    public void setIdReservation(int idReservation) {
-        this.idReservation = idReservation;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getIdApartment() {
-        return idApartment;
-    }
-
-    public void setIdApartment(int idApartment) {
-        this.idApartment = idApartment;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 }

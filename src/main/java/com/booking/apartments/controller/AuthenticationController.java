@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
+@SessionAttributes("email")
 public class AuthenticationController {
 
     @Autowired
@@ -27,8 +28,6 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/screenname", method = RequestMethod.POST)
     public RedirectView loginIn(@PathVariable("email") String email, @PathVariable("password") String password) throws ApartmentException {
-
-        session.addParam("email", email);
         return redirectUser(authenticationService.getUserProfile(email));
     }
 
@@ -65,14 +64,14 @@ public class AuthenticationController {
         user.setName(newUser.getName());
         user.setLastname(newUser.getLastname());
         user.setStreet(newUser.getStreet());
-        user.setCityId(1); // trzeba wyszukać na podstawie nazwy miasta identyfikator
+//        user.setIdCity(1); // trzeba wyszukać na podstawie nazwy miasta identyfikator
+
+        user.setIdCity(authenticationService.getIdByCityName(newUser.getCity())); // trzeba wyszukać na podstawie nazwy miasta identyfikator
         user.setPhone(newUser.getPhone());
         user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setIdProfile(authenticationService.getProfileId(newUser.getProfile()));
         user.setEnabled(1);
-
-        
         authenticationService.addNewUser(user);
         session.addParam("email", user.getEmail());
 
@@ -96,16 +95,21 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/correct_logout", method = RequestMethod.GET)
     public ModelAndView correctLogout() {
-        ModelAndView modelAndView = new ModelAndView("logout");
+        ModelAndView correctLogoutModelAndView = new ModelAndView("logout");
 
         session.removeParam("email");
-
-        return modelAndView;
+        return correctLogoutModelAndView;
     }
 
     @RequestMapping(value = "/login_error", method = RequestMethod.GET)
     public ModelAndView incorrectLogin() {
         return new ModelAndView("error_login");
+    }
+
+    @RequestMapping(value = "/user_profile", method = RequestMethod.GET)
+    public ModelAndView getUserProfilePage() {
+        ModelAndView userProfileModelAndView = new ModelAndView("user_profile");
+        return userProfileModelAndView;
     }
 
 }
