@@ -13,6 +13,47 @@
 <main>
     <a type="button" th:href="@{/user_profile}">Twój Profil</a>
     <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+    <h2>Podaj dane hotelu:</h2>
+    <form th:name='new_hotel' th:action="@{/add_hotel}" th:object="${new_hotel}" th:method='post'>
+        <table>
+            <tr>
+                <td><b>Nazwa hotelu:</b></td>
+                <td><input type='text' name='name'></td>
+            </tr>
+            <tr>
+                <td><b>Opis:</b></td>
+                <td><input type='text' name='description'/></td>
+            </tr>
+            <tr>
+                <td><b>Miejscowość:</b></td>
+                <td><input type='text' name='city'></td>
+            </tr>
+            <tr>
+                <td><b>Ulica:</b></td>
+                <td><input type='text' name='street'/></td>
+            </tr>
+            <tr>
+                <td><b>Gwiazdki:</b></td>
+                <td><input type='number' name='rating'/></td>
+            </tr>
+        </table>
+        <input name="submit" type="submit" value="Dodaj hotel"/>
+    </form>
+
+    <h2>Istniejące hotele: </h2>
+
+    <ul th:each="hotel : ${hotels}">
+        <li th:text="${hotel.name}"></li>
+        <li th:text="${hotel.description}"></li>
+        <li th:text="${hotel.city}"></li>
+        <li th:text="${hotel.street}"></li>
+        <li th:text="${hotel.rating}"></li>
+
+    </ul>
+
+
+
 </main>
 <footer></footer>
 </body>

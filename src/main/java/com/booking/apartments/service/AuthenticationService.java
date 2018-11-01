@@ -26,16 +26,15 @@ public class AuthenticationService implements UserDetailsService {
     CityRepository cityRepository;
 
     public UserEntity addNewUser(UserEntity user) {
-
-        System.out.println("User email = "+user.getEmail());
-
-        try {
-            userRepository.save(user);
-        }catch (Exception e){
-            System.out.println("Nie przeszło");
-        }
-
+        userRepository.save(user);
         return user;
+    }
+
+    public int getUserId(String email) {
+
+        UserEntity user = userRepository.getUserByEmail(email).get(0);
+
+        return user.getIdUser();
     }
 
     public String getUserProfile(String email) {
@@ -49,7 +48,7 @@ public class AuthenticationService implements UserDetailsService {
         return profileRepository.getIdByProfileName(profileName).get(0).getIdProfile();
     }
 
-    public int getIdByCityName(String cityName){
+    public int getIdByCityName(String cityName) {
 
         return cityRepository.getIdByCityName(cityName).get(0).getIdCity();
     }
@@ -61,7 +60,7 @@ public class AuthenticationService implements UserDetailsService {
 
         ProfileEntity profile = profileRepository.getProfileById(user.getIdProfile()).get(0);
 
-        session.addParam("email",email);
+        session.addParam("email", email);
 
         return new UserDetailsModel(user, profile);
     }
