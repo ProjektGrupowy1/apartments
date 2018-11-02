@@ -4,10 +4,7 @@ import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.entity.UserEntity;
-import com.booking.apartments.repository.CityRepository;
-import com.booking.apartments.repository.HotelRepository;
-import com.booking.apartments.repository.ProfileRepository;
-import com.booking.apartments.repository.UserRepository;
+import com.booking.apartments.repository.*;
 import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.service.ManageTheHotelService;
 import com.booking.apartments.utility.Session;
@@ -44,15 +41,16 @@ public class Beans {
     }
 
     @Bean
-    public ManageTheHotelService manageTheHotelService(HotelRepository hotelRepository, CityRepository cityRepository){
-        return new ManageTheHotelService(hotelRepository, cityRepository);
+    public ManageTheHotelService manageTheHotelService(HotelRepository hotelRepository, ApartmentRepository apartmentRepository, CityRepository cityRepository){
+        return new ManageTheHotelService(hotelRepository, apartmentRepository, cityRepository);
     }
 
     @Bean
     public ViewResolver viewResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setTemplateMode("XHTML");
-        templateResolver.setPrefix("templates/");
+        templateResolver.setCacheable(false);
+        templateResolver.setPrefix("classpath:/templates/");
         templateResolver.setSuffix(".html");
 
         SpringTemplateEngine engine = new SpringTemplateEngine();

@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/user_profile", "/manage_hotels", "/details_of_the_hotel").hasAuthority("Owner")
 //                .antMatchers("/user_profile", "/manage_account").hasAuthority("Admin")
                 .antMatchers("/search_engine").hasAuthority("Client")
-                .antMatchers("/manage_hotels","/add_hotel").hasAuthority("Owner")
+                .antMatchers("/manage_hotels", "/add_hotel", "/hotel_modification","/remove_hotel", "/details_of_the_hotel").hasAuthority("Owner")
                 .antMatchers("/manage_account").hasAuthority("Admin")
                 .antMatchers("/user_profile").hasAuthority("User")
                 .anyRequest().authenticated()

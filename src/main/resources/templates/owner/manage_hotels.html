@@ -4,57 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zarządzaj hotelami</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/owner/manage_hotels.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-<header>
-    <h1><b>Zarządzaj hotelam</b></h1>
+<header class="container">
+    <h1><b>Zarządzaj hotelami</b></h1>
 </header>
-<main>
-    <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
 
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
+<main class="container">
     <h2>Podaj dane hotelu:</h2>
-    <form th:name='new_hotel' th:action="@{/add_hotel}" th:object="${new_hotel}" th:method='post'>
-        <table>
-            <tr>
-                <td><b>Nazwa hotelu:</b></td>
-                <td><input type='text' name='name'></td>
-            </tr>
-            <tr>
-                <td><b>Opis:</b></td>
-                <td><input type='text' name='description'/></td>
-            </tr>
-            <tr>
-                <td><b>Miejscowość:</b></td>
-                <td><input type='text' name='city'></td>
-            </tr>
-            <tr>
-                <td><b>Ulica:</b></td>
-                <td><input type='text' name='street'/></td>
-            </tr>
-            <tr>
-                <td><b>Gwiazdki:</b></td>
-                <td><input type='number' name='rating'/></td>
-            </tr>
-        </table>
-        <input name="submit" type="submit" value="Dodaj hotel"/>
-    </form>
+    <section class="row panel_hotel">
+        <ul>
+            <li class="added_hotel">
+                <form th:name='new_hotel' th:action="@{/add_hotel}" th:object="${new_hotel}" th:method='post'>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Nazwa hotelu:</p>
+                        <input type='text' name='name'>
+                        <p>Gwiazdki:</p>
+                        <input type='number' name='rating'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Ulica:</p>
+                        <input type='text' name='street'/>
+                        <p>Miejscowość:</p>
+                        <input type='text' name='city'>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Opis:</p>
+                        <textarea name="description" placeholder="Write something.." type='text'></textarea>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3 buttom_botton">
+                        <input name="submit" type="submit" value="Dodaj hotel"/>
+                    </span>
+                </form>
+            </li>
+        </ul>
+    </section>
 
     <h2>Istniejące hotele: </h2>
+    <section class="row panel_hotel">
+        <ul th:id="list_of_hotels">
 
-    <ul th:each="hotel : ${hotels}">
-        <li th:text="${hotel.name}"></li>
-        <li th:text="${hotel.description}"></li>
-        <li th:text="${hotel.city}"></li>
-        <li th:text="${hotel.street}"></li>
-        <li th:text="${hotel.rating}"></li>
+            <li th:each="hotel,iter : ${hotels}">
+                <form th:name='modified_hotel' th:action="@{/hotel_modification}" th:object="${modified_hotel}"
+                      th:method='post'>
+                    <p th:text="${hotel.idHotel}" type='text' name='idHotel' hidden></p>
+                    <p th:text="${hotel.name}" type='text' name='name'></p>
+                    <p th:text="${hotel.description}" type='text' name='description'></p>
+                    <p th:text="${hotel.city}" type='text' name='city'></p>
+                    <p th:text="${hotel.street}" type='text' name='street'></p>
+                    <p th:text="${hotel.rating}" type='number' name='rating'></p>
+                    <input name="submit" type="hidden" value="Zapisz zmiany"
+                           th:id="save_changes_submit_+${iter.index + 1}"/>
+                </form>
+                <input name="submit" type="submit" value="Modyfikuj dane o hotel"
+                       th:id="modify_submit_+${iter.index + 1}"/>
+                <form th:action="@{/details_of_the_hotel}" th:method="get">
+                    <input type="number" name="id_hotel" th:value="${hotel.idHotel}" hidden/>
+                    <input type="submit" value="Dodaj nowe apartamenty"/>
+                </form>
+                <a th:href="@{'/remove_hotel/{id_hotel}'(id_hotel=${hotel.idHotel})}">Usuń hotel</a>
 
-    </ul>
-
-
-
+            </li>
+        </ul>
+    </section>
 </main>
-<footer></footer>
+<footer class="container"></footer>
+<script>
+    $('[id^=modify_submit_]').click(function () {
+        var allDetailsOfHotel = $(this).prev().children();
+
+        allDetailsOfHotel.each(function () {
+
+            if ($(this).is('input')) {
+                $(this).prop("type", "submit");
+            }
+            else if ($(this).is(":hidden")) {
+                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
+            }
+            else {
+                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+            }
+
+        });
+        $(this).prop("type", "hidden");
+    });
+</script>
 </body>
 </html>
