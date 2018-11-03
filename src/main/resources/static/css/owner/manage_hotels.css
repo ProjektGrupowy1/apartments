@@ -5,26 +5,39 @@ body{
 h1{
     text-align: center;
     font-size: 30px;
-    padding: 10px 10px 10px 10px;
+    margin: 20px;
 }
 
 h2{
     text-align: left;
     font-size: 25px;
     font-weight: bold;
+    margin: 30px 0px 15px 0px;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
 }
 
 li{
     list-style-type: none;
+    padding: 10px 5px 20px 5px;
 }
 
 p{
     font-size: 15px;
     margin: 10px 0px 0px 0px;
     padding-left: 6px;
+    word-break: break-word;
 }
 
-.added_hotel input, .added_hotel textarea{
+p:nth-child(odd){
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.added_hotel input, .added_hotel textarea, #list_of_hotels input{
     margin: 10px 5px 10px 5px;
     width: 100%;
 }
@@ -35,12 +48,12 @@ p{
 
 .panel_hotel{
     background-color: mintcream;
-    padding: 0px 5px 10px 0px;
+    /*padding: 0px 5px 10px 0px;*/
     border: lightslategrey;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
-.buttom_botton input{
+.green_buttom input, .green_buttom a{
     margin-top: 40px;
     padding: 8px 20px 8px 20px;
     font-size: 16px;
@@ -52,9 +65,16 @@ p{
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
-.buttom_botton input:hover{
+.green_buttom input:hover, .green_buttom a:hover{
     background-color: darkgreen;
     color: snow;
+    text-decoration: none;
+}
+
+.green_buttom a{
+    display: block;
+    text-align: center;
+    margin: 10px -5px 0px 5px;
 }
 
 .line{
@@ -72,4 +92,17 @@ nav a{
 nav a:hover{
     background-color: green;
     color: black;
+}
+
+#list_of_hotels li {
+    display: flow-root;
+    border-bottom: solid 1px gray;
+}
+
+#new_hotel span {
+    padding-bottom: 10px;
+}
+
+.green_buttom form input:nth-child(2){
+    margin-top: 10px;
 }
