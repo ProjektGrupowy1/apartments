@@ -4,16 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szczegóły hotelu</title>
+    <!--<link rel="stylesheet" href="css/owner/manage_hotels.css" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/owner/details_of_the_hotel.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Szczegóły hotelu</b></h1>
 </header>
-<main>
+<main class="container">
     <a type="button" th:href="@{/user_profile}">Twój Profil</a>
     <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+    <h2>Podaj dane apartament:</h2>
+    <form th:name='new_apartment' th:action="@{/add_apartment}" th:object="${new_apartment}" th:method='post'>
+        <ul>
+            <li>
+                <b>Nazwa Hotelu:</b>
+                <input type='text' name='hotelName' th:value="${hotel_name}">
+                <b>Nazwa Apartamentu:</b>
+                <input type='text' name='name'/>
+                <b>Rozmiary pomieszczenia:</b>
+                <input type='number' name='size'>
+                <b>Cena:</b>
+                <input type='number' name='price'/>
+                <b>Status:</b>
+                <input type='number' name='status'/>
+                <input name="submit" type="submit" value="Dodaj apartament"/>
+            </li>
+        </ul>
+    </form>
+
+    <h2>Istniejące apartamenty: </h2>
+
+    <ul th:id="list_of_apartaments">
+        <li th:each="apartment,iter : ${apartments}">
+            <form th:name='modified_apartment' th:action="@{/apartment_modification}" th:object="${modified_apartment}"
+                  th:method='post'>
+                <p th:text="${apartment.idApartment}" type='number' name='idApartment' hidden></p>
+                <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
+                <p th:text="${apartment.name}" type='text' name='name'></p>
+                <p th:text="${apartment.size}" type='number' name='size'></p>
+                <p th:text="${apartment.price}" type='number' name='price' step="0.01"></p>
+                <p th:text="${apartment.status}" type='number' name='status'></p>
+                <input name="submit" type="hidden" value="Zapisz zmiany" th:id="save_changes_submit_+${iter.index + 1}"/>
+            </form>
+            <input name="submit" type="submit" value="Modyfikuj dane o apartamencie" th:id="modify_submit_+${iter.index + 1}"/>
+            <!--<a th:href="@{'/remove_apartment/{hotel_name}'(hotel_name=${apartment.hotelName})+'/{id_apartment}'(id_apartment=${apartment.idApartment})}">-->
+                <!--Usuń apartament</a>-->
+            <a th:href="@{/remove_apartment/__${apartment.hotelName}__/__${apartment.idApartment}__}">Usuń apartament</a>
+        </li>
+    </ul>
+
+    <script>
+        $('[id^=modify_submit_]').click(function () {
+            var allDetailsOfApartment = $(this).siblings().children();
+
+            allDetailsOfApartment.each(function () {
+                if($(this).is('input')){
+                    $(this).prop("type","submit");
+                }
+                else if($(this).is(":hidden")){
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
+                }
+                else{
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                }
+                console.log("$(this).text()  = "+$(this).text() );
+            });
+            $(this).prop("type","hidden");
+        });
+    </script>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>

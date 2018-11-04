@@ -3,10 +3,12 @@ package com.booking.apartments.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,11 +22,13 @@ public class ReservationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idReservation;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_start")
-    private Date startDate;
+    private LocalDate startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_end")
-    private Date endDate;
+    private LocalDate endDate;
 
     private float price;
 
@@ -34,6 +38,8 @@ public class ReservationEntity implements Serializable {
     @Column(name = "id_user")
     private int idUser;
 
+    private String status;
+
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     public UserEntity user;
@@ -42,11 +48,12 @@ public class ReservationEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     public ApartmentEntity apartment;
 
-    public ReservationEntity(Date startDate, Date endDate, float price, int idApartment, int idUser) {
+    public ReservationEntity(LocalDate startDate, LocalDate endDate, float price, int idApartment, int idUser, String status) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.idApartment = idApartment;
         this.idUser = idUser;
+        this.status = status;
     }
 }

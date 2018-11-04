@@ -4,16 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wyszukiwarka apartamentów</title>
-    <link rel="stylesheet" href="css/client/search_engine.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/client/search_engine.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Wyszukiwarka apartamentów</b></h1>
 </header>
-<main>
+<main class="container">
     <a type="button" th:href="@{/user_profile}">Twój Profil</a>
     <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+    <h2>Wyszukaj:</h2>
+    <section class="row">
+        <ul>
+            <li>
+                <form th:method="get" th:action="@{/search_engine}">
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Miejsce:</p>
+                    <input th:type='text' name='city'>
+                </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Nazwa hotelu:</p>
+                    <input th:type='text' name='hotel_name'>
+                </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Data od:</p>
+                    <input th:type='date' name='date_start' pattern="\d{4}/\d{1,2}/\d{1,2}">
+                </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Data do:</p>
+                    <input th:type='date' name='date_end' pattern="\d{4}/\d{1,2}/\d{1,2}">
+                </span>
+                    <input name="submit" type="submit" value="Szukaj"/>
+                </form>
+            </li>
+        </ul>
+    </section>
+    <h2>Dostępne apartamenty:</h2>
+    <section class="row">
+        <ul>
+            <li th:each="apartment,iter : ${apartments}">
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Nazwa hotelu:</p>
+                    <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
+                    <p>Nazwa apartamentu:</p>
+                    <p th:text="${apartment.name}" type='text' name='name'></p>
+                    <p th:text="${apartment.idApartment}" type='text' name='idApartment' hidden></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Ulica:</p>
+                    <p th:text="${apartment.street}" type='text' name='street'></p>
+                    <p>Miejscowość:</p>
+                    <p th:text="${apartment.city}" type='text' name='city'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Status:</p>
+                    <p th:text="${apartment.status}" type='number' name='status'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                        <form th:action="@{/details_of_the_apartment}" th:method='post'>
+                            <input type='number' name='id_apartment' th:value="${apartment.idApartment}" hidden>
+                            <input name="submit" type="submit" value="Pokaż szczegóły"/>
+                        </form>
+                </span>
+            </li>
+        </ul>
+    </section>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>

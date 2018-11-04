@@ -2,6 +2,7 @@ package com.booking.apartments.service;
 
 import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.entity.UserEntity;
+import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.model.UserDetailsModel;
 import com.booking.apartments.repository.CityRepository;
 import com.booking.apartments.repository.ProfileRepository;
@@ -11,11 +12,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class AuthenticationService implements UserDetailsService {
+
+    PasswordEncoder passwordEncoder;
 
     Session session;
 
@@ -25,17 +29,29 @@ public class AuthenticationService implements UserDetailsService {
 
     CityRepository cityRepository;
 
-    public UserEntity addNewUser(UserEntity user) {
+    public UserEntity addNewUser(Mapper.NewUser newUser) {
 
-        System.out.println("User email = "+user.getEmail());
+        UserEntity user = new UserEntity();
+        user.setName(newUser.getName());
+        user.setLastname(newUser.getLastname());
+        user.setStreet(newUser.getStreet());
 
-        try {
-            userRepository.save(user);
-        }catch (Exception e){
-            System.out.println("Nie przeszło");
-        }
+        user.setIdCity(getIdByCityName(newUser.getCity()));
+        user.setPhone(newUser.getPhone());
+        user.setEmail(newUser.getEmail());
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setIdProfile(getProfileId(newUser.getProfile()));
+        user.setEnabled(1);
 
+        userRepository.save(user);
         return user;
+    }
+
+    public int getUserId(String email) {
+
+        UserEntity user = userRepository.getUserByEmail(email).get(0);
+
+        return user.getIdUser();
     }
 
     public String getUserProfile(String email) {
@@ -49,9 +65,9 @@ public class AuthenticationService implements UserDetailsService {
         return profileRepository.getIdByProfileName(profileName).get(0).getIdProfile();
     }
 
-    public int getIdByCityName(String cityName){
+    public int getIdByCityName(String cityName) {
 
-        return cityRepository.getIdByCityName(cityName).get(0).getIdCity();
+        return cityRepository.findCityListByCityName(cityName).get(0).getIdCity();
     }
 
     @Override
@@ -61,7 +77,7 @@ public class AuthenticationService implements UserDetailsService {
 
         ProfileEntity profile = profileRepository.getProfileById(user.getIdProfile()).get(0);
 
-        session.addParam("email",email);
+        session.addParam("email", email);
 
         return new UserDetailsModel(user, profile);
     }

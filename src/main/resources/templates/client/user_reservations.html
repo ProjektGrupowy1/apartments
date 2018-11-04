@@ -4,16 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twoje rezerwacje</title>
-    <link rel="stylesheet" href="css/client/user_reservations.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/client/user_reservations.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Twoje rezerwacje</b></h1>
 </header>
-<main>
+<main class="container">
     <a type="button" th:href="@{/user_profile}">Twój Profil</a>
     <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+    <h2>Twoje rezerwacje:</h2>
+    <section class="row">
+        <ul>
+            <li th:each="reservation,iter : ${reservations}">
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Nazwa hotelu:</p>
+                    <p th:text="${reservation.hotelName}" type='text' name='hotelName'></p>
+                    <p>Nazwa apartamentu:</p>
+                    <p th:text="${reservation.apartamentName}" type='text' name='apartamentName'></p>
+                    <p>Ulica:</p>
+                    <p th:text="${reservation.street}" type='text' name='street'></p>
+                    <p>Miejscowość:</p>
+                    <p th:text="${reservation.city}" type='text' name='city'></p>
+                    <p th:text="${reservation.idReservation}" type='text' name='idReservation' hidden></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Data od:</p>
+                    <p th:text="${reservation.startDate}" type='date' name='startDate'></p>
+                    <p>Cena:</p>
+                    <p th:text="${reservation.price}" type='date' name='price'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Data do:</p>
+                    <p th:text="${reservation.endDate}" type='text' name='endDate'></p>
+                    <p>Status:</p>
+                    <p th:text="${reservation.status}" type='text' name='status'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                        <form th:action="@{/cancel_rezerwation}" th:method='get'>
+                            <input type='number' name='id_reservation' th:value="${reservation.idReservation}" hidden>
+                            <input name="submit" type="submit" value="Anuluj rezerwacje"/>
+                        </form>
+                </span>
+            </li>
+        </ul>
+    </section>
+
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>

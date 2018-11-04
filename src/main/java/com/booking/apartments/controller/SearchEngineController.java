@@ -1,45 +1,62 @@
 package com.booking.apartments.controller;
 
+import com.booking.apartments.mapper.Mapper;
+import com.booking.apartments.service.AuthenticationService;
+import com.booking.apartments.service.ManageTheHotelService;
+import com.booking.apartments.service.SearchEngineService;
 import com.booking.apartments.utility.ApartmentException;
 import com.booking.apartments.utility.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
+@SessionAttributes("email")
 public class SearchEngineController {
+
+    @Autowired
+    Mapper mapper;
 
     @Autowired
     Session session;
 
     @Autowired
-    BeanFactoryPostProcessor beanFactoryPostProcessor;
+    AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/search_engine",method = RequestMethod.GET)
-    public ModelAndView getSearchEnginePage(HttpSession session2) throws ApartmentException {
+    @Autowired
+    ManageTheHotelService manageTheHotelService;
+
+    @Autowired
+    SearchEngineService searchEngineService;
+
+    @RequestMapping(value = "/search_engine", method = RequestMethod.GET)
+    public ModelAndView getSearchEnginePage(@RequestParam(value = "city", required = false) String city,
+                                            @RequestParam(value = "hotel_name", required = false) String hotelName,
+                                            @RequestParam(value = "date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
+                                            @RequestParam(value = "date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateEnd) {
         ModelAndView searchEngineModelAndView = new ModelAndView("/client/search_engine");
 
-//        session.addParam("email", user.getEmail());
+        List<Mapper.CustomerInformationAboutTheApartmentMapper> apartments = searchEngineService.findApartmentsThatMeetTheCriteria(city, hotelName, dateStart, dateEnd).stream().map(mapper.customerInformationAboutTheApartment).collect(Collectors.toList());
+
+        searchEngineModelAndView.addObject("apartments", apartments);
 
         return searchEngineModelAndView;
     }
 
-    @RequestMapping(value = "/details_of_the_apartment",method = RequestMethod.GET)
-    public ModelAndView getDetailsOfTheApartmentPage(HttpServletRequest request, HttpServletResponse response) throws ApartmentException {
-        ModelAndView DetailsOfTheApartmentModelAndView = new ModelAndView("/client/details_of_the_apartment");
-        return DetailsOfTheApartmentModelAndView;
-    }
+    @RequestMapping(value = "/details_of_the_apartment", method = RequestMethod.POST)
+    public ModelAndView getDetailsOfTheApartmentPage(@RequestParam(value = "id_apartment") Integer idApartment) throws ApartmentException {
+        ModelAndView detailsOfTheApartmentModelAndView = new ModelAndView("/client/details_of_the_apartment");
 
-    @RequestMapping(value = "/user_reservations",method = RequestMethod.GET)
-    public ModelAndView getUserReservationPage(HttpServletRequest request, HttpServletResponse response) throws ApartmentException {
-        ModelAndView UserReservationModelAndView = new ModelAndView("/client/user_reservations");
-        return UserReservationModelAndView;
+        Mapper.CustomerInformationAboutTheApartmentMapper apartment = mapper.customerInformationAboutTheApartment
+                .apply(manageTheHotelService.getApartment(idApartment));
+
+        detailsOfTheApartmentModelAndView.addObject("apartment", apartment);
+
+        return detailsOfTheApartmentModelAndView;
     }
 }
