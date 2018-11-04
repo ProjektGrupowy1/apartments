@@ -1,13 +1,10 @@
 package com.booking.apartments.controller;
 
-import com.booking.apartments.entity.ApartmentEntity;
-import com.booking.apartments.entity.HotelEntity;
+import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.service.ManageTheHotelService;
 import com.booking.apartments.utility.ApartmentException;
 import com.booking.apartments.utility.Session;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,7 +13,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,61 +28,8 @@ public class ManageTheHotelController {
     @Autowired
     ManageTheHotelService manageTheHotelService;
 
-    @Getter
-    @AllArgsConstructor
-    public class NewHotelMapper {
-        private String name;
-        private String description;
-        private String city;
-        private String street;
-        private int rating;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public class HotelMapper {
-        private int idHotel;
-        private String name;
-        private String description;
-        private String city;
-        private String street;
-        private int rating;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public class NewApartmentMapper {
-        private String hotelName;
-        private String name;
-        private int size;
-        private float price;
-        private int status;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public class ApartmentMapper {
-        private int idApartment;
-        private String hotelName;
-        private String name;
-        private int size;
-        private float price;
-        private int status;
-    }
-
-    Function<HotelEntity, HotelMapper> mapTheHotel = new Function<HotelEntity, HotelMapper>() {
-        public HotelMapper apply(HotelEntity hotelEntity) {
-            return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), manageTheHotelService.getCityName(hotelEntity.getIdCity()),
-                    hotelEntity.getStreet(), hotelEntity.getRating());
-        }
-    };
-
-    Function<ApartmentEntity, ApartmentMapper> mapTheApartment = new Function<ApartmentEntity, ApartmentMapper>() {
-        public ApartmentMapper apply(ApartmentEntity apartmentEntity) {
-            return new ApartmentMapper(apartmentEntity.getIdApartment(), manageTheHotelService.getHotelName(apartmentEntity.getIdHotel()),
-                    apartmentEntity.getName(), apartmentEntity.getSize(), apartmentEntity.getPrice(), apartmentEntity.getStatus());
-        }
-    };
+    @Autowired
+    Mapper mapper;
 
     @RequestMapping(value = "/manage_hotels", method = RequestMethod.GET)
     public ModelAndView getManageHotelsPage() {
@@ -94,7 +37,7 @@ public class ManageTheHotelController {
 
         int idOwner = authenticationService.getUserId(session.getParam("email").toString());
 
-        List<HotelMapper> hotels = manageTheHotelService.getHotels(idOwner).stream().map(mapTheHotel).collect(Collectors.toList());
+        List<Mapper.HotelMapper> hotels = manageTheHotelService.getHotels(idOwner).stream().map(mapper.mapTheHotel).collect(Collectors.toList());
         manageHotelsModelAndView.addObject("hotels", hotels);
 
         return manageHotelsModelAndView;
@@ -105,17 +48,16 @@ public class ManageTheHotelController {
                                                  @RequestParam(value = "hotel_name", required = false) String hotelName) {
         ModelAndView detailsOfTheHotelModelAndView = new ModelAndView("/owner/details_of_the_hotel");
 
-        System.out.println("hotelName = "+hotelName);
+        System.out.println("hotelName = " + hotelName);
 
-        List<ApartmentMapper> apartments = null;
-        if (idHotel!=null) {
-            apartments = manageTheHotelService.getApartments(idHotel).stream().map(mapTheApartment).collect(Collectors.toList());
+        List<Mapper.ApartmentMapper> apartments = null;
+        if (idHotel != null) {
+            apartments = manageTheHotelService.getApartments(idHotel).stream().map(mapper.mapTheApartment).collect(Collectors.toList());
             detailsOfTheHotelModelAndView.addObject("hotel_name", manageTheHotelService.getHotelName(idHotel));
         } else if (!hotelName.isEmpty()) {
-            apartments = manageTheHotelService.getApartments(hotelName).stream().map(mapTheApartment).collect(Collectors.toList());
+            apartments = manageTheHotelService.getApartments(hotelName).stream().map(mapper.mapTheApartment).collect(Collectors.toList());
             detailsOfTheHotelModelAndView.addObject("hotel_name", hotelName);
-        }
-        else {
+        } else {
             apartments = new ArrayList<>();
         }
 
@@ -125,34 +67,18 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_hotel", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addHotel(@ModelAttribute("new_hotel") NewHotelMapper newHotelMapper) throws ApartmentException {
+    RedirectView addHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) throws ApartmentException {
 
-        HotelEntity hotel = new HotelEntity();
-        hotel.setIdCity(authenticationService.getIdByCityName(newHotelMapper.getCity()));
-        hotel.setIdOwner(authenticationService.getUserId(session.getParam("email").toString()));
-        hotel.setDescription(newHotelMapper.getDescription());
-        hotel.setRating(newHotelMapper.getRating());
-        hotel.setStreet(newHotelMapper.getStreet());
-        hotel.setName(newHotelMapper.getName());
-
-        manageTheHotelService.addNewHotel(hotel);
+        manageTheHotelService.addNewHotel(newHotelMapper);
 
         return new RedirectView("/manage_hotels");
     }
 
     @RequestMapping(value = "/hotel_modification", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView modifyTheHotel(@ModelAttribute("modified_hotel") HotelMapper hotelMapper) throws ApartmentException {
+    RedirectView modifyTheHotel(@ModelAttribute("modified_hotel") Mapper.HotelMapper hotelMapper) throws ApartmentException {
 
-        HotelEntity hotel = manageTheHotelService.getHotel(hotelMapper.getIdHotel());
-        hotel.setIdCity(authenticationService.getIdByCityName(hotelMapper.getCity()));
-        hotel.setIdOwner(authenticationService.getUserId(session.getParam("email").toString()));
-        hotel.setDescription(hotelMapper.getDescription());
-        hotel.setRating(hotelMapper.getRating());
-        hotel.setStreet(hotelMapper.getStreet());
-        hotel.setName(hotelMapper.getName());
-
-        manageTheHotelService.modyfyTheHotel(hotel);
+        manageTheHotelService.modyfyTheHotel(hotelMapper);
 
         return new RedirectView("/manage_hotels");
     }
@@ -165,18 +91,11 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_apartment", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addApartment(@ModelAttribute("new_apartment") NewApartmentMapper newApartmentMapper) throws ApartmentException {
+    RedirectView addApartment(@ModelAttribute("new_apartment") Mapper.NewApartmentMapper newApartmentMapper) throws ApartmentException {
 
         RedirectView detailOfTheHotelRedirectView = new RedirectView("/details_of_the_hotel");
-        ApartmentEntity apartment = new ApartmentEntity();
 
-        apartment.setIdHotel(manageTheHotelService.getHotelId(newApartmentMapper.getHotelName()));
-        apartment.setName(newApartmentMapper.getName());
-        apartment.setPrice(newApartmentMapper.getPrice());
-        apartment.setSize(newApartmentMapper.getSize());
-        apartment.setStatus(newApartmentMapper.getStatus());
-
-        manageTheHotelService.addApartment(apartment);
+        manageTheHotelService.addApartment(newApartmentMapper);
 
         detailOfTheHotelRedirectView.addStaticAttribute("hotel_name", newApartmentMapper.getHotelName());
 
@@ -185,16 +104,10 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/apartment_modification", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView modifyTheHotel(@ModelAttribute("modified_apartment") ApartmentMapper apartmentMapper,
+    RedirectView modifyTheHotel(@ModelAttribute("modified_apartment") Mapper.ApartmentMapper apartmentMapper,
                                 RedirectAttributes redirectAttributes) throws ApartmentException {
-        ApartmentEntity apartment = manageTheHotelService.getApartment(apartmentMapper.getIdApartment());
-        apartment.setSize(apartmentMapper.getSize());
-        apartment.setStatus(apartmentMapper.getStatus());
-        apartment.setPrice(apartmentMapper.getPrice());
-        apartment.setName(apartmentMapper.getName());
-        apartment.setIdHotel(manageTheHotelService.getHotelId(apartmentMapper.getHotelName()));
 
-        manageTheHotelService.modyfyTheApartment(apartment);
+        manageTheHotelService.modyfyTheApartment(apartmentMapper);
 
         redirectAttributes.addAttribute("hotel_name", apartmentMapper.getHotelName());
 

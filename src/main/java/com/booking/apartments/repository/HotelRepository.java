@@ -19,4 +19,8 @@ public interface HotelRepository extends CrudRepository<HotelEntity,Integer> {
 
     @Query("select h from HotelEntity h where h.name = :hotelName")
     List<HotelEntity> getHotelByHotelName(@Param("hotelName") String hotelName);
+
+    @Query("select h.idHotel from HotelEntity h where h.idCity = :idCity")
+    List<Integer> findListOfHotelsByCityId(@Param("idCity") int idCity);
+
 }

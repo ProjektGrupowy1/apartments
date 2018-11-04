@@ -4,17 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szczegóły apartamentu</title>
-    <link rel="stylesheet" href="css/client/details_of_the_apartment.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/client/details_of_the_apartment.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Szczegóły apartamentu</b></h1>
 </header>
-<main>
+<main class="container">
     <a type="button" th:href="@{/user_profile}">Twój Profil</a>
     <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+    <h2 th:text="${apartment.name}"></h2>
+    <section class="row">
+        <ul>
+            <li>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Nazwa hotelu:</p>
+                    <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
+                    <p>Nazwa apartamentu:</p>
+                    <p th:text="${apartment.name}" type='text' name='name'></p>
+                    <p>Ulica:</p>
+                    <p th:text="${apartment.street}" type='text' name='street'></p>
+                    <p>Miejscowość:</p>
+                    <p th:text="${apartment.city}" type='text' name='city'></p>
+                    <p th:text="${apartment.idApartment}" type='number' name='idApartment' hidden></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Status:</p>
+                    <p th:text="${apartment.status}" type='number' name='status'></p>
+                    <p>Cena:</p>
+                    <p th:text="${apartment.price}" type='number' name='price'></p>
+                    <p>Gwiazdki:</p>
+                    <p th:text="${apartment.rating}" type='number' name='rating'></p>
+                    <p>Miejscowość:</p>
+                    <p th:text="${apartment.size}" type='number' name='size'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Opis:</p>
+                    <p th:text="${apartment.description}" type='text' name='size'></p>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <h2>Rezerwuj apartament</h2>
+    <section class="row">
+        <ul>
+            <li>
+                <form th:method="post" th:action="@{/request_for_rent}">
+                    <input th:value="${apartment.idApartment}" type='number' name='id_apartment' hidden>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Data od:</p>
+                        <input th:type='date' name='startDate' pattern="\d{4}/\d{1,2}/\d{1,2}">
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Data do:</p>
+                        <input th:type='date' name='endDate' pattern="\d{4}/\d{1,2}/\d{1,2}">
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <input name="submit" type="submit" value="Rezerwuj"/>
+                    </span>
+                </form>
+            </li>
+        </ul>
+    </section>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>
 
