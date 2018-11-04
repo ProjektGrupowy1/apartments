@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   `price` float DEFAULT NULL,
   `id_apartment` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
+  `status` varchar(60) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id_reservation`),
   UNIQUE KEY `id_UNIQUE` (`id_reservation`),
   KEY `reservation_room_fk_idx` (`id_apartment`),
