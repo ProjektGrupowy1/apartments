@@ -19,7 +19,7 @@ public class CityEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCity;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String cityName;
 
     @Column(name = "country_code")

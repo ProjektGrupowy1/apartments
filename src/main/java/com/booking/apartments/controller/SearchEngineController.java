@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+//@SessionAttributes({"email", "profile"})
 @SessionAttributes("email")
 public class SearchEngineController {
 

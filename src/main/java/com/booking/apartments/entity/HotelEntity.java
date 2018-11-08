@@ -20,7 +20,7 @@ public class HotelEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idHotel;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     private int rating;

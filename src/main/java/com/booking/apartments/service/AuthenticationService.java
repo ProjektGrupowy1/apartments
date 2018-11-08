@@ -47,6 +47,20 @@ public class AuthenticationService implements UserDetailsService {
         return user;
     }
 
+    public UserEntity getUserById(Integer idUser){
+        return userRepository.getUserById(idUser).get(0);
+    }
+
+    public Mapper.User getUserByEmail(String email){
+
+        UserEntity user = userRepository.getUserByEmail(email).get(0);
+        String cityName = cityRepository.getCityNameById(user.getIdCity()).get(0).getCityName();
+        String profileName = profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
+
+        return new Mapper.User(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
+                user.getPassword(),profileName);
+    }
+
     public int getUserId(String email) {
 
         UserEntity user = userRepository.getUserByEmail(email).get(0);
@@ -78,7 +92,34 @@ public class AuthenticationService implements UserDetailsService {
         ProfileEntity profile = profileRepository.getProfileById(user.getIdProfile()).get(0);
 
         session.addParam("email", email);
+        session.addParam("profile", profile.getProfileName());
 
         return new UserDetailsModel(user, profile);
+    }
+
+    public void modifyUser(Mapper.User userMapper) {
+
+        System.out.println("userMapper.getIdUser() = "+userMapper.getIdUser());
+
+        UserEntity user = userRepository.getUserById(userMapper.getIdUser()).get(0);
+        String password = user.getPassword();
+
+        if(!password.equals(userMapper.getPassword())){
+            password = passwordEncoder.encode(userMapper.getPassword());
+        }
+
+        user.setIdUser(userMapper.getIdUser());
+        user.setName(userMapper.getName());
+        user.setLastname(userMapper.getLastname());
+        user.setStreet(userMapper.getStreet());
+
+        user.setIdCity(getIdByCityName(userMapper.getCity()));
+        user.setPhone(userMapper.getPhone());
+        user.setEmail(userMapper.getEmail());
+        user.setPassword(password);
+        user.setIdProfile(getProfileId(userMapper.getProfile()));
+        user.setEnabled(1);
+
+        userRepository.save(user);
     }
 }

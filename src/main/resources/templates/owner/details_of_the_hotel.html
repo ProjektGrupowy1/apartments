@@ -4,59 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szczegóły hotelu</title>
-    <!--<link rel="stylesheet" href="css/owner/manage_hotels.css" type="text/css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/owner/details_of_the_hotel.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owner/template_owner.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owner/details_of_the_hotel.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
 <header class="container">
     <h1><b>Szczegóły hotelu</b></h1>
 </header>
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
+        <a type="button" th:href="@{/reserved_apartments}">Zestawienie rezerwacji</a>
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
 <main class="container">
-    <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
-
     <h2>Podaj dane apartament:</h2>
-    <form th:name='new_apartment' th:action="@{/add_apartment}" th:object="${new_apartment}" th:method='post'>
-        <ul>
-            <li>
-                <b>Nazwa Hotelu:</b>
-                <input type='text' name='hotelName' th:value="${hotel_name}">
-                <b>Nazwa Apartamentu:</b>
-                <input type='text' name='name'/>
-                <b>Rozmiary pomieszczenia:</b>
-                <input type='number' name='size'>
-                <b>Cena:</b>
-                <input type='number' name='price'/>
-                <b>Status:</b>
-                <input type='number' name='status'/>
-                <input name="submit" type="submit" value="Dodaj apartament"/>
+    <section class="row panel" th:id="added_apartment">
+        <form th:name='new_apartment' th:action="@{/add_apartment}" th:object="${new_apartment}" th:method='post'>
+            <ul>
+                <li class="added_apartment">
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Nazwa Hotelu:</p>
+                        <input type='text' name='hotelName' th:value="${hotel_name}">
+                        <p>Nazwa Apartamentu:</p>
+                        <input type='text' name='name'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Rozmiary pomieszczenia:</p>
+                        <input type='number' name='size'>
+                        <p>Cena:</p>
+                        <input type='number' name='price'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Status:</p>
+                        <input type='number' name='status'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
+                        <input name="submit" type="submit" value="Dodaj apartament"/>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </section>
+
+    <h2 th:if="${not #lists.isEmpty(apartments)}">Istniejące apartamenty:</h2>
+
+    <section class="row panel" th:id="list_of_apartments">
+        <ul th:id="list_of_apartaments">
+            <li th:each="apartment,iter : ${apartments}">
+                <form th:name='modified_apartment' th:action="@{/apartment_modification}"
+                      th:object="${modified_apartment}"
+                      th:method='post'>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Nazwa Hotelu:</p>
+                        <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
+                        <p>Nazwa Apartamentu:</p>
+                        <p th:text="${apartment.name}" type='text' name='name'></p>
+                        <p th:text="${apartment.idApartment}" type='number' name='idApartment' hidden></p>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Rozmiary pomieszczenia:</p>
+                        <p th:text="${apartment.size}" type='number' name='size'></p>
+                        <p>Cena:</p>
+                        <p th:text="${apartment.price}" type='number' name='price' step="0.01"></p>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Status:</p>
+                        <p th:text="${apartment.status}" type='number' name='status'></p>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
+                        <input name="submit" type="hidden" value="Zapisz zmiany"
+                               th:id="save_changes_submit_+${iter.index + 1}"/>
+                    </span>
+                </form>
+                <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
+                    <input name="submit" type="submit" value="Modyfikuj dane o apartamencie"
+                           th:id="modify_submit_+${iter.index + 1}"/>
+                    <a th:href="@{/remove_apartment/__${apartment.hotelName}__/__${apartment.idApartment}__}">Usuń
+                        apartament</a>
+                </span>
             </li>
         </ul>
-    </form>
-
-    <h2>Istniejące apartamenty: </h2>
-
-    <ul th:id="list_of_apartaments">
-        <li th:each="apartment,iter : ${apartments}">
-            <form th:name='modified_apartment' th:action="@{/apartment_modification}" th:object="${modified_apartment}"
-                  th:method='post'>
-                <p th:text="${apartment.idApartment}" type='number' name='idApartment' hidden></p>
-                <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
-                <p th:text="${apartment.name}" type='text' name='name'></p>
-                <p th:text="${apartment.size}" type='number' name='size'></p>
-                <p th:text="${apartment.price}" type='number' name='price' step="0.01"></p>
-                <p th:text="${apartment.status}" type='number' name='status'></p>
-                <input name="submit" type="hidden" value="Zapisz zmiany" th:id="save_changes_submit_+${iter.index + 1}"/>
-            </form>
-            <input name="submit" type="submit" value="Modyfikuj dane o apartamencie" th:id="modify_submit_+${iter.index + 1}"/>
-            <!--<a th:href="@{'/remove_apartment/{hotel_name}'(hotel_name=${apartment.hotelName})+'/{id_apartment}'(id_apartment=${apartment.idApartment})}">-->
-                <!--Usuń apartament</a>-->
-            <a th:href="@{/remove_apartment/__${apartment.hotelName}__/__${apartment.idApartment}__}">Usuń apartament</a>
-        </li>
-    </ul>
+    </section>
 
     <script>
         $('[id^=modify_submit_]').click(function () {
