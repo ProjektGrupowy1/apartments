@@ -3,6 +3,8 @@ package com.booking.apartments.mapper;
 import com.booking.apartments.entity.ApartmentEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.entity.ReservationEntity;
+import com.booking.apartments.entity.UserEntity;
+import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.service.ManageTheHotelService;
 import com.booking.apartments.service.ReserveService;
 import lombok.AllArgsConstructor;
@@ -23,9 +25,26 @@ public class Mapper {
     @Autowired
     ReserveService reserveService;
 
+    @Autowired
+    AuthenticationService authenticationService;
+
     @Getter
     @AllArgsConstructor
     public class NewUser {
+        private String name;
+        private String lastname;
+        private String street;
+        private String city;
+        private String phone;
+        private String email;
+        private String password;
+        private String profile;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class User {
+        private Integer idUser;
         private String name;
         private String lastname;
         private String street;
@@ -111,6 +130,27 @@ public class Mapper {
         private String status;
     }
 
+    @Getter
+    @AllArgsConstructor
+    public class InformationForTheOwner {
+        private int idReservation;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        private LocalDate startDate;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        private LocalDate endDate;
+        private float price;
+        private int idApartment;
+        private String apartamentName;
+        private String hotelName;
+        private String street;
+        private String city;
+        private int idUser;
+        private String status;
+        private String name;
+        private String lastname;
+        private String login;
+    }
+
     public Function<HotelEntity, HotelMapper> mapTheHotel = new Function<HotelEntity, HotelMapper>() {
         public HotelMapper apply(HotelEntity hotelEntity) {
             return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), manageTheHotelService.getCityName(hotelEntity.getIdCity()),
@@ -154,4 +194,16 @@ public class Mapper {
         }
     };
 
+    public Function<ReservationEntity, InformationForTheOwner> informationForTheOwner = new Function<ReservationEntity, InformationForTheOwner>() {
+        public InformationForTheOwner apply(ReservationEntity reservation) {
+            String apartmentName = manageTheHotelService.getApartment(reservation.getIdApartment()).getName();
+            HotelEntity hotel = manageTheHotelService.getHotelNameByApartmentId(reservation.getIdApartment());
+            String cityName = manageTheHotelService.getCityName(hotel.getIdCity());
+            UserEntity user = authenticationService.getUserById(reservation.getIdUser());
+
+            return new InformationForTheOwner(reservation.getIdReservation(), reservation.getStartDate(), reservation.getEndDate(), reservation.getPrice(),
+                    reservation.getIdApartment(), apartmentName, hotel.getName(), hotel.getStreet(), cityName, reservation.getIdUser(),reservation.getStatus(),
+                    user.getName(),user.getLastname(),user.getEmail());
+        }
+    };
 }

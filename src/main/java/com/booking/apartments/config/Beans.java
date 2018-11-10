@@ -86,7 +86,7 @@ public class Beans {
             profileRepository.save(new ProfileEntity("Client"));
             profileRepository.save(new ProfileEntity("Owner"));
             profileRepository.save(new ProfileEntity("Admin"));
-//
+
             cityRepository.save(new CityEntity("Warszawa","PL","Mazowieckie","00-300"));
 //
 //            userRepository.save(new UserEntity("Agnieszka", "Sz", "aga@gmail.com", "$2a$10$nQtRtmS45kHNjfeycb44vux3P0eBLWqh5c7wGWR/NKRFzQer9HHBC", "555555555", "Waryńskiego", 2, 1, 1));

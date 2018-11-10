@@ -1,0 +1,95 @@
+body{
+    background: forestgreen;
+}
+
+h1{
+    text-align: center;
+    font-size: 30px;
+    margin: 20px;
+}
+
+h2{
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 30px 0px 15px 0px;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+li{
+    list-style-type: none;
+    padding: 10px 5px 20px 5px;
+}
+
+p{
+    font-size: 15px;
+    margin: 10px 0px 0px 0px;
+    padding-left: 6px;
+    word-break: break-word;
+}
+
+p:nth-child(odd){
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.line{
+    background-color: darkgreen;
+}
+
+nav a{
+    padding: 10px 20px 10px 20px;
+    background-color: lightgreen;
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+nav a:hover{
+    background-color: green;
+    color: black;
+}
+
+#list_of_hotels li, #list_of_reservation li, #list_of_old_reservation li, #added_apartment li, #list_of_apartments li{
+    display: flow-root;
+    border-bottom: solid 1px gray;
+}
+
+#list_of_hotels input, .added_hotel input, .added_hotel textarea, .added_apartment input, #list_of_apartments input{
+    margin: 10px 5px 10px 5px;
+    width: 100%;
+}
+
+.panel{
+    background-color: mintcream;
+    border: lightslategrey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.green_buttom input, .green_buttom a{
+    margin-top: 40px;
+    padding: 8px 20px 8px 20px;
+    font-size: 16px;
+    background-color: forestgreen;
+    opacity: 0.9;
+    color: antiquewhite;
+    border: 1px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
+.green_buttom input:hover, .green_buttom a:hover{
+    background-color: darkgreen;
+    color: snow;
+    text-decoration: none;
+}
+
+.green_buttom a{
+    display: block;
+    text-align: center;
+    margin: 10px -5px 0px 5px;
+}

@@ -15,6 +15,10 @@ public class Session {
         params.put(name,value);
     }
 
+    public void updateParam(String name, Object value){
+        params.put(name, value);
+    }
+
     public Object getParam(String name){
         return params.get(name);
     }

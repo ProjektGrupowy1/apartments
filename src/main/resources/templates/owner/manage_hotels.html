@@ -6,7 +6,8 @@
     <title>Zarządzaj hotelami</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/owner/manage_hotels.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owner/template_owner.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owner/manage_hotels.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
@@ -16,14 +17,15 @@
 
 <div class="line">
     <nav class="container">
+        <a type="button" th:href="@{/reserved_apartments}">Zestawienie rezerwacji</a>
         <a type="button" th:href="@{/user_profile}">Twój Profil</a>
         <a type="button" th:href="@{/logout}">Wyloguj się</a>
     </nav>
 </div>
 <main class="container">
     <h2>Podaj dane hotelu:</h2>
-    <section class="row panel_hotel">
-        <ul th:id="new_hotel">
+    <section class="row panel" th:id="new_hotel">
+        <ul>
             <li class="added_hotel">
                 <form th:name='new_hotel' th:action="@{/add_hotel}" th:object="${new_hotel}" th:method='post'>
                     <span class="col-sm-3 col-md-3 col-lg-3">
@@ -49,9 +51,9 @@
             </li>
         </ul>
     </section>
-    <h2>Istniejące hotele: </h2>
-    <section class="row panel_hotel">
-        <ul th:id="list_of_hotels">
+    <h2 th:if="${not #lists.isEmpty(hotels)}">Istniejące hotele: </h2>
+    <section class="row panel" th:id="list_of_hotels">
+        <ul>
             <li th:each="hotel,iter : ${hotels}">
                 <form th:name='modified_hotel' th:action="@{/hotel_modification}" th:object="${modified_hotel}"
                       th:method='post'>

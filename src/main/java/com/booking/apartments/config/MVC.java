@@ -18,6 +18,7 @@ public class MVC extends WebMvcConfigurationSupport {
         registry.addViewController("/user_reservations").setViewName("user_reservations");
         registry.addViewController("/manage_hotels").setViewName("manage_hotels");
         registry.addViewController("/details_of_the_hotel").setViewName("details_of_the_hotel");
+        registry.addViewController("/reserved_apartments").setViewName("reserved_apartments");
         registry.addViewController("/manage_account").setViewName("manage_account");
     }
 

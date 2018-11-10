@@ -13,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@SessionAttributes("email")
+@SessionAttributes({"email", "profile"})
+//@SessionAttributes("email")
 public class AuthenticationController {
 
     @Autowired
@@ -35,6 +36,11 @@ public class AuthenticationController {
         ModelAndView loginModelAndView = new ModelAndView("login");
 
         return loginModelAndView;
+    }
+
+    @RequestMapping(value = "/select_the_page", method = RequestMethod.GET)
+    public RedirectView selectThePage() throws ApartmentException {
+        return redirectUser(authenticationService.getUserProfile(session.getParam("email").toString()));
     }
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
@@ -60,6 +66,7 @@ public class AuthenticationController {
 //        user.setEnabled(1);
         authenticationService.addNewUser(newUser);
         session.addParam("email", newUser.getEmail());
+        session.addParam("profile", newUser.getProfile());
 
         return redirectUser(newUser.getProfile());
     }
@@ -84,6 +91,7 @@ public class AuthenticationController {
         ModelAndView correctLogoutModelAndView = new ModelAndView("logout");
 
         session.removeParam("email");
+        session.removeParam("profile");
         return correctLogoutModelAndView;
     }
 
@@ -95,6 +103,30 @@ public class AuthenticationController {
     @RequestMapping(value = "/user_profile", method = RequestMethod.GET)
     public ModelAndView getUserProfilePage() {
         ModelAndView userProfileModelAndView = new ModelAndView("user_profile");
+
+        userProfileModelAndView.addObject("user",authenticationService.getUserByEmail(session.getParam("email").toString()));
+
         return userProfileModelAndView;
     }
+
+    @RequestMapping(value = "/modified_user", method = RequestMethod.POST)
+    public @ResponseBody RedirectView modifiedUser(@ModelAttribute("modified_user")Mapper.User user) {
+        RedirectView modifiedUserRedirectView = new RedirectView("/user_profile");
+
+//        System.out.println("user.getEmail = "+user.getEmail());
+//        System.out.println("user.getEmail = "+user.getPassword());
+//        System.out.println("user.getEmail = "+user.getLastname());
+//        System.out.println("user.getEmail = "+user.getName());
+//        System.out.println("user.getEmail = "+user.getProfile());
+//        System.out.println("user.getEmail = "+user.getStreet());
+//        System.out.println("user.getEmail = "+user);
+
+
+        authenticationService.modifyUser(user);
+        session.updateParam("email", user.getEmail());
+        session.updateParam("profile", user.getProfile());
+
+        return modifiedUserRedirectView;
+    }
+
 }

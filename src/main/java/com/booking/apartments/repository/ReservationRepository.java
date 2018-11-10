@@ -22,6 +22,9 @@ public interface ReservationRepository extends CrudRepository<ReservationEntity,
                                                                                 @Param("endDate")LocalDate endDate,
                                                                                 @Param("idApartment")Integer idApartment);
 
-    @Query("select r from ReservationEntity r where r.idUser >= :idUser")
-    List<ReservationEntity> findAllReservationByUserId(@Param("idUser") Integer idUser);
+    @Query("select r from ReservationEntity r where r.idUser = :idUser and r.status = :status")
+    List<ReservationEntity> findAllReservationByUserId(@Param("idUser") Integer idUser, @Param("status") String status);
+
+    @Query("select r from ReservationEntity r where r.idApartment = :idApartment and r.status = :status")
+    List<ReservationEntity> findAllReservationByApartmentId(@Param("idApartment") Integer idApartment, @Param("status") String status);
 }

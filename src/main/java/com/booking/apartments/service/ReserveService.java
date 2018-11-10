@@ -1,5 +1,7 @@
 package com.booking.apartments.service;
 
+import com.booking.apartments.entity.ApartmentEntity;
+import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.entity.ReservationEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.ReservationRepository;
@@ -10,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 @AllArgsConstructor
@@ -33,32 +37,59 @@ public class ReserveService {
     public boolean addNewReservation(Integer idApartment, LocalDate startDate, LocalDate endDate) {
         boolean condition = false;
 
-        if(reservationRepository.findAllIdApartmentFromAGivenDateRangeAndApartmentId(startDate,endDate,idApartment).isEmpty()){
+//        if (reservationRepository.findAllIdApartmentFromAGivenDateRangeAndApartmentId(startDate, endDate, idApartment).isEmpty()) {
             ReservationEntity reservation = new ReservationEntity();
             reservation.setIdApartment(idApartment);
             reservation.setStartDate(startDate);
             reservation.setEndDate(endDate);
             reservation.setIdUser(authenticationService.getUserId(session.getParam("email").toString()));
-            reservation.setPrice(manageTheHotelService.getApartment(idApartment).getPrice());
+            reservation.setPrice((manageTheHotelService.getApartment(idApartment).getPrice()) * DAYS.between(startDate, endDate));
             reservation.setStatus(Status.Waiting.toString());
             reservationRepository.save(reservation);
             condition = true;
-        }
+//        }
         return condition;
     }
 
 
-    public List<Mapper.BookingInformation> findAllReservation() {
+    public List<Mapper.BookingInformation> findAllReservation(Set<Status> status) {
 
-        List<ReservationEntity> reservations = reservationRepository.findAllReservationByUserId(authenticationService.getUserId(session.getParam("email").toString()));
-
+        Status element;
+        List<ReservationEntity> reservations = new ArrayList<>();
+        Iterator<Status> iterator = status.iterator();
+        while(iterator.hasNext()) {
+            element = iterator.next();
+            reservations.addAll(reservationRepository.findAllReservationByUserId(authenticationService.getUserId(session.getParam("email").toString()),element.toString()));
+        }
         return reservations.stream().map(mapper.bookingInformation).collect(Collectors.toList());
 
+    }
+
+    public List<Mapper.InformationForTheOwner> findAllOwnersReservations(Set<Status> status) {
+
+        List<ReservationEntity> reservations = new ArrayList<>();
+        List<ApartmentEntity> apartments = new ArrayList<>();
+        List<HotelEntity> hotels = manageTheHotelService.getHotels(authenticationService.getUserId(session.getParam("email").toString()));
+
+        hotels.forEach(h->{apartments.addAll(manageTheHotelService.getApartments(h.getIdHotel()));});
+
+        Iterator<Status> iterator = status.iterator();
+        while(iterator.hasNext()) {
+            Status element = iterator.next();
+            apartments.forEach(a->{reservations.addAll(reservationRepository.findAllReservationByApartmentId(a.getIdApartment(),element.toString()));});
+        }
+
+        return reservations.stream().map(mapper.informationForTheOwner).collect(Collectors.toList());
     }
 
     public void cancelReservation(Integer idReserwation) {
         ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReserwation).get();
         reservation.setStatus(Status.Suspended.toString());
+        reservationRepository.save(reservation);
+    }
+    public void acceptReservation(Integer idReserwation) {
+        ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReserwation).get();
+        reservation.setStatus(Status.Approved.toString());
         reservationRepository.save(reservation);
     }
 }
