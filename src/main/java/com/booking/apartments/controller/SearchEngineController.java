@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-//@SessionAttributes({"email", "profile"})
-@SessionAttributes("email")
+//@SessionAttributes("email")
+@SessionAttributes({"email", "profile"})
 public class SearchEngineController {
 
     @Autowired
