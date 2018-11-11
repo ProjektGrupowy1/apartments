@@ -18,9 +18,20 @@
 
 <div class="line">
     <nav class="container">
-        <a type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
-        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+
+        <a th:if="${profile == 'Client'}" type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
+
+        <a th:if="${profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
+        <a th:if="${profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zestawienie rezerwacji</a>
+
+        <a th:if="${profile == 'Admin'}" type="button" th:href="@{/manage_account}">Zarządzaj kontami</a>
+
+        <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/logout}">Wyloguj się</a>
+
+        <a th:if="${profile == null}" type="button" th:href="@{/sign_in}">Zarejestruj się</a>
+        <a th:if="${profile == null}" type="button" th:href="@{/select_the_page}">Zaloguj się</a>
+
     </nav>
 </div>
 
@@ -75,10 +86,11 @@
                     <p th:text="${apartment.status}" type='number' name='status'></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3 blue_buttom">
-                        <form th:action="@{/details_of_the_apartment}" th:method='post'>
-                            <input type='number' name='id_apartment' th:value="${apartment.idApartment}" hidden>
-                            <input name="submit" type="submit" value="Pokaż szczegóły"/>
-                        </form>
+                    <form th:if="${profile == 'Client'}" th:action="@{/details_of_the_apartment}" th:method='post'>
+                        <input type='number' name='id_apartment' th:value="${apartment.idApartment}" hidden>
+                        <input name="submit" type="submit" value="Pokaż szczegóły"/>
+                    </form>
+                    <a th:if="${profile != 'Client'}" type="button" th:href="@{/select_the_page}">Pokaż szczegóły</a>
                 </span>
             </li>
         </ul>

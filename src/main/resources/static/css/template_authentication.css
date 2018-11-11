@@ -26,7 +26,7 @@ nav a:hover{
     padding: 10px 5px 10px 5px;
 }
 
-#user_registration input, #screenname input{
+#user_registration input, #screenname input, #user_registration select{
     margin: 10px 5px 10px 5px;
     font-size: 16px;
 }

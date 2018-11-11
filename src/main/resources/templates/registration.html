@@ -16,8 +16,8 @@
 </header>
 <div class="line">
     <nav class="container">
-        <a type="button" th:href="@{/select_the_page}">Przejdz do wyszukiwarki</a>
-        <a type="button" th:href="@{/login}">Zaloguj się</a>
+        <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a type="button" th:href="@{/select_the_page}">Zaloguj się</a>
     </nav>
 </div>
 <main class="container">
@@ -58,7 +58,13 @@
                         </li>
                         <li>
                             <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Profil:</p>
-                            <input type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                            <!--<input type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">-->
+
+                            <select type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <option th:value="Client">Klient</option>
+                                <option th:value="Owner">Właściciel</option>
+                            </select>
+
                         </li>
                         <li class="orange_buttom">
                             <input name="submit" type="submit" value="Zarejestruj się"/>

@@ -25,7 +25,7 @@
 </div>
 
 <main class="container">
-    <h2>Twoje rezerwacje:</h2>
+    <h2 th:if="${not #lists.isEmpty(reservations)}">Twoje rezerwacje:</h2>
     <section class="row panel" th:id="current_reservation">
         <ul>
             <li th:each="reservation,iter : ${reservations}">
@@ -59,7 +59,7 @@
         </ul>
     </section>
 
-    <h2>Historia rezerwacji:</h2>
+    <h2 th:if="${not #lists.isEmpty(history)}">Historia rezerwacji:</h2>
     <section class="row panel" th:id="history_of_reservation">
         <ul>
             <li th:each="reservation,iter : ${history}">

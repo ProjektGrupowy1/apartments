@@ -45,6 +45,12 @@ public class SearchEngineController {
         List<Mapper.CustomerInformationAboutTheApartmentMapper> apartments = searchEngineService.findApartmentsThatMeetTheCriteria(city, hotelName, dateStart, dateEnd).stream().map(mapper.customerInformationAboutTheApartment).collect(Collectors.toList());
 
         searchEngineModelAndView.addObject("apartments", apartments);
+        if(session.getParam("email")!=null){
+            searchEngineModelAndView.addObject("profile", session.getParam("profile").toString());
+        }
+        else{
+            searchEngineModelAndView.addObject("profile", null);
+        }
 
         return searchEngineModelAndView;
     }
