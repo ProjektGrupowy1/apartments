@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zarządzaj użytkownikami</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/owner/template_owner.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owner/manage_hotels.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<header class="container">
+    <h1><b>Zarządzaj użytkownikami</b></h1>
+</header>
+
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
+
+<main class="container">
+    <h2 th:if="${not #lists.isEmpty(users)}">Istniejący użytkownicy: </h2>
+    <section class="row panel" th:id="list_of_users">
+        <ul>
+            <li th:each="user,iter : ${users}">
+                <div class="row">
+                    <form th:name='modified_user' th:action="@{/user_modification}" th:object="${modified_user}"
+                          th:method='post'>
+                    <span class="col-sm-4 col-md-4 col-lg-4">
+                        <p th:text="${user.idUser}" type='text' name='idUser' hidden></p>
+                        <p>Nazwa użytkownika:</p>
+                        <p th:text="${user.name}" type='text' name='name'></p>
+                        <p>Nazwisko:</p>
+                        <p th:text="${user.lastname}" type='text' name='lastname'></p>
+                        <p>Adres email:</p>
+                        <p th:text="${user.email}" type='text' name='email'></p>
+                    </span>
+                        <span class="col-sm-4 col-md-4 col-lg-4">
+                        <p>Numer telefonu:</p>
+                        <p th:text="${user.phone}" type='text' name='phone'></p>
+                        <p>Miejscowość:</p>
+                        <p th:text="${user.city}" type='text' name='city'></p>
+                        <p>Ulica:</p>
+                        <p th:text="${user.street}" type='text' name='street'></p>
+                    </span>
+                        <span class="col-sm-4 col-md-4 col-lg-4 green_buttom">
+                        <input name="submit" type="hidden" value="Zapisz zmiany"
+                               th:id="save_changes_submit_+${iter.index + 1}"/>
+                    </span>
+                    </form>
+                    <span class="col-sm-4 col-md-4 col-lg-4 green_buttom">
+                     <input name="submit" type="submit" value="Modyfikuj dane o użytkowniku"
+                            th:id="modify_submit_+${iter.index + 1}"/>
+                    <form th:action="@{/details_of_the_user}" th:method="get">
+                        <input type="number" name="id_user" th:value="${user.idUser}" hidden/>
+                        <input type="submit" value="Dodaj nowe apartamenty" hidden/>
+                    </form>
+                    <a th:href="@{'/remove_user/{id_user}'(id_user=${user.idUser})}">Usuń użytkownika</a>
+                </span>
+                </div>
+            </li>
+        </ul>
+    </section>
+</main>
+<footer class="container"></footer>
+<script>
+    $('[id^=modify_submit_]').click(function () {
+        var allDetailsOfUser = $(this).parent().prev().children().children();
+        allDetailsOfUser.each(function () {
+
+            var attribute = $(this).attr('name');
+
+            if ($(this).is('input')) {
+                $(this).prop("type", "submit");
+            }
+            else if ($(this).is(":hidden")) {
+                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
+            }
+            else if (typeof attribute !== typeof undefined && attribute !== false) {
+                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+            }
+        });
+        $(this).prop("type", "hidden");
+    });
+</script>
+</body>
+</html>

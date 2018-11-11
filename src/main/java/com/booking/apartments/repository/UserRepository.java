@@ -17,6 +17,10 @@ public interface UserRepository extends CrudRepository<UserEntity,Integer> {
     @Query("select u from UserEntity u where u.idUser = :idUser")
     List<UserEntity> getUserById(@Param("idUser") Integer idUser);
 
+    @Query("select u from UserEntity u")
+    List<UserEntity> getAllUsers();
+
+
 //    @Query("select u.username, u.password from UserEntity u where u.username = :username")
 //    List<UserEntity> getUserByLogin(@Param("username") String username);
 //

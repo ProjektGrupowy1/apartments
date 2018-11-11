@@ -4,10 +4,7 @@ import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.*;
-import com.booking.apartments.service.AuthenticationService;
-import com.booking.apartments.service.ManageTheHotelService;
-import com.booking.apartments.service.ReserveService;
-import com.booking.apartments.service.SearchEngineService;
+import com.booking.apartments.service.*;
 import com.booking.apartments.utility.Session;
 import com.booking.apartments.utility.SessionBeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -56,6 +53,10 @@ public class Beans {
     @Bean
     public ReserveService reserveService(AuthenticationService authenticationService, ManageTheHotelService manageTheHotelService, ReservationRepository reservationRepository){
         return new ReserveService(mapper(), session(),authenticationService,manageTheHotelService,reservationRepository);
+    }
+    @Bean
+    public CitiesService citiesService(CityRepository cityRepository){
+        return new CitiesService();
     }
 
     @Bean
