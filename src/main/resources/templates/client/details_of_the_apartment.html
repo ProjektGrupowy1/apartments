@@ -6,25 +6,38 @@
     <title>Szczegóły apartamentu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/client/template_client.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/client/details_of_the_apartment.css}" type="text/css">
 </head>
 <body>
 <header class="container">
     <h1><b>Szczegóły apartamentu</b></h1>
 </header>
-<main class="container">
-    <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
-    <a type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
-    <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
 
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
+
+<main class="container">
     <h2 th:text="${apartment.name}"></h2>
-    <section class="row">
+    <section class="row panel" th:id="details_of_apartment">
         <ul>
             <li>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Nazwa hotelu:</p>
                     <p th:text="${apartment.hotelName}" type='text' name='hotelName'></p>
+                    <p>Gwiazdki:</p>
+                    <th:block th:insert="template.html :: stars(rating = ${apartment.rating})"></th:block>
+                    <p>Status:</p>
+                    <p th:text="${apartment.status}" type='number' name='status'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Nazwa apartamentu:</p>
                     <p th:text="${apartment.name}" type='text' name='name'></p>
                     <p>Ulica:</p>
@@ -34,14 +47,11 @@
                     <p th:text="${apartment.idApartment}" type='number' name='idApartment' hidden></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
-                    <p>Status:</p>
-                    <p th:text="${apartment.status}" type='number' name='status'></p>
+                    <p>Wielkość pokoju:</p>
+                    <p type='text' name='size'><b th:text="${apartment.size}+' m'"></b><sup>2</sup></p>
+                    <!--<p th:text="${apartment.size}+' m'+$n^{\textsuperscript{th}}$" type='text' name='size'></p>-->
                     <p>Cena:</p>
-                    <p th:text="${apartment.price}" type='number' name='price'></p>
-                    <p>Gwiazdki:</p>
-                    <p th:text="${apartment.rating}" type='number' name='rating'></p>
-                    <p>Miejscowość:</p>
-                    <p th:text="${apartment.size}" type='number' name='size'></p>
+                    <p th:text="${apartment.price}+' zł'" type='number' name='price'></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Opis:</p>
@@ -52,20 +62,24 @@
     </section>
 
     <h2>Rezerwuj apartament</h2>
-    <section class="row">
+    <section class="row panel" th:id="reserve_apartment">
         <ul>
             <li>
                 <form th:method="post" th:action="@{/request_for_rent}">
                     <input th:value="${apartment.idApartment}" type='number' name='id_apartment' hidden>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <span class="col-sm-2 col-md-2 col-lg-2">
                         <p>Data od:</p>
                         <input th:type='date' name='startDate' pattern="\d{4}/\d{1,2}/\d{1,2}">
                     </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <span class="col-sm-2 col-md-2 col-lg-2">
                         <p>Data do:</p>
                         <input th:type='date' name='endDate' pattern="\d{4}/\d{1,2}/\d{1,2}">
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Nazwa apartamentu:</p>
+                        <p th:text="${apartment.name}"></p>
+                    </span>
+                    <span class="col-sm-5 col-md-5 col-lg-5 blue_buttom" th:id="button_reserved">
                         <input name="submit" type="submit" value="Rezerwuj"/>
                     </span>
                 </form>

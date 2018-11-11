@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szablon</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+<th:block th:fragment="stars(rating)" th:switch="${rating}">
+        <span th:case="1" class="image">
+            <img th:src="@{/img/star.png}" alt="">
+        </span>
+    <span th:case="2" class="image">
+             <img th:src="@{/img/star.png}" alt="">
+             <img th:src="@{/img/star.png}" alt="">
+        </span>
+    <span th:case="3" class="image">
+              <img th:src="@{/img/star.png}" alt="">
+              <img th:src="@{/img/star.png}" alt="">
+              <img th:src="@{/img/star.png}" alt="">
+        </span>
+    <span th:case="4" class="image">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+        </span>
+    <span th:case="5" class="image">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+               <img th:src="@{/img/star.png}" alt="">
+        </span>
+</th:block>
+
+</body>
+</html>

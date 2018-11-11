@@ -1,0 +1,59 @@
+body{
+    background-color: #172bff;
+    color: #040523;
+}
+
+.line{
+    background-color: #040a3d;
+}
+
+nav a{
+    background-color: #cef3f9;
+    color: #040523;
+}
+nav a:hover{
+    background-color: #46c6da;
+    color: black;
+}
+
+#search_apartment li, #show_apartments li, #details_of_apartment li, #reserve_apartment li, #current_reservation li, #history_of_reservation li{
+    display: flow-root;
+    border-bottom: solid 1px gray;
+}
+
+#show_apartments input, .searching_apartment input, #reserve_apartment input{
+    margin: 10px 5px 10px 5px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.panel{
+    background-color: #cef3f9;
+    border: lightslategrey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.blue_buttom input, .blue_buttom a{
+    margin-top: 40px;
+    padding: 8px 20px 8px 20px;
+    font-size: 16px;
+    background-color: #172bff;
+    opacity: 0.9;
+    color: #e4ecf3;
+    border: 1px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    white-space: normal;
+}
+
+.blue_buttom input:hover, .blue_buttom a:hover{
+    background-color: darkblue;
+    color: snow;
+    text-decoration: none;
+}
+
+.blue_buttom a{
+    display: block;
+    text-align: center;
+    margin: 10px -5px 0px 5px;
+}

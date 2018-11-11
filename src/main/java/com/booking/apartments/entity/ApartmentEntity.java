@@ -29,7 +29,7 @@ public class ApartmentEntity implements Serializable {
 
     private float price;
 
-    private int status;
+    private String status;
 
     @JoinColumn(name = "id_hotel", referencedColumnName = "id_hotel", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class ApartmentEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idApartment")
     public List<ReservationEntity> reservations;
 
-    public ApartmentEntity(int idApartment, int idHotel, String name, int size, float price, int status) {
+    public ApartmentEntity(int idApartment, int idHotel, String name, int size, float price, String status) {
         this.idApartment = idApartment;
         this.idHotel = idHotel;
         this.name = name;

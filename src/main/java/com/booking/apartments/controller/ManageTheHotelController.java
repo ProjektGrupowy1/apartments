@@ -38,7 +38,9 @@ public class ManageTheHotelController {
         int idOwner = authenticationService.getUserId(session.getParam("email").toString());
 
         List<Mapper.HotelMapper> hotels = manageTheHotelService.getHotels(idOwner).stream().map(mapper.mapTheHotel).collect(Collectors.toList());
+
         manageHotelsModelAndView.addObject("hotels", hotels);
+//        manageHotelsModelAndView.addObject("stars", );
 
         return manageHotelsModelAndView;
     }

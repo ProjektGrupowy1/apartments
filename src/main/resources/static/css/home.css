@@ -1,3 +1,24 @@
-body{
-    background: forestgreen;
+.image:first-child img{
+    height: 683px;
+    width: 1024px;
+}
+.image:nth-child(2) img{
+    height: 496px;
+    width: 852px;
+}
+
+.photos{
+    position: relative;
+}
+
+.photos span:first-child{
+    position: absolute;
+    top: 40px;
+    right: 0px;
+}
+
+.photos span:nth-child(2){
+    position: absolute;
+    top: 300px;
+    left: 450px;
 }

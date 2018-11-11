@@ -1,3 +1,6 @@
-body{
-    background: orchid;
+#user_registration p{
+    text-align: right;
+}
+.orange_buttom{
+    text-align: center;
 }

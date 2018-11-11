@@ -6,47 +6,84 @@
     <title>Profil użytkownika</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/user_profile.css}" type="text/css">
 </head>
 <body>
 <header class="container">
     <h1><b>Profil użytkownika</b></h1>
 </header>
-<main class="container">
-    <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
-    <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
 
-    <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
-    <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zarezerwowane apartamenty</a>
+<div class="line">
+    <nav class="container">
+        <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
+        <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
+        <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zarezerwowane
+            apartamenty</a>
+        <a th:if="${user.profile == 'Admin'}" type="button" th:href="@{/manage_account}">Zarządzaj kontami</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
 
-    <a th:if="${user.profile == 'Admin'}" type="button" th:href="@{/manage_account}">Zarządzaj kontami</a>
-
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
-
-    <h2>Twoj profil:</h2>
-    <section class="row">
-        <form th:name='modified_user' th:action="@{/modified_user}" th:object="${modified_user}" th:method='post'>
-            <p>Imie:</p>
-            <input th:value="${user.name}" type='text' name='name'>
-            <p>Nazwisko:</p>
-            <input th:value="${user.lastname}" type='text' name='lastname'>
-            <p>Ulica:</p>
-            <input th:value="${user.street}" type='text' name='street'>
-            <p>Miasto:</p>
-            <input th:value="${user.city}" type='text' name='city'>
-            <p>Telefon:</p>
-            <input th:value="${user.phone}" type='text' name='phone'>
-            <p>Email:</p>
-            <input th:value="${user.email}" type='email' name='email'>
-            <p>Hasło:</p>
-            <input th:value="${user.password}" type='password' name='password'>
-            <p>Profil:</p>
-            <input th:value="${user.profile}" type='text' name='profile'>
-            <input th:value="${user.idUser}" type='number' name='idUser' hidden>
-            <input name="submit" type="submit" value="Aktualizuj dane"/>
-        </form>
-    </section>
-
+<main class="container" th:id="user_profile">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2"></div>
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h2>Twoj profil:</h2>
+            <section class="row panel">
+                <ul>
+                    <form th:name='modified_user' th:action="@{/modified_user}" th:object="${modified_user}"
+                          th:method='post'>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Imie:</p>
+                            <input th:value="${user.name}" type='text' name='name'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Nazwisko:</p>
+                            <input th:value="${user.lastname}" type='text' name='lastname'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Ulica:</p>
+                            <input th:value="${user.street}" type='text' name='street'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Miasto:</p>
+                            <input th:value="${user.city}" type='text' name='city'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Telefon:</p>
+                            <input th:value="${user.phone}" type='text' name='phone'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Email:</p>
+                            <input th:value="${user.email}" type='email' name='email'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Hasło:</p>
+                            <input th:value="${user.password}" type='password' name='password'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Profil:</p>
+                            <input th:value="${user.profile}" type='text' name='profile'
+                                   class="col-xs-8 col-sm-8 col-md-8 col-lg-8" disabled>
+                            <input th:value="${user.idUser}" type='number' name='idUser' hidden>
+                        </li>
+                        <li class="purple_buttom">
+                            <input name="submit" type="submit" value="Aktualizuj dane"/>
+                        </li>
+                    </form>
+                </ul>
+            </section>
+        </div>
+    </div>
 </main>
 <footer class="container"></footer>
 </body>

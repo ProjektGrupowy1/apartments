@@ -6,23 +6,31 @@
     <title>Wyszukiwarka apartamentów</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/client/template_client.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/client/search_engine.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
 <header class="container">
     <h1><b>Wyszukiwarka apartamentów</b></h1>
 </header>
-<main class="container">
-    <a type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
-    <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
 
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
+
+<main class="container">
     <h2>Wyszukaj:</h2>
-    <section class="row">
+    <section class="row panel" th:id="search_apartment">
         <ul>
-            <li>
+            <li class="searching_apartment">
                 <form th:method="get" th:action="@{/search_engine}">
-                <span class="col-sm-3 col-md-3 col-lg-3">
+                <span class="col-sm-2 col-md-2 col-lg-2">
                     <p>Miejsce:</p>
                     <input th:type='text' name='city'>
                 </span>
@@ -30,21 +38,23 @@
                     <p>Nazwa hotelu:</p>
                     <input th:type='text' name='hotel_name'>
                 </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <span class="col-sm-2 col-md-2 col-lg-2">
                     <p>Data od:</p>
                     <input th:type='date' name='date_start' pattern="\d{4}/\d{1,2}/\d{1,2}">
                 </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
+                    <span class="col-sm-2 col-md-2 col-lg-2">
                     <p>Data do:</p>
                     <input th:type='date' name='date_end' pattern="\d{4}/\d{1,2}/\d{1,2}">
                 </span>
+                <span class="col-sm-3 col-md-3 col-lg-3 blue_buttom">
                     <input name="submit" type="submit" value="Szukaj"/>
+                </span>
                 </form>
             </li>
         </ul>
     </section>
-    <h2>Dostępne apartamenty:</h2>
-    <section class="row">
+    <h2 th:if="${not #lists.isEmpty(apartments)}">Dostępne apartamenty:</h2>
+    <section class="row panel" th:id="show_apartments">
         <ul>
             <li th:each="apartment,iter : ${apartments}">
                 <span class="col-sm-3 col-md-3 col-lg-3">
@@ -64,7 +74,7 @@
                     <p>Status:</p>
                     <p th:text="${apartment.status}" type='number' name='status'></p>
                 </span>
-                <span class="col-sm-3 col-md-3 col-lg-3">
+                <span class="col-sm-3 col-md-3 col-lg-3 blue_buttom">
                         <form th:action="@{/details_of_the_apartment}" th:method='post'>
                             <input type='number' name='id_apartment' th:value="${apartment.idApartment}" hidden>
                             <input name="submit" type="submit" value="Pokaż szczegóły"/>
@@ -75,5 +85,18 @@
     </section>
 </main>
 <footer class="container"></footer>
+<script>
+
+    $(document).ready(function() {
+        $("p:contains('Free')").text("Wolny");
+        $("p:contains('Reserved')").text("Zarezerwowany");
+
+        $("a").click(function(){
+            $("p:contains('Wolny')").text("Free");
+            $("p:contains('Zarezerwowany')").text("Reserved");
+        });
+    });
+
+</script>
 </body>
 </html>

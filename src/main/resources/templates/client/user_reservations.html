@@ -6,6 +6,8 @@
     <title>Twoje rezerwacje</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/client/template_client.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/client/user_reservations.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
@@ -13,18 +15,21 @@
 <header class="container">
     <h1><b>Twoje rezerwacje</b></h1>
 </header>
-<main class="container">
-    <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
-    <a type="button" th:href="@{/user_profile}">Twój Profil</a>
-    <a type="button" th:href="@{/logout}">Wyloguj się</a>
 
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a type="button" th:href="@{/user_profile}">Twój Profil</a>
+        <a type="button" th:href="@{/logout}">Wyloguj się</a>
+    </nav>
+</div>
+
+<main class="container">
     <h2>Twoje rezerwacje:</h2>
-    <section class="row">
+    <section class="row panel" th:id="current_reservation">
         <ul>
             <li th:each="reservation,iter : ${reservations}">
                 <span class="col-sm-3 col-md-3 col-lg-3">
-                    <p>Nazwa hotelu:</p>
-                    <p th:text="${reservation.hotelName}" type='text' name='hotelName'></p>
                     <p>Nazwa apartamentu:</p>
                     <p th:text="${reservation.apartamentName}" type='text' name='apartamentName'></p>
                     <p>Ulica:</p>
@@ -34,18 +39,20 @@
                     <p th:text="${reservation.idReservation}" type='text' name='idReservation' hidden></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Nazwa hotelu:</p>
+                    <p th:text="${reservation.hotelName}" type='text' name='hotelName'></p>
                     <p>Data od:</p>
                     <p th:text="${reservation.startDate}" type='date' name='startDate'></p>
-                    <p>Cena:</p>
-                    <p th:text="${reservation.price}" type='number' name='price' step="0.01"></p>
-                </span>
-                <span class="col-sm-3 col-md-3 col-lg-3">
-                    <p>Data do:</p>
-                    <p th:text="${reservation.endDate}" type='date' name='endDate'></p>
                     <p>Status:</p>
                     <p th:text="${reservation.status}" type='text' name='status'></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
+                    <p>Cena:</p>
+                    <p th:text="${reservation.price}" type='number' name='price' step="0.01"></p>
+                    <p>Data do:</p>
+                    <p th:text="${reservation.endDate}" type='date' name='endDate'></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3 blue_buttom">
                     <a th:href="@{/cancel_rezerwation/__${reservation.idReservation}__}">Anuluj rezerwacje</a>
                 </span>
             </li>
@@ -53,7 +60,7 @@
     </section>
 
     <h2>Historia rezerwacji:</h2>
-    <section class="row">
+    <section class="row panel" th:id="history_of_reservation">
         <ul>
             <li th:each="reservation,iter : ${history}">
                 <span class="col-sm-3 col-md-3 col-lg-3">
@@ -61,11 +68,13 @@
                     <p th:text="${reservation.hotelName}" type='text' name='hotelName'></p>
                     <p>Nazwa apartamentu:</p>
                     <p th:text="${reservation.apartamentName}" type='text' name='apartamentName'></p>
+                    <p th:text="${reservation.idReservation}" type='text' name='idReservation' hidden></p>
+                </span>
+                <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Ulica:</p>
                     <p th:text="${reservation.street}" type='text' name='street'></p>
                     <p>Miejscowość:</p>
                     <p th:text="${reservation.city}" type='text' name='city'></p>
-                    <p th:text="${reservation.idReservation}" type='text' name='idReservation' hidden></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Data od:</p>

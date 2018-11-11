@@ -1,3 +1,64 @@
 body{
-    background: yellow;
+    background-color: #810bff;
 }
+
+h1, h2{
+    color: #f1d9f0;
+}
+
+.line{
+    background-color: #170325;
+}
+
+nav a{
+    background-color: #f1cfe2;
+    color: #090311;
+}
+nav a:hover{
+    background-color: #e05ce0;
+    color: #090311;
+}
+
+#user_profile ul{
+    text-align: right;
+}
+
+#user_profile li{
+    display: flow-root;
+    border-bottom: solid 1px gray;
+    padding: 10px 5px 10px 5px;
+}
+
+#user_profile input{
+    margin: 10px 5px 10px 5px;
+    font-size: 16px;
+}
+
+.panel{
+    background-color: #f1d9f0;
+    border: lightslategrey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+.purple_buttom{
+    text-align: center;
+}
+
+.purple_buttom input{
+    margin-top: 40px;
+    padding: 8px 20px 8px 20px;
+    font-size: 16px;
+    background-color: #810bff;
+    opacity: 0.9;
+    color: #f1d9f0;
+    border: 1px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    white-space: normal;
+}
+
+.purple_buttom input:hover{
+    background-color: darkmagenta;
+    color: snow;
+    text-decoration: none;
+}
+

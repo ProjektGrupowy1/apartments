@@ -83,7 +83,7 @@ public class Mapper {
         private String name;
         private int size;
         private float price;
-        private int status;
+        private String status;
     }
 
     @Getter
@@ -94,7 +94,7 @@ public class Mapper {
         private String name;
         private int size;
         private float price;
-        private int status;
+        private String status;
     }
 
     @Getter
@@ -109,7 +109,7 @@ public class Mapper {
         private String name;
         private int size;
         private float price;
-        private int status;
+        private String status;
     }
 
     @Getter

@@ -1,3 +1,5 @@
-body{
-    background: lightskyblue;
+#button_reserved input{
+    width: 50%;
+    float: right;
+    margin-top: 25px;
 }

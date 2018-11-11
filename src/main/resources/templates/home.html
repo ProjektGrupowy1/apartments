@@ -4,16 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strona startowa</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/template_authentication.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/home.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Strona startowa</b></h1>
 </header>
-<main>
-    <a type="button" th:href="@{/select_the_page}">Przejdz do wyszukiwarki</a>
-    <a type="button" th:href="@{/sign_in}">Zarejestruj się</a>
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/select_the_page}">Przejdz do wyszukiwarki</a>
+        <a type="button" th:href="@{/sign_in}">Zarejestruj się</a>
+        <a type="button" th:href="@{/login}">Zaloguj się</a>
+    </nav>
+</div>
+<main class="container">
+    <div class="photos">
+         <span class="image">
+            <img th:src="@{/img/apartament2.jpg}" alt="">
+         </span>
+         <span class="image">
+            <img th:src="@{/img/apartament1.jpg}" alt="">
+         </span>
+    </div>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>
