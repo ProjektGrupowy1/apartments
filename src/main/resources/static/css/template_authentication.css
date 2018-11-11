@@ -1,0 +1,65 @@
+body{
+    background-color: #da7e0b;
+    color: #05471b;
+}
+
+.line{
+    background-color: #051e11;
+}
+
+nav a{
+    background-color: #ffeb9b;
+    color: #051e11;
+}
+
+nav a:hover{
+    background-color: #daa850;
+    color: #05170c;
+}
+
+#user_registration ul, #screenname ul{
+    margin-top: 20px;
+}
+
+#user_registration li, #screenname li{
+    display: flow-root;
+    padding: 10px 5px 10px 5px;
+}
+
+#user_registration input, #screenname input, #user_registration select{
+    margin: 10px 5px 10px 5px;
+    font-size: 16px;
+}
+
+.panel{
+    background-color: #ffeb9b;
+    border: lightslategrey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.orange_buttom input{
+    margin-top: 40px;
+    padding: 8px 20px 8px 20px;
+    font-size: 16px;
+    background-color: #da7e0b;
+    opacity: 0.9;
+    color: #ffeb9b;
+    border: 1px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    white-space: normal;
+}
+
+.orange_buttom input:hover{
+    background-color: darkorange;
+    color: snow;
+    text-decoration: none;
+}
+
+#user_registration p, #screenname p{
+    text-align: right;
+}
+.orange_buttom{
+    text-align: center;
+}
+

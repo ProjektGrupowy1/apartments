@@ -4,52 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/template_authentication.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/registration.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Rejestracja</b></h1>
 </header>
-<main>
-    <h2>Podaj dane do rejestracji:</h2>
-    <form th:name='new_user' th:action="@{/registration}" th:object="${new_user}" th:method='post'>
-        <table>
-            <tr>
-                <td><b>Imie:</b></td>
-                <td><input type='text' name='name'></td>
-            </tr>
-            <tr>
-                <td><b>Nazwisko:</b></td>
-                <td><input type='text' name='lastname'/></td>
-            </tr>
-            <tr>
-                <td><b>Ulica:</b></td>
-                <td><input type='text' name='street'></td>
-            </tr>
-            <tr>
-                <td><b>Miasto:</b></td>
-                <td><input type='text' name='city'/></td>
-            </tr>
-            <tr>
-                <td><b>Telefon:</b></td>
-                <td><input type='text' name='phone'/></td>
-            </tr>
-            <tr>
-                <td><b>Email:</b></td>
-                <td><input type='text' name='email'></td>
-            </tr>
-            <tr>
-                <td><b>Hasło:</b></td>
-                <td><input type='password' name='password'/></td>
-            </tr>
-            <tr>
-                <td><b>Profil:</b></td>
-                <td><input type='text' name='profile'/></td>
-            </tr>
-        </table>
-        <input name="submit" type="submit" value="Zarejestruj się"/>
-    </form>
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a type="button" th:href="@{/select_the_page}">Zaloguj się</a>
+    </nav>
+</div>
+<main class="container">
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <h2>Podaj dane do rejestracji:</h2>
+            <section class="row panel" th:id="user_registration">
+                <form th:name='new_user' th:action="@{/registration}" th:object="${new_user}" th:method='post'>
+                    <ul>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Imie:</p>
+                            <input type='text' name='name' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Nazwisko:</p>
+                            <input type='text' name='lastname' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Ulica:</p>
+                            <input type='text' name='street' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Miasto:</p>
+                            <input type='text' name='city' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Telefon:</p>
+                            <input type='text' name='phone' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Email:</p>
+                            <input type='email' name='email' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Hasło:</p>
+                            <input type='password' name='password' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Profil:</p>
+                            <!--<input type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">-->
+
+                            <select type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <option th:value="Client">Klient</option>
+                                <option th:value="Owner">Właściciel</option>
+                            </select>
+
+                        </li>
+                        <li class="orange_buttom">
+                            <input name="submit" type="submit" value="Zarejestruj się"/>
+                        </li>
+                    </ul>
+                </form>
+            </section>
+        </div>
+    </div>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>

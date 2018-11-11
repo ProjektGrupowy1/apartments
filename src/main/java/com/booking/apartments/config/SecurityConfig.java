@@ -48,11 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/", "/h2-console/**", "/sign_in", "/registration", "/css/**", "/img/**", "/error", "/login_error").permitAll()
+                .antMatchers("/", "/h2-console/**", "/sign_in", "/registration", "/search_engine", "/css/**", "/img/**", "/error", "/login_error").permitAll()
 //                .antMatchers("/user_profile", "/search_engine", "/details_of_the_apartment", "/user_reservations").hasAuthority("Client")
 //                .antMatchers("/user_profile", "/manage_hotels", "/details_of_the_hotel").hasAuthority("Owner")
 //                .antMatchers("/user_profile", "/manage_account").hasAuthority("Admin")
-                .antMatchers("/search_engine","/details_of_the_apartment","/user_reservations").hasAuthority("Client")
+                .antMatchers("/details_of_the_apartment","/user_reservations").hasAuthority("Client")
                 .antMatchers("/manage_hotels", "/add_hotel", "/hotel_modification","/remove_hotel", "/details_of_the_hotel","/reserved_apartments").hasAuthority("Owner")
                 .antMatchers("/manage_account").hasAuthority("Admin")
                 .antMatchers("/user_profile","/select_the_page").hasAuthority("User")

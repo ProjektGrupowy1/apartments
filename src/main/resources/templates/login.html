@@ -4,28 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/template_authentication.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
 </head>
 <body>
-<header>
+<header class="container">
     <h1><b>Logowanie</b></h1>
 </header>
-<main>
-    <h2>Podaj login i hasło</h2>
-    <form name='login_form' th:action="@{/screenname/${email}/${password}}" method='post'>
-        <table>
-            <tr>
-                <td><b>Login:</b></td>
-                <td><input type='text' name='email' value=''></td>
-            </tr>
-            <tr>
-                <td><b>Hasło:</b></td>
-                <td><input type='password' name='password'/></td>
-            </tr>
-        </table>
-        <input name="submit" type="submit" value="Zaloguj"/>
-    </form>
+<div class="line">
+    <nav class="container">
+        <a type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
+        <a type="button" th:href="@{/sign_in}">Zarejestruj się</a>
+    </nav>
+</div>
+<main class="container">
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h2>Podaj login i hasło</h2>
+            <section class="row panel" th:id="screenname">
+                <form name='login_form' th:action="@{/screenname/${email}/${password}}" method='post'>
+                    <ul>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Login:</p>
+                            <input type='email' name='email' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li>
+                            <p class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Hasło:</p>
+                            <input type='password' name='password' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        </li>
+                        <li class="orange_buttom">
+                            <input name="submit" type="submit" value="Zaloguj"/>
+                        </li>
+
+                        <!--<table>-->
+                        <!--<tr>-->
+                        <!--<td><b>Login:</b></td>-->
+                        <!--<td><input type='text' name='email' value=''></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td><b>Hasło:</b></td>-->
+                        <!--<td><input type='password' name='password'/></td>-->
+                        <!--</tr>-->
+                        <!--</table>-->
+                        <!--<input name="submit" type="submit" value="Zaloguj"/>-->
+                    </ul>
+                </form>
+            </section>
+        </div>
+    </div>
 </main>
-<footer></footer>
+<footer class="container"></footer>
 </body>
 </html>

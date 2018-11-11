@@ -1,0 +1,54 @@
+h1{
+    text-align: center;
+    font-size: 30px;
+    margin: 20px;
+}
+
+h2{
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 30px 0px 15px 0px;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+li{
+    list-style-type: none;
+    padding: 10px 5px 20px 5px;
+}
+
+p{
+    font-size: 15px;
+    margin: 10px 0px 0px 0px;
+    padding-left: 6px;
+    word-break: break-word;
+}
+
+p:nth-child(odd){
+    font-weight: bold;
+    font-size: 18px;
+}
+
+nav a{
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+nav a:hover{
+    text-decoration: none;
+}
+
+.image img{
+    height: 20px;
+    width: 20px;
+}
+
+.image{
+    margin-left: 5px;
+}

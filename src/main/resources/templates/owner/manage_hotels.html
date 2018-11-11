@@ -6,6 +6,7 @@
     <title>Zarządzaj hotelami</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/owner/template_owner.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/owner/manage_hotels.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
@@ -61,7 +62,8 @@
                         <p>Nazwa hotelu:</p>
                         <p th:text="${hotel.name}" type='text' name='name'></p>
                         <p>Gwiazdki:</p>
-                        <p th:text="${hotel.rating}" type='number' name='rating'></p>
+                        <p th:text="${hotel.rating}" type='number' name='rating' hidden></p>
+                        <th:block th:insert="template.html :: stars(rating = ${hotel.rating})"></th:block>
                         <p th:text="${hotel.idHotel}" type='text' name='idHotel' hidden></p>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
@@ -94,6 +96,7 @@
 </main>
 <footer class="container"></footer>
 <script>
+
     $('[id^=modify_submit_]').click(function () {
         var allDetailsOfHotel = $(this).parent().prev().children().children();
         allDetailsOfHotel.each(function () {
@@ -103,8 +106,14 @@
             if ($(this).is('input')) {
                 $(this).prop("type", "submit");
             }
+            else if($(this).is("p[name='rating']")){
+                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+            }
             else if ($(this).is(":hidden")) {
                 $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
+            }
+            else if($(this).hasClass("image")){
+                $(this).hide();
             }
             else if(typeof attribute !== typeof undefined && attribute !== false){
                 $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
@@ -112,6 +121,7 @@
         });
         $(this).prop("type", "hidden");
     });
+
 </script>
 </body>
 </html>
