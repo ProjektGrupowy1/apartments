@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `apartment` (
   `name` varchar(60) COLLATE utf8_polish_ci DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_apartment`),
   UNIQUE KEY `id_UNIQUE` (`id_apartment`),
   KEY `room_hotel_fk_idx` (`id_hotel`)
