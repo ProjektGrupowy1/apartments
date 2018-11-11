@@ -3,7 +3,7 @@ package com.booking.apartments.service;
 import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.mapper.Mapper;
-import com.booking.apartments.model.UserDetailsModel;
+import com.booking.apartments.entity.UserDetailsModel;
 import com.booking.apartments.repository.CityRepository;
 import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
@@ -98,8 +98,6 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public void modifyUser(Mapper.User userMapper) {
-
-        System.out.println("userMapper.getIdUser() = "+userMapper.getIdUser());
 
         UserEntity user = userRepository.getUserById(userMapper.getIdUser()).get(0);
         String password = user.getPassword();

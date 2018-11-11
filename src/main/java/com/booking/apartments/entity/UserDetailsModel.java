@@ -1,4 +1,4 @@
-package com.booking.apartments.model;
+package com.booking.apartments.entity;
 
 import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.entity.UserEntity;

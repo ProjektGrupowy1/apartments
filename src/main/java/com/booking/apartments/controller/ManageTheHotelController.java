@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@SessionAttributes("email")
+//@SessionAttributes("email")
+@SessionAttributes({"email", "profile"})
 public class ManageTheHotelController {
 
     @Autowired
