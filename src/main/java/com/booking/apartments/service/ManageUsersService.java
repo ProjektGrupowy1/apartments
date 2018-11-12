@@ -7,7 +7,6 @@ import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
 import com.booking.apartments.utility.Session;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class ManageUsersService {
         userRepository.deleteById(idUser);
     }
 
-    public void modifyUser(Mapper.User userMapper) {
+    public void modifyUser(Mapper.UserMapper userMapper) {
         UserEntity user=  getUserById(userMapper.getIdUser());
 
         user.setIdCity( cityRepository.findCityListByCityName(userMapper.getCity()).get(0).getIdCity());
@@ -52,17 +51,17 @@ public class ManageUsersService {
         userRepository.save(user);
     }
 
-    public void addNewUser(Mapper.NewUser newUser) {
+    public void addNewUser(Mapper.NewUserMapper newUserMapper) {
         UserEntity user = new UserEntity();
-        user.setIdCity( cityRepository.findCityListByCityName(newUser.getCity()).get(0).getIdCity());
-        user.setEmail(newUser.getEmail());
-        user.setLastname(newUser.getLastname());
-        user.setName(newUser.getName());
-        user.setPhone( newUser.getPhone());
-        user.setStreet(newUser.getStreet());
-        user.setIdProfile(profileRepository.getIdByProfileName(newUser.getProfile()).get(0).getIdProfile());
-        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        user.setEnabled((newUser.isEnabled()? 1 : 0));
+        user.setIdCity( cityRepository.findCityListByCityName(newUserMapper.getCity()).get(0).getIdCity());
+        user.setEmail(newUserMapper.getEmail());
+        user.setLastname(newUserMapper.getLastname());
+        user.setName(newUserMapper.getName());
+        user.setPhone( newUserMapper.getPhone());
+        user.setStreet(newUserMapper.getStreet());
+        user.setIdProfile(profileRepository.getIdByProfileName(newUserMapper.getProfile()).get(0).getIdProfile());
+        user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
+        user.setEnabled((newUserMapper.isEnabled()? 1 : 0));
         userRepository.save(user);
 
     }

@@ -29,18 +29,18 @@ public class AuthenticationService implements UserDetailsService {
 
     private CityRepository cityRepository;
 
-    public UserEntity addNewUser(Mapper.NewUser newUser) {
+    public UserEntity addNewUser(Mapper.NewUserMapper newUserMapper) {
 
         UserEntity user = new UserEntity();
-        user.setName(newUser.getName());
-        user.setLastname(newUser.getLastname());
-        user.setStreet(newUser.getStreet());
+        user.setName(newUserMapper.getName());
+        user.setLastname(newUserMapper.getLastname());
+        user.setStreet(newUserMapper.getStreet());
 
-        user.setIdCity(getIdByCityName(newUser.getCity()));
-        user.setPhone(newUser.getPhone());
-        user.setEmail(newUser.getEmail());
-        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        user.setIdProfile(getProfileId(newUser.getProfile()));
+        user.setIdCity(getIdByCityName(newUserMapper.getCity()));
+        user.setPhone(newUserMapper.getPhone());
+        user.setEmail(newUserMapper.getEmail());
+        user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
+        user.setIdProfile(getProfileId(newUserMapper.getProfile()));
         user.setEnabled(1);
 
         userRepository.save(user);
@@ -51,13 +51,13 @@ public class AuthenticationService implements UserDetailsService {
         return userRepository.getUserById(idUser).get(0);
     }
 
-    public Mapper.User getUserByEmail(String email){
+    public Mapper.UserMapper getUserByEmail(String email){
 
         UserEntity user = userRepository.getUserByEmail(email).get(0);
         String cityName = cityRepository.getCityNameById(user.getIdCity()).get(0).getCityName();
         String profileName = profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
 
-        return new Mapper.User(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
+        return new Mapper.UserMapper(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
                 user.getPassword(),profileName,(user.getEnabled()==1));
     }
 
@@ -97,7 +97,7 @@ public class AuthenticationService implements UserDetailsService {
         return new UserDetailsModel(user, profile);
     }
 
-    public void modifyUser(Mapper.User userMapper) {
+    public void modifyUser(Mapper.UserMapper userMapper) {
 
         UserEntity user = userRepository.getUserById(userMapper.getIdUser()).get(0);
         String password = user.getPassword();

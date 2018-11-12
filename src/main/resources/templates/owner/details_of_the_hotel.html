@@ -74,9 +74,9 @@
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Rozmiary pomieszczenia:</p>
-                        <p th:text="${apartment.size}" type='number' name='size'></p>
+                        <p th:text="${apartment.size}" type='number' name='size' class="add_units"></p><span>m</span><sup>2</sup>
                         <p>Cena:</p>
-                        <p th:text="${apartment.price}" type='number' name='price' step="0.01"></p>
+                        <p th:text="${apartment.price}" type='number' name='price' step="0.01" class="add_units"></p><span>zł</span>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Status:</p>
@@ -116,6 +116,9 @@
                 }
                 else if(typeof attribute !== typeof undefined && attribute !== false){
                     $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                }
+                else if($(this).is('span') || $(this).is('sup')){
+                    $(this).hide();
                 }
             });
             $(this).prop("type", "hidden");

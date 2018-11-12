@@ -37,7 +37,7 @@ public class Mapper {
 
     @Getter
     @AllArgsConstructor
-    public class NewUser {
+    public class NewUserMapper {
         private String name;
         private String lastname;
         private String street;
@@ -51,7 +51,7 @@ public class Mapper {
 
     @Getter
     @AllArgsConstructor
-    public static class User {
+    public static class UserMapper {
         private Integer idUser;
         private String name;
         private String lastname;
@@ -167,9 +167,9 @@ public class Mapper {
         }
     };
 
-    public Function<UserEntity, User> mapUser = new Function<UserEntity, User>() {
-        public User apply(UserEntity entity) {
-            return new User(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
+    public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
+        public UserMapper apply(UserEntity entity) {
+            return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
                     ,citiesService.getCityById(entity.getIdCity()).getCityName(),entity.getPhone(), entity.getEmail()
                     ,entity.getPassword(),profileService.getProfileNameById(entity.getIdProfile()),(entity.getEnabled() == 1 ? true : false)
                    );
