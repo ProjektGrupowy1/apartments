@@ -19,15 +19,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
-    Session session;
+    private Session session;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    ProfileRepository profileRepository;
+    private ProfileRepository profileRepository;
 
-    CityRepository cityRepository;
+    private CityRepository cityRepository;
 
     public UserEntity addNewUser(Mapper.NewUser newUser) {
 

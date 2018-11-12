@@ -21,19 +21,16 @@ import java.util.stream.Collectors;
 public class SearchEngineController {
 
     @Autowired
-    Mapper mapper;
+    private Mapper mapper;
 
     @Autowired
-    Session session;
+    private Session session;
 
     @Autowired
-    AuthenticationService authenticationService;
+    private ManageTheHotelService manageTheHotelService;
 
     @Autowired
-    ManageTheHotelService manageTheHotelService;
-
-    @Autowired
-    SearchEngineService searchEngineService;
+    private SearchEngineService searchEngineService;
 
     @RequestMapping(value = "/search_engine", method = RequestMethod.GET)
     public ModelAndView getSearchEnginePage(@RequestParam(value = "city", required = false) String city,

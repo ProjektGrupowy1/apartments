@@ -17,15 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ManageTheHotelService {
 
-    Session session;
+    private Session session;
 
-    HotelRepository hotelRepository;
+    private HotelRepository hotelRepository;
 
-    ApartmentRepository apartmentRepository;
+    private ApartmentRepository apartmentRepository;
 
-    CityRepository cityRepository;
+    private CityRepository cityRepository;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public List<HotelEntity> getHotels(int idOwner) {
         return hotelRepository.getListOfHotelsByOwnerId(idOwner);

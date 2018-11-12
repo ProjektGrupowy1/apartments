@@ -89,8 +89,17 @@
                         <p>Hasło:</p>
                         <p th:text="${user.password}" type='password' name='password'></p>
                         <p>Włączony:</p>
-                        <input  th:if="${user.enabled} == true" disabled  checked type='checkbox' name='enabled'/>
-                        <input  th:if="${user.enabled} == false" disabled type='checkbox' name='enabled'/>
+                        <!--<input  th:if="${user.enabled == true}"  checked type='checkbox' name='enabled'/>-->
+
+                        <!--<p th:checked='${user.enabled}'></p>-->
+
+                        <!--<input type="checkbox" name="enabled" th:checked="${user.enabled}" th:value="${user.enabled}"/>-->
+
+
+                        <!--<input th:if="${user.enabled} == true" type="checkbox" name="enabled"  th:value=true/>-->
+                        <input type="checkbox" name="enabled" value="false"/>
+
+                        <!--<input  th:if="${user.enabled == false}"  type='checkbox' name='enabled'/>-->
                     </span>
                         <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="hidden" value="Zapisz zmiany"

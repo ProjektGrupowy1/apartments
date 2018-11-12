@@ -18,13 +18,10 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AuthenticationController {
 
     @Autowired
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    Session session;
+    private Session session;
 
     @RequestMapping(value = "/screenname", method = RequestMethod.POST)
     public RedirectView loginIn(@PathVariable("email") String email, @PathVariable("password") String password) throws ApartmentException {

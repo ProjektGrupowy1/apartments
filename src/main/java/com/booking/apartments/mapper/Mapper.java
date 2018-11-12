@@ -71,18 +71,18 @@ public class Mapper {
         private String description;
         private String city;
         private String street;
-        private int rating;
+        private Integer rating;
     }
 
     @Getter
     @AllArgsConstructor
     public class HotelMapper {
-        private int idHotel;
+        private Integer idHotel;
         private String name;
         private String description;
         private String city;
         private String street;
-        private int rating;
+        private Integer rating;
     }
 
     @Getter
@@ -90,70 +90,70 @@ public class Mapper {
     public class NewApartmentMapper {
         private String hotelName;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class ApartmentMapper {
-        private int idApartment;
+        private Integer idApartment;
         private String hotelName;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class CustomerInformationAboutTheApartmentMapper {
-        private int idApartment;
+        private Integer idApartment;
         private String hotelName;
         private String description;
         private String city;
         private String street;
-        private int rating;
+        private Integer rating;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class BookingInformation {
-        private int idReservation;
+        private Integer idReservation;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate startDate;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
-        private float price;
-        private int idApartment;
+        private Float price;
+        private Integer idApartment;
         private String apartamentName;
         private String hotelName;
         private String street;
         private String city;
-        private int idUser;
+        private Integer idUser;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class InformationForTheOwner {
-        private int idReservation;
+        private Integer idReservation;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate startDate;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
-        private float price;
-        private int idApartment;
+        private Float price;
+        private Integer idApartment;
         private String apartamentName;
         private String hotelName;
         private String street;
         private String city;
-        private int idUser;
+        private Integer idUser;
         private String status;
         private String name;
         private String lastname;

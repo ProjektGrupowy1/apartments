@@ -16,11 +16,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ManageUsersService {
-    Session session;
-    UserRepository userRepository;
-    CityRepository cityRepository;
-    ProfileRepository profileRepository;
-    PasswordEncoder passwordEncoder;
+    private Session session;
+    private UserRepository userRepository;
+    private CityRepository cityRepository;
+    private ProfileRepository profileRepository;
+    private PasswordEncoder passwordEncoder;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.getAllUsers();

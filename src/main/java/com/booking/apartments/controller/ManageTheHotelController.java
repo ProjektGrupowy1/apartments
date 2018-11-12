@@ -21,16 +21,16 @@ import java.util.stream.Collectors;
 public class ManageTheHotelController {
 
     @Autowired
-    Session session;
+    private Session session;
 
     @Autowired
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     @Autowired
-    ManageTheHotelService manageTheHotelService;
+    private ManageTheHotelService manageTheHotelService;
 
     @Autowired
-    Mapper mapper;
+    private Mapper mapper;
 
     @RequestMapping(value = "/manage_hotels", method = RequestMethod.GET)
     public ModelAndView getManageHotelsPage() {

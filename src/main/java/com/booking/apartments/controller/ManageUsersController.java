@@ -15,20 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@SessionAttributes("email")
+@SessionAttributes({"email", "profile"})
 public class ManageUsersController {
-    @Autowired
-    Session session;
 
     @Autowired
-    AuthenticationService authenticationService;
+    private ManageUsersService manageUsersService;
 
     @Autowired
-    ManageUsersService manageUsersService;
-
-
-    @Autowired
-    Mapper mapper;
+    private Mapper mapper;
 
     @RequestMapping(value = "/manage_users", method = RequestMethod.GET)
     public ModelAndView getManageUsersPage() {
@@ -49,11 +43,12 @@ public class ManageUsersController {
     public @ResponseBody
     RedirectView modifyUser(@ModelAttribute("modified_user") Mapper.User userMapper) throws ApartmentException {
 
+        System.out.println("Enable = "+userMapper.isEnabled());
+
         manageUsersService.modifyUser(userMapper);
 
         return new RedirectView("/manage_users");
     }
-
 
     @RequestMapping(value = "/add_user", method = RequestMethod.POST)
     public @ResponseBody
