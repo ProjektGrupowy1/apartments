@@ -6,6 +6,7 @@ import com.booking.apartments.service.ManageUsersService;
 import com.booking.apartments.utility.ApartmentException;
 import com.booking.apartments.utility.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -25,13 +26,14 @@ public class ManageUsersController {
     @Autowired
     ManageUsersService manageUsersService;
 
+
     @Autowired
     Mapper mapper;
 
     @RequestMapping(value = "/manage_users", method = RequestMethod.GET)
     public ModelAndView getManageUsersPage() {
         ModelAndView manageUsersModelAndView = new ModelAndView(("/admin/manage_users"));
-        List<Mapper.UserMapper> users = manageUsersService.getAllUsers().stream().map(mapper.mapUser).collect(Collectors.toList());
+        List<Mapper.User> users = manageUsersService.getAllUsers().stream().map(mapper.mapUser).collect(Collectors.toList());
         manageUsersModelAndView.addObject("users", users);
 
 
@@ -45,12 +47,21 @@ public class ManageUsersController {
 
     @RequestMapping(value = "/user_modification", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView modifyUser(@ModelAttribute("modified_user") Mapper.UserMapper userMapper) throws ApartmentException {
+    RedirectView modifyUser(@ModelAttribute("modified_user") Mapper.User userMapper) throws ApartmentException {
 
         manageUsersService.modifyUser(userMapper);
 
         return new RedirectView("/manage_users");
     }
 
+
+    @RequestMapping(value = "/add_user", method = RequestMethod.POST)
+    public @ResponseBody
+    RedirectView addHotel(@ModelAttribute("new_user") Mapper.NewUser newUser) throws ApartmentException {
+
+        manageUsersService.addNewUser(newUser);
+
+        return new RedirectView("/manage_users");
+    }
 
 }

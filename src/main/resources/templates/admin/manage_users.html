@@ -23,6 +23,42 @@
 </div>
 
 <main class="container">
+    <h2>Podaj dane użytkownika:</h2>
+    <section class="row panel" th:id="new_user">
+        <ul>
+            <li class="added_user">
+                <form th:name='new_user' th:action="@{/add_user}" th:object="${new_user}" th:method='post'>
+                    <span class="col-sm-4 col-md-4 col-lg-4">
+                        <p>Imię:</p>
+                        <input type='text' name='name'/>
+                        <p>Nazwisko:</p>
+                        <input type='text' name='lastname'/>
+                        <p>Adres email:</p>
+                        <input type='email' name='email'/>
+                    </span>
+                    <span class="col-sm-4 col-md-4 col-lg-4">
+                        <p>Numer telefonu:</p>
+                        <input type='text' name='phone'/>
+                        <p>Miejscowość:</p>
+                        <input type='text' name='city'/>
+                        <p>Ulica:</p>
+                        <input type='text' name='street'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Profil:</p>
+                        <input  type='text' name='profile'/>
+                        <p>Hasło:</p>
+                        <input  type='text' name='password'/>
+                        <p>Włączony:</p>
+                        <input  type='checkbox' name='enabled'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
+                        <input name="submit" type="submit" value="Dodaj użytkownika"/>
+                    </span>
+                </form>
+            </li>
+        </ul>
+    </section>
     <h2 th:if="${not #lists.isEmpty(users)}">Istniejący użytkownicy: </h2>
     <section class="row panel" th:id="list_of_users">
         <ul>
@@ -30,16 +66,16 @@
                 <div class="row">
                     <form th:name='modified_user' th:action="@{/user_modification}" th:object="${modified_user}"
                           th:method='post'>
-                    <span class="col-sm-4 col-md-4 col-lg-4">
+                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p th:text="${user.idUser}" type='text' name='idUser' hidden></p>
-                        <p>Nazwa użytkownika:</p>
+                        <p>Imię:</p>
                         <p th:text="${user.name}" type='text' name='name'></p>
                         <p>Nazwisko:</p>
                         <p th:text="${user.lastname}" type='text' name='lastname'></p>
                         <p>Adres email:</p>
                         <p th:text="${user.email}" type='text' name='email'></p>
                     </span>
-                        <span class="col-sm-4 col-md-4 col-lg-4">
+                        <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Numer telefonu:</p>
                         <p th:text="${user.phone}" type='text' name='phone'></p>
                         <p>Miejscowość:</p>
@@ -47,12 +83,21 @@
                         <p>Ulica:</p>
                         <p th:text="${user.street}" type='text' name='street'></p>
                     </span>
-                        <span class="col-sm-4 col-md-4 col-lg-4 green_buttom">
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Profil:</p>
+                        <p th:text="${user.profile}" type='text' name='profile'></p>
+                        <p>Hasło:</p>
+                        <p th:text="${user.password}" type='password' name='password'></p>
+                        <p>Włączony:</p>
+                        <input  th:if="${user.enabled} == true"  checked type='checkbox' name='enabled'/>
+                        <input  th:if="${user.enabled} == false"  type='checkbox' name='enabled'/>
+                    </span>
+                        <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="hidden" value="Zapisz zmiany"
                                th:id="save_changes_submit_+${iter.index + 1}"/>
                     </span>
                     </form>
-                    <span class="col-sm-4 col-md-4 col-lg-4 green_buttom">
+                    <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                      <input name="submit" type="submit" value="Modyfikuj dane o użytkowniku"
                             th:id="modify_submit_+${iter.index + 1}"/>
                     <form th:action="@{/details_of_the_user}" th:method="get">
@@ -74,14 +119,22 @@
 
             var attribute = $(this).attr('name');
 
-            if ($(this).is('input')) {
+            if ($(this).is('input') && $(this).prop("type") !== "checkbox") {
                 $(this).prop("type", "submit");
             }
             else if ($(this).is(":hidden")) {
-                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
-            }
-            else if (typeof attribute !== typeof undefined && attribute !== false) {
-                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                if ($(this).prop("checked")) {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + " checked  hidden>"));
+                } else {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + "  hidden>"));
+                }
+            }else if (typeof attribute !== typeof undefined && attribute !== false) {
+                console.log($(this).prop("checked"));
+                if ($(this).prop("checked")) {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " checked>"));
+                } else {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                }
             }
         });
         $(this).prop("type", "hidden");

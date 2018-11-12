@@ -32,6 +32,9 @@ public class Mapper {
     @Autowired
     CitiesService citiesService;
 
+    @Autowired
+    ProfileService profileService;
+
     @Getter
     @AllArgsConstructor
     public class NewUser {
@@ -43,6 +46,7 @@ public class Mapper {
         private String email;
         private String password;
         private String profile;
+        private boolean enabled;
     }
 
     @Getter
@@ -57,6 +61,7 @@ public class Mapper {
         private String email;
         private String password;
         private String profile;
+        private boolean enabled;
     }
 
     @Getter
@@ -78,20 +83,6 @@ public class Mapper {
         private String city;
         private String street;
         private int rating;
-    }
-
-
-    @Getter
-    @AllArgsConstructor
-    public class UserMapper {
-        private int idUser;
-        private String name;
-        private String lastname;
-        private String email;
-        private String password;
-        private String phone;
-        private String street;
-        private String city;
     }
 
     @Getter
@@ -176,10 +167,12 @@ public class Mapper {
         }
     };
 
-    public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
-        public UserMapper apply(UserEntity entity) {
-            return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getEmail()
-                    ,entity.getPassword(),entity.getPhone(),entity.getStreet(),citiesService.getCityById(entity.getIdCity()).getCityName());
+    public Function<UserEntity, User> mapUser = new Function<UserEntity, User>() {
+        public User apply(UserEntity entity) {
+            return new User(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
+                    ,citiesService.getCityById(entity.getIdCity()).getCityName(),entity.getPhone(), entity.getEmail()
+                    ,entity.getPassword(),profileService.getProfileNameById(entity.getIdProfile()),(entity.getEnabled() == 1 ? true : false)
+                   );
         }
     };
 

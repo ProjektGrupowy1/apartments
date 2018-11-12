@@ -58,7 +58,7 @@ public class AuthenticationService implements UserDetailsService {
         String profileName = profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
 
         return new Mapper.User(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
-                user.getPassword(),profileName);
+                user.getPassword(),profileName,(user.getEnabled()==1));
     }
 
     public int getUserId(String email) {
