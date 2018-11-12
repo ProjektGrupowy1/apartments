@@ -4,9 +4,7 @@ import com.booking.apartments.entity.ApartmentEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.entity.ReservationEntity;
 import com.booking.apartments.entity.UserEntity;
-import com.booking.apartments.service.AuthenticationService;
-import com.booking.apartments.service.ManageTheHotelService;
-import com.booking.apartments.service.ReserveService;
+import com.booking.apartments.service.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,13 @@ public class Mapper {
     ReserveService reserveService;
 
     @Autowired
+    ManageUsersService manageUsersService;
+
+    @Autowired
     AuthenticationService authenticationService;
+
+    @Autowired
+    CitiesService citiesService;
 
     @Getter
     @AllArgsConstructor
@@ -74,6 +78,20 @@ public class Mapper {
         private String city;
         private String street;
         private int rating;
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    public class UserMapper {
+        private int idUser;
+        private String name;
+        private String lastname;
+        private String email;
+        private String password;
+        private String phone;
+        private String street;
+        private String city;
     }
 
     @Getter
@@ -155,6 +173,13 @@ public class Mapper {
         public HotelMapper apply(HotelEntity hotelEntity) {
             return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), manageTheHotelService.getCityName(hotelEntity.getIdCity()),
                     hotelEntity.getStreet(), hotelEntity.getRating());
+        }
+    };
+
+    public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
+        public UserMapper apply(UserEntity entity) {
+            return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getEmail()
+                    ,entity.getPassword(),entity.getPhone(),entity.getStreet(),citiesService.getCityById(entity.getIdCity()).getCityName());
         }
     };
 
