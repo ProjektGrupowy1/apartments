@@ -32,6 +32,9 @@ public class Mapper {
     @Autowired
     CitiesService citiesService;
 
+    @Autowired
+    ProfileService profileService;
+
     @Getter
     @AllArgsConstructor
     public class NewUser {
@@ -43,6 +46,7 @@ public class Mapper {
         private String email;
         private String password;
         private String profile;
+        private boolean enabled;
     }
 
     @Getter
@@ -57,6 +61,7 @@ public class Mapper {
         private String email;
         private String password;
         private String profile;
+        private boolean enabled;
     }
 
     @Getter
@@ -66,32 +71,18 @@ public class Mapper {
         private String description;
         private String city;
         private String street;
-        private int rating;
+        private Integer rating;
     }
 
     @Getter
     @AllArgsConstructor
     public class HotelMapper {
-        private int idHotel;
+        private Integer idHotel;
         private String name;
         private String description;
         private String city;
         private String street;
-        private int rating;
-    }
-
-
-    @Getter
-    @AllArgsConstructor
-    public class UserMapper {
-        private int idUser;
-        private String name;
-        private String lastname;
-        private String email;
-        private String password;
-        private String phone;
-        private String street;
-        private String city;
+        private Integer rating;
     }
 
     @Getter
@@ -99,70 +90,70 @@ public class Mapper {
     public class NewApartmentMapper {
         private String hotelName;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class ApartmentMapper {
-        private int idApartment;
+        private Integer idApartment;
         private String hotelName;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class CustomerInformationAboutTheApartmentMapper {
-        private int idApartment;
+        private Integer idApartment;
         private String hotelName;
         private String description;
         private String city;
         private String street;
-        private int rating;
+        private Integer rating;
         private String name;
-        private int size;
-        private float price;
+        private Integer size;
+        private Float price;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class BookingInformation {
-        private int idReservation;
+        private Integer idReservation;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate startDate;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
-        private float price;
-        private int idApartment;
+        private Float price;
+        private Integer idApartment;
         private String apartamentName;
         private String hotelName;
         private String street;
         private String city;
-        private int idUser;
+        private Integer idUser;
         private String status;
     }
 
     @Getter
     @AllArgsConstructor
     public class InformationForTheOwner {
-        private int idReservation;
+        private Integer idReservation;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate startDate;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
-        private float price;
-        private int idApartment;
+        private Float price;
+        private Integer idApartment;
         private String apartamentName;
         private String hotelName;
         private String street;
         private String city;
-        private int idUser;
+        private Integer idUser;
         private String status;
         private String name;
         private String lastname;
@@ -176,10 +167,12 @@ public class Mapper {
         }
     };
 
-    public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
-        public UserMapper apply(UserEntity entity) {
-            return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getEmail()
-                    ,entity.getPassword(),entity.getPhone(),entity.getStreet(),citiesService.getCityById(entity.getIdCity()).getCityName());
+    public Function<UserEntity, User> mapUser = new Function<UserEntity, User>() {
+        public User apply(UserEntity entity) {
+            return new User(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
+                    ,citiesService.getCityById(entity.getIdCity()).getCityName(),entity.getPhone(), entity.getEmail()
+                    ,entity.getPassword(),profileService.getProfileNameById(entity.getIdProfile()),(entity.getEnabled() == 1 ? true : false)
+                   );
         }
     };
 

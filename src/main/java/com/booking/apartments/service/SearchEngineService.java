@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SearchEngineService {
 
-    Mapper mapper;
+    private Mapper mapper;
 
-    HotelRepository hotelRepository;
+    private HotelRepository hotelRepository;
 
-    ApartmentRepository apartmentRepository;
+    private ApartmentRepository apartmentRepository;
 
-    CityRepository cityRepository;
+    private CityRepository cityRepository;
 
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
     public List<ApartmentEntity> findApartments() {
         return (List<ApartmentEntity>) apartmentRepository.findAll();

@@ -22,16 +22,10 @@ import java.util.Set;
 public class ReserveController {
 
     @Autowired
-    Session session;
+    private Session session;
 
     @Autowired
-    AuthenticationService authenticationService;
-
-    @Autowired
-    ManageTheHotelService manageTheHotelService;
-
-    @Autowired
-    ReserveService reserveService;
+    private ReserveService reserveService;
 
     private Set<Status> currentStatus = new HashSet<Status>() {{
         add(Status.Waiting);

@@ -60,6 +60,11 @@ public class Beans {
     }
 
     @Bean
+    public ProfileService profileService(ProfileRepository profileRepository){
+        return new ProfileService(session(),profileRepository);
+    }
+
+    @Bean
     public Mapper mapper() {
         return new Mapper();
     }

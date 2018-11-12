@@ -22,17 +22,17 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @AllArgsConstructor
 public class ReserveService {
 
-    Mapper mapper;
+    private Mapper mapper;
 
-    Session session;
-
-    @Autowired
-    AuthenticationService authenticationService;
+    private Session session;
 
     @Autowired
-    ManageTheHotelService manageTheHotelService;
+    private AuthenticationService authenticationService;
 
-    ReservationRepository reservationRepository;
+    @Autowired
+    private ManageTheHotelService manageTheHotelService;
+
+    private ReservationRepository reservationRepository;
 
     public boolean addNewReservation(Integer idApartment, LocalDate startDate, LocalDate endDate) {
         boolean condition = false;

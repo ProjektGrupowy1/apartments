@@ -2,7 +2,6 @@ package com.booking.apartments.config;
 
 import com.booking.apartments.repository.UserRepository;
 import com.booking.apartments.service.AuthenticationService;
-import com.booking.apartments.utility.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,22 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-//@SessionAttributes({"email","profile"})
-@SessionAttributes("email")
+@SessionAttributes({"email","profile"})
+//@SessionAttributes("email")
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @EnableAspectJAutoProxy
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    Session session;
 
     @Autowired
     AuthenticationService authenticationService;
@@ -52,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/user_profile", "/search_engine", "/details_of_the_apartment", "/user_reservations").hasAuthority("Client")
 //                .antMatchers("/user_profile", "/manage_hotels", "/details_of_the_hotel").hasAuthority("Owner")
 //                .antMatchers("/user_profile", "/manage_account").hasAuthority("Admin")
-                .antMatchers("/details_of_the_apartment","/user_reservations").hasAuthority("Client")
-                .antMatchers("/manage_hotels", "/add_hotel", "/hotel_modification","/remove_hotel", "/details_of_the_hotel","/reserved_apartments").hasAuthority("Owner")
+                .antMatchers("/details_of_the_apartment", "/user_reservations").hasAuthority("Client")
+                .antMatchers("/manage_hotels", "/add_hotel", "/hotel_modification", "/remove_hotel", "/details_of_the_hotel", "/reserved_apartments").hasAuthority("Owner")
                 .antMatchers("/manage_account").hasAuthority("Admin")
-                .antMatchers("/user_profile","/select_the_page").hasAuthority("User")
+                .antMatchers("/user_profile", "/select_the_page").hasAuthority("User")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
