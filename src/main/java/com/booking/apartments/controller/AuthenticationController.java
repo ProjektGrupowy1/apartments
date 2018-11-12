@@ -1,13 +1,11 @@
 package com.booking.apartments.controller;
 
-import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.service.AuthenticationService;
 import com.booking.apartments.utility.ApartmentException;
 import com.booking.apartments.utility.Session;
 import com.booking.apartments.utility.enums.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -47,25 +45,25 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView signIn(@ModelAttribute("new_user") Mapper.NewUser newUser) throws ApartmentException {
+    RedirectView signIn(@ModelAttribute("new_user") Mapper.NewUserMapper newUserMapper) throws ApartmentException {
 
 //        UserEntity user = new UserEntity();
-//        user.setName(newUser.getName());
-//        user.setLastname(newUser.getLastname());
-//        user.setStreet(newUser.getStreet());
+//        user.setName(newUserMapper.getName());
+//        user.setLastname(newUserMapper.getLastname());
+//        user.setStreet(newUserMapper.getStreet());
 ////        user.setIdCity(1); // trzeba wyszukać na podstawie nazwy miasta identyfikator
 //
-//        user.setIdCity(authenticationService.getIdByCityName(newUser.getCity())); // trzeba wyszukać na podstawie nazwy miasta identyfikator
-//        user.setPhone(newUser.getPhone());
-//        user.setEmail(newUser.getEmail());
-//        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-//        user.setIdProfile(authenticationService.getProfileId(newUser.getProfile()));
+//        user.setIdCity(authenticationService.getIdByCityName(newUserMapper.getCity())); // trzeba wyszukać na podstawie nazwy miasta identyfikator
+//        user.setPhone(newUserMapper.getPhone());
+//        user.setEmail(newUserMapper.getEmail());
+//        user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
+//        user.setIdProfile(authenticationService.getProfileId(newUserMapper.getProfile()));
 //        user.setEnabled(1);
-        authenticationService.addNewUser(newUser);
-        session.addParam("email", newUser.getEmail());
-        session.addParam("profile", newUser.getProfile());
+        authenticationService.addNewUser(newUserMapper);
+        session.addParam("email", newUserMapper.getEmail());
+        session.addParam("profile", newUserMapper.getProfile());
 
-        return redirectUser(newUser.getProfile());
+        return redirectUser(newUserMapper.getProfile());
     }
 
     private RedirectView redirectUser(String profile) throws ApartmentException {
@@ -107,21 +105,21 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/modified_user", method = RequestMethod.POST)
-    public @ResponseBody RedirectView modifiedUser(@ModelAttribute("modified_user")Mapper.User user) {
+    public @ResponseBody RedirectView modifiedUser(@ModelAttribute("modified_user") Mapper.UserMapper userMapper) {
         RedirectView modifiedUserRedirectView = new RedirectView("/user_profile");
 
-//        System.out.println("user.getEmail = "+user.getEmail());
-//        System.out.println("user.getEmail = "+user.getPassword());
-//        System.out.println("user.getEmail = "+user.getLastname());
-//        System.out.println("user.getEmail = "+user.getName());
-//        System.out.println("user.getEmail = "+user.getProfile());
-//        System.out.println("user.getEmail = "+user.getStreet());
-//        System.out.println("user.getEmail = "+user);
+//        System.out.println("userMapper.getEmail = "+userMapper.getEmail());
+//        System.out.println("userMapper.getEmail = "+userMapper.getPassword());
+//        System.out.println("userMapper.getEmail = "+userMapper.getLastname());
+//        System.out.println("userMapper.getEmail = "+userMapper.getName());
+//        System.out.println("userMapper.getEmail = "+userMapper.getProfile());
+//        System.out.println("userMapper.getEmail = "+userMapper.getStreet());
+//        System.out.println("userMapper.getEmail = "+userMapper);
 
 
-        authenticationService.modifyUser(user);
-        session.updateParam("email", user.getEmail());
-        session.updateParam("profile", user.getProfile());
+        authenticationService.modifyUser(userMapper);
+        session.updateParam("email", userMapper.getEmail());
+        session.updateParam("profile", userMapper.getProfile());
 
         return modifiedUserRedirectView;
     }

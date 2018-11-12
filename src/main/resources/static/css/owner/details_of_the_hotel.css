@@ -1,3 +1,7 @@
 #list_of_apartaments span.green_buttom:nth-child(4) {
      padding-top: 20px;
  }
+
+.add_units{
+    display: inline-block;
+}

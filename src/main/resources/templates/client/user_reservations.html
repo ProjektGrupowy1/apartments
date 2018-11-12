@@ -48,7 +48,7 @@
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Cena:</p>
-                    <p th:text="${reservation.price}" type='number' name='price' step="0.01"></p>
+                    <p th:text="${reservation.price}+' zł'" type='number' name='price' step="0.01"></p>
                     <p>Data do:</p>
                     <p th:text="${reservation.endDate}" type='date' name='endDate'></p>
                 </span>
@@ -80,7 +80,7 @@
                     <p>Data od:</p>
                     <p th:text="${reservation.startDate}" type='date' name='startDate'></p>
                     <p>Cena:</p>
-                    <p th:text="${reservation.price}" type='number' name='price' step="0.01"></p>
+                    <p th:text="${reservation.price + ' zł'}" type='number' name='price' step="0.01"></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Data do:</p>

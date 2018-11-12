@@ -75,6 +75,7 @@
                             <input th:value="${user.profile}" type='text' name='profile'
                                    class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                             <input th:value="${user.idUser}" type='number' name='idUser' hidden>
+                            <input type="checkbox" name="enabled" th:checked="true" hidden/>
                         </li>
                         <li class="purple_buttom">
                             <input name="submit" type="submit" value="Aktualizuj dane"/>

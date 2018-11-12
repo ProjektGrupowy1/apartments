@@ -44,7 +44,7 @@
                     <p>Data od:</p>
                     <p th:text="${reservation.startDate}" type='date' name='startDate'></p>
                     <p>Płatność:</p>
-                    <p th:text="${reservation.price}" type='date' name='price'></p>
+                    <p th:text="${reservation.price}" type='date' name='price' class="add_units"></p><span>zł</span>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
                     <p>Login:</p>
@@ -72,7 +72,7 @@
                     <p>Data od:</p>
                     <p th:text="${reservation.startDate}" type='date' name='startDate'></p>
                     <p>Płatność:</p>
-                    <p th:text="${reservation.price}" type='date' name='price'></p>
+                    <p th:text="${reservation.price}" type='date' name='price' class="add_units"></p><span>zł</span>
                     <p th:text="${reservation.idReservation}" type='text' name='idReservation' hidden></p>
                 </span>
                 <span class="col-sm-3 col-md-3 col-lg-3">
