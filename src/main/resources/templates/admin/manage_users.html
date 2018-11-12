@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,17 +89,8 @@
                         <p>Hasło:</p>
                         <p th:text="${user.password}" type='password' name='password'></p>
                         <p>Włączony:</p>
-                        <!--<input  th:if="${user.enabled == true}"  checked type='checkbox' name='enabled'/>-->
-
-                        <!--<p th:checked='${user.enabled}'></p>-->
-
-                        <!--<input type="checkbox" name="enabled" th:checked="${user.enabled}" th:value="${user.enabled}"/>-->
-
-
-                        <!--<input th:if="${user.enabled} == true" type="checkbox" name="enabled"  th:value=true/>-->
-                        <input type="checkbox" name="enabled" value="false"/>
-
-                        <!--<input  th:if="${user.enabled == false}"  type='checkbox' name='enabled'/>-->
+                        <input type="checkbox" th:id="enabled" th:checked="${user.enabled}">
+                        <input type="hidden" name="enabled" th:value="${user.enabled}"/>
                     </span>
                         <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="hidden" value="Zapisz zmiany"
@@ -122,26 +113,40 @@
 </main>
 <footer class="container"></footer>
 <script>
+
+    $(':checkbox').change(function() {
+        if($(this).is(":checked")){
+            $(this).siblings( "input[name='enabled']").val(true);
+        }
+        else {
+            $(this).siblings( "input[name='enabled']").val(false);
+        }
+
+    });
+
+
     $('[id^=modify_submit_]').click(function () {
         var allDetailsOfUser = $(this).parent().prev().children().children();
         allDetailsOfUser.each(function () {
 
             var attribute = $(this).attr('name');
 
-            if ($(this).is('input') && $(this).prop("type") !== "checkbox") {
-                $(this).prop("type", "submit");
-            }
-            else if ($(this).is(":hidden")) {
-                if ($(this).prop("checked")) {
-                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + " checked  hidden>"));
-                } else {
-                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + "  hidden>"));
+            if(!$(this).is("input[name='enabled']")){
+                if ($(this).is('input') && $(this).prop("type") !== "checkbox") {
+                    $(this).prop("type", "submit");
                 }
-            }else if (typeof attribute !== typeof undefined && attribute !== false) {
-                if ($(this).prop("checked")) {
-                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " checked>"));
-                } else {
-                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                else if ($(this).is(":hidden") ) {
+                    if ($(this).prop("checked")) {
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + " checked  hidden>"));
+                    } else {
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + "  hidden>"));
+                    }
+                }else if (typeof attribute !== typeof undefined && attribute !== false) {
+                    if ($(this).prop("checked")) {
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " checked>"));
+                    } else {
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                    }
                 }
             }
         });
