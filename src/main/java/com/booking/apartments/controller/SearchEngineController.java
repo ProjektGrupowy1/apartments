@@ -33,10 +33,10 @@ public class SearchEngineController {
     private SearchEngineService searchEngineService;
 
     @RequestMapping(value = "/search_engine", method = RequestMethod.GET)
-    public ModelAndView getSearchEnginePage(@RequestParam(value = "city", required = false) String city,
-                                            @RequestParam(value = "hotel_name", required = false) String hotelName,
-                                            @RequestParam(value = "date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
-                                            @RequestParam(value = "date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateEnd) {
+    public ModelAndView showSearchEnginePage(@RequestParam(value = "city", required = false) String city,
+                                             @RequestParam(value = "hotel_name", required = false) String hotelName,
+                                             @RequestParam(value = "date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
+                                             @RequestParam(value = "date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateEnd) {
         ModelAndView searchEngineModelAndView = new ModelAndView("/client/search_engine");
 
         List<Mapper.CustomerInformationAboutTheApartmentMapper> apartments = searchEngineService.findApartmentsThatMeetTheCriteria(city, hotelName, dateStart, dateEnd).stream().map(mapper.customerInformationAboutTheApartment).collect(Collectors.toList());

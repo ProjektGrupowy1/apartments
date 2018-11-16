@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/screenname", method = RequestMethod.GET)
-    public ModelAndView getLoginPage() {
+    public ModelAndView showLoginPage() {
         ModelAndView loginModelAndView = new ModelAndView("login");
 
         return loginModelAndView;
@@ -39,7 +39,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
-    public ModelAndView getSignInPage() {
+    public ModelAndView showSignInPage() {
         return new ModelAndView("registration");
     }
 
