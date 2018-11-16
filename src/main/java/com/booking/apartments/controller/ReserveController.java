@@ -62,7 +62,7 @@ public class ReserveController {
 //    }
 
     @RequestMapping(value = "/user_reservations", method = RequestMethod.GET)
-    public ModelAndView getUserReservationPage() {
+    public ModelAndView showUserReservationPage() {
         ModelAndView userReservationModelAndView = new ModelAndView("/client/user_reservations");
 
         userReservationModelAndView.addObject("reservations", reserveService.findAllReservation(currentStatus));
@@ -72,7 +72,7 @@ public class ReserveController {
     }
 
     @RequestMapping(value = "/reserved_apartments", method = RequestMethod.GET)
-    public ModelAndView getReservedApartmentsPage() {
+    public ModelAndView showReservedApartmentsPage() {
         ModelAndView reservedApartmentsPageModelAndView = new ModelAndView("/owner/reserved_apartments");
 
         reservedApartmentsPageModelAndView.addObject("reservations", reserveService.findAllOwnersReservations(currentStatus));

@@ -12,13 +12,13 @@ import java.util.List;
 public interface HotelRepository extends CrudRepository<HotelEntity,Integer> {
 
     @Query("select h from HotelEntity h where h.idOwner = :idOwner")
-    List<HotelEntity> getListOfHotelsByOwnerId(@Param("idOwner") int idOwner);
+    List<HotelEntity> findListOfHotelsByOwnerId(@Param("idOwner") int idOwner);
 
     @Query("select h from HotelEntity h where h.idHotel = :idHotel")
-    List<HotelEntity> getHotelById(@Param("idHotel") int idHotel);
+    List<HotelEntity> findHotelById(@Param("idHotel") int idHotel);
 
     @Query("select h from HotelEntity h where h.name = :hotelName")
-    List<HotelEntity> getHotelByHotelName(@Param("hotelName") String hotelName);
+    List<HotelEntity> findHotelByHotelName(@Param("hotelName") String hotelName);
 
     @Query("select h.idHotel from HotelEntity h where h.idCity = :idCity")
     List<Integer> findListOfHotelsByCityId(@Param("idCity") int idCity);

@@ -28,14 +28,14 @@ public class ManageTheHotelService {
     private UserRepository userRepository;
 
     public List<HotelEntity> getHotels(int idOwner) {
-        return hotelRepository.getListOfHotelsByOwnerId(idOwner);
+        return hotelRepository.findListOfHotelsByOwnerId(idOwner);
     }
 
     public List<ApartmentEntity> getApartments(int idHotel) {
-        return apartmentRepository.getApartmentsByHotelId(idHotel);
+        return apartmentRepository.findApartmentsByHotelId(idHotel);
     }
     public List<ApartmentEntity> getApartments(String hotelName) {
-        return apartmentRepository.getApartmentsByHotelId(hotelRepository.getHotelByHotelName(hotelName).get(0).getIdHotel());
+        return apartmentRepository.findApartmentsByHotelId(hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel());
     }
 
     public List<ApartmentEntity> getAllApartments(){
@@ -43,31 +43,32 @@ public class ManageTheHotelService {
     }
 
     public String getCityName(int idCity){
-        return cityRepository.getCityNameById(idCity).get(0).getCityName();
+        return cityRepository.findCityNameById(idCity).get(0).getCityName();
     }
 
     public int getHotelId(String hotelName) {
-        return hotelRepository.getHotelByHotelName(hotelName).get(0).getIdHotel();
+        return hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel();
     }
 
     public String getHotelName(int idHotel){
         return getHotel(idHotel).getName();
     }
 
-    public void addNewHotel(Mapper.NewHotelMapper newHotelMapper) {
+    public Boolean addNewHotel(Mapper.NewHotelMapper newHotelMapper) {
 
         HotelEntity hotel = new HotelEntity();
         hotel.setIdCity(cityRepository.findCityListByCityName(newHotelMapper.getCity()).get(0).getIdCity());
-        hotel.setIdOwner(userRepository.getUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
+        hotel.setIdOwner(userRepository.findUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
         hotel.setDescription(newHotelMapper.getDescription());
         hotel.setRating(newHotelMapper.getRating());
         hotel.setStreet(newHotelMapper.getStreet());
         hotel.setName(newHotelMapper.getName());
 
         hotelRepository.save(hotel);
+        return true;
     }
 
-    public void addApartment(Mapper.NewApartmentMapper newApartmentMapper) {
+    public void addNewApartment(Mapper.NewApartmentMapper newApartmentMapper) {
 
         ApartmentEntity apartment = new ApartmentEntity();
 
@@ -81,7 +82,7 @@ public class ManageTheHotelService {
     }
 
     public HotelEntity getHotel(int idHotel) {
-        return hotelRepository.getHotelById(idHotel).get(0);
+        return hotelRepository.findHotelById(idHotel).get(0);
     }
 
     public ApartmentEntity getApartment(int idApartment) {
@@ -93,7 +94,7 @@ public class ManageTheHotelService {
         HotelEntity hotel = getHotel(hotelMapper.getIdHotel());
 
         hotel.setIdCity(cityRepository.findCityListByCityName(hotelMapper.getCity()).get(0).getIdCity());
-        hotel.setIdOwner(userRepository.getUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
+        hotel.setIdOwner(userRepository.findUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
 
         hotel.setDescription(hotelMapper.getDescription());
         hotel.setRating(hotelMapper.getRating());
@@ -124,6 +125,6 @@ public class ManageTheHotelService {
     }
 
     public HotelEntity getHotelNameByApartmentId(int idApartment) {
-        return hotelRepository.getHotelById(apartmentRepository.getApartmentsByApartmentId(idApartment).get(0).getIdHotel()).get(0);
+        return hotelRepository.findHotelById(apartmentRepository.findApartmentsByApartmentId(idApartment).get(0).getIdHotel()).get(0);
     }
 }

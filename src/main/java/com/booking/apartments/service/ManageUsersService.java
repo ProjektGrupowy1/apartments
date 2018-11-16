@@ -22,16 +22,16 @@ public class ManageUsersService {
     private PasswordEncoder passwordEncoder;
 
     public List<UserEntity> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.findAllUsers();
 
     }
 
-    public UserEntity getUserById(int idUser) {
-        return userRepository.getUserById(idUser).get(0);
+    public UserEntity getUserById(Integer idUser) {
+        return userRepository.findUserById(idUser).get(0);
     }
 
 
-    public void deleteUser(int idUser) {
+    public void deleteUser(Integer idUser) {
         userRepository.deleteById(idUser);
     }
 
@@ -44,7 +44,7 @@ public class ManageUsersService {
         user.setPhone( userMapper.getPhone());
         user.setName(userMapper.getName());
         user.setStreet(userMapper.getStreet());
-        user.setIdProfile(profileRepository.getIdByProfileName(userMapper.getProfile()).get(0).getIdProfile());
+        user.setIdProfile(profileRepository.findProfileByProfileName(userMapper.getProfile()).get(0).getIdProfile());
         user.setPassword(passwordEncoder.encode(userMapper.getPassword()));
         user.setEnabled((userMapper.isEnabled()? 1 : 0));
 
@@ -59,7 +59,7 @@ public class ManageUsersService {
         user.setName(newUserMapper.getName());
         user.setPhone( newUserMapper.getPhone());
         user.setStreet(newUserMapper.getStreet());
-        user.setIdProfile(profileRepository.getIdByProfileName(newUserMapper.getProfile()).get(0).getIdProfile());
+        user.setIdProfile(profileRepository.findProfileByProfileName(newUserMapper.getProfile()).get(0).getIdProfile());
         user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
         user.setEnabled((newUserMapper.isEnabled()? 1 : 0));
         userRepository.save(user);

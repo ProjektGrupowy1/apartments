@@ -50,7 +50,7 @@ public class SearchEngineService {
         }
 
         if (hotelName != null && !hotelName.isEmpty()) {
-            listOfHotelsId.removeIf(h -> h != hotelRepository.getHotelByHotelName(hotelName).get(0).getIdHotel());
+            listOfHotelsId.removeIf(h -> h != hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel());
         }
 
         if (hotelName != null && !hotelName.isEmpty() || city != null && !city.isEmpty()) {

@@ -12,13 +12,13 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<UserEntity,Integer> {
 
     @Query("select u from UserEntity u where u.email = :email")
-    List<UserEntity> getUserByEmail(@Param("email") String email);
+    List<UserEntity> findUserByEmail(@Param("email") String email);
 
     @Query("select u from UserEntity u where u.idUser = :idUser")
-    List<UserEntity> getUserById(@Param("idUser") Integer idUser);
+    List<UserEntity> findUserById(@Param("idUser") Integer idUser);
 
     @Query("select u from UserEntity u")
-    List<UserEntity> getAllUsers();
+    List<UserEntity> findAllUsers();
 
 
 //    @Query("select u.username, u.password from UserEntity u where u.username = :username")

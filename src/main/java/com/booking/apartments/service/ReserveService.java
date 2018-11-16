@@ -82,13 +82,13 @@ public class ReserveService {
         return reservations.stream().map(mapper.informationForTheOwner).collect(Collectors.toList());
     }
 
-    public void cancelReservation(Integer idReserwation) {
-        ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReserwation).get();
+    public void cancelReservation(Integer idReservation) {
+        ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReservation).get();
         reservation.setStatus(Status.Suspended.toString());
         reservationRepository.save(reservation);
     }
-    public void acceptReservation(Integer idReserwation) {
-        ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReserwation).get();
+    public void acceptReservation(Integer idReservation) {
+        ReservationEntity reservation = (ReservationEntity) reservationRepository.findById(idReservation).get();
         reservation.setStatus(Status.Approved.toString());
         reservationRepository.save(reservation);
     }
