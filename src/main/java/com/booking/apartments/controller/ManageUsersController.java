@@ -28,8 +28,6 @@ public class ManageUsersController {
 
         manageUsersModelAndView.addObject("users", users);
 
-
-
         return manageUsersModelAndView;
     }
     @RequestMapping(value = "/remove_user/{id_user}", method = RequestMethod.GET)

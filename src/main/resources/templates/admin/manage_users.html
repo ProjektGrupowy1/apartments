@@ -6,8 +6,9 @@
     <title>Zarządzaj użytkownikami</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{/css/owner/template_owner.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/owner/manage_hotels.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/admin/template_admin.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/admin/manage_users.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
@@ -28,7 +29,7 @@
         <ul>
             <li class="added_user">
                 <form th:name='new_user' th:action="@{/add_user}" th:object="${new_user}" th:method='post'>
-                    <span class="col-sm-4 col-md-4 col-lg-4">
+                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Imię:</p>
                         <input type='text' name='name'/>
                         <p>Nazwisko:</p>
@@ -36,7 +37,7 @@
                         <p>Adres email:</p>
                         <input type='email' name='email'/>
                     </span>
-                    <span class="col-sm-4 col-md-4 col-lg-4">
+                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Numer telefonu:</p>
                         <input type='text' name='phone'/>
                         <p>Miejscowość:</p>
@@ -67,13 +68,13 @@
                     <form th:name='modified_user' th:action="@{/user_modification}" th:object="${modified_user}"
                           th:method='post'>
                     <span class="col-sm-3 col-md-3 col-lg-3">
-                        <p th:text="${user.idUser}" type='text' name='idUser' hidden></p>
                         <p>Imię:</p>
                         <p th:text="${user.name}" type='text' name='name'></p>
                         <p>Nazwisko:</p>
                         <p th:text="${user.lastname}" type='text' name='lastname'></p>
                         <p>Adres email:</p>
                         <p th:text="${user.email}" type='text' name='email'></p>
+                        <p th:text="${user.idUser}" type='text' name='idUser' hidden></p>
                     </span>
                         <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Numer telefonu:</p>

@@ -1,0 +1,58 @@
+body{
+    background-color: forestgreen;
+}
+
+.line{
+    background-color: darkgreen;
+}
+
+nav a{
+    background-color: lightgreen;
+    color: black;
+}
+nav a:hover{
+    background-color: green;
+    color: black;
+}
+
+#new_user li, #list_of_users li {
+    display: flow-root;
+    border-bottom: solid 1px gray;
+}
+/*#list_of_users input:not([type='checkbox'])*/
+.added_user input:not([type='checkbox']){
+    margin: 10px 5px 10px 5px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.panel{
+    background-color: mintcream;
+    border: lightslategrey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.green_buttom input, .green_buttom a{
+    margin-top: 40px;
+    padding: 8px 20px 8px 20px;
+    font-size: 16px;
+    background-color: forestgreen;
+    opacity: 0.9;
+    color: antiquewhite;
+    border: 1px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    white-space: normal;
+}
+
+.green_buttom input:hover, .green_buttom a:hover{
+    background-color: darkgreen;
+    color: snow;
+    text-decoration: none;
+}
+
+.green_buttom a{
+    display: block;
+    text-align: center;
+    margin: 15px 15px 0px 0px;
+}
