@@ -33,7 +33,7 @@ public class ManageTheHotelController {
     private Mapper mapper;
 
     @RequestMapping(value = "/manage_hotels", method = RequestMethod.GET)
-    public ModelAndView getManageHotelsPage() {
+    public ModelAndView showManageHotelsPage() {
         ModelAndView manageHotelsModelAndView = new ModelAndView("/owner/manage_hotels");
 
         int idOwner = authenticationService.getUserId(session.getParam("email").toString());
@@ -47,8 +47,8 @@ public class ManageTheHotelController {
     }
 
     @RequestMapping(value = "/details_of_the_hotel", method = RequestMethod.GET)
-    public ModelAndView getDetailsOfTheHotelPage(@RequestParam(value = "id_hotel", required = false) Integer idHotel,
-                                                 @RequestParam(value = "hotel_name", required = false) String hotelName) {
+    public ModelAndView showDetailsOfTheHotelPage(@RequestParam(value = "id_hotel", required = false) Integer idHotel,
+                                                  @RequestParam(value = "hotel_name", required = false) String hotelName) {
         ModelAndView detailsOfTheHotelModelAndView = new ModelAndView("/owner/details_of_the_hotel");
 
         System.out.println("hotelName = " + hotelName);
@@ -70,7 +70,7 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_hotel", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) throws ApartmentException {
+    RedirectView addNewHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) throws ApartmentException {
 
         manageTheHotelService.addNewHotel(newHotelMapper);
 
@@ -94,11 +94,11 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_apartment", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addApartment(@ModelAttribute("new_apartment") Mapper.NewApartmentMapper newApartmentMapper) throws ApartmentException {
+    RedirectView addNewApartment(@ModelAttribute("new_apartment") Mapper.NewApartmentMapper newApartmentMapper) throws ApartmentException {
 
         RedirectView detailOfTheHotelRedirectView = new RedirectView("/details_of_the_hotel");
 
-        manageTheHotelService.addApartment(newApartmentMapper);
+        manageTheHotelService.addNewApartment(newApartmentMapper);
 
         detailOfTheHotelRedirectView.addStaticAttribute("hotel_name", newApartmentMapper.getHotelName());
 

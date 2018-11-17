@@ -22,18 +22,16 @@ public class ManageUsersController {
     private Mapper mapper;
 
     @RequestMapping(value = "/manage_users", method = RequestMethod.GET)
-    public ModelAndView getManageUsersPage() {
+    public ModelAndView showManageUsersPage() {
         ModelAndView manageUsersModelAndView = new ModelAndView(("/admin/manage_users"));
         List<Mapper.UserMapper> users = manageUsersService.getAllUsers().stream().map(mapper.mapUser).collect(Collectors.toList());
 
         manageUsersModelAndView.addObject("users", users);
 
-
-
         return manageUsersModelAndView;
     }
     @RequestMapping(value = "/remove_user/{id_user}", method = RequestMethod.GET)
-    public RedirectView hotelRemoval(@PathVariable("id_user") int idUser) {
+    public RedirectView hotelRemoval(@PathVariable("id_user") Integer idUser) {
         manageUsersService.deleteUser(idUser);
         return new RedirectView("/manage_users");
     }

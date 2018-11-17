@@ -96,7 +96,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/user_profile", method = RequestMethod.GET)
-    public ModelAndView getUserProfilePage() {
+    public ModelAndView showUserProfilePage() {
         ModelAndView userProfileModelAndView = new ModelAndView("user_profile");
 
         userProfileModelAndView.addObject("user",authenticationService.getUserByEmail(session.getParam("email").toString()));

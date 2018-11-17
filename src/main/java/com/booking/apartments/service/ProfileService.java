@@ -12,6 +12,6 @@ public class ProfileService {
     ProfileRepository profileRepository;
 
     public String getProfileNameById(int idProfile) {
-        return profileRepository.getProfileById(idProfile).get(0).getProfileName();
+        return profileRepository.findProfileById(idProfile).get(0).getProfileName();
     }
 }

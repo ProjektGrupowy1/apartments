@@ -48,14 +48,14 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public UserEntity getUserById(Integer idUser){
-        return userRepository.getUserById(idUser).get(0);
+        return userRepository.findUserById(idUser).get(0);
     }
 
     public Mapper.UserMapper getUserByEmail(String email){
 
-        UserEntity user = userRepository.getUserByEmail(email).get(0);
-        String cityName = cityRepository.getCityNameById(user.getIdCity()).get(0).getCityName();
-        String profileName = profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
+        UserEntity user = userRepository.findUserByEmail(email).get(0);
+        String cityName = cityRepository.findCityNameById(user.getIdCity()).get(0).getCityName();
+        String profileName = profileRepository.findProfileById(user.getIdProfile()).get(0).getProfileName();
 
         return new Mapper.UserMapper(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
                 user.getPassword(),profileName,(user.getEnabled()==1));
@@ -63,20 +63,20 @@ public class AuthenticationService implements UserDetailsService {
 
     public int getUserId(String email) {
 
-        UserEntity user = userRepository.getUserByEmail(email).get(0);
+        UserEntity user = userRepository.findUserByEmail(email).get(0);
 
         return user.getIdUser();
     }
 
     public String getUserProfile(String email) {
 
-        UserEntity user = userRepository.getUserByEmail(email).get(0);
+        UserEntity user = userRepository.findUserByEmail(email).get(0);
 
-        return profileRepository.getProfileById(user.getIdProfile()).get(0).getProfileName();
+        return profileRepository.findProfileById(user.getIdProfile()).get(0).getProfileName();
     }
 
     public int getProfileId(String profileName) {
-        return profileRepository.getIdByProfileName(profileName).get(0).getIdProfile();
+        return profileRepository.findProfileByProfileName(profileName).get(0).getIdProfile();
     }
 
     public int getIdByCityName(String cityName) {
@@ -87,9 +87,9 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        UserEntity user = userRepository.getUserByEmail(email).get(0);
+        UserEntity user = userRepository.findUserByEmail(email).get(0);
 
-        ProfileEntity profile = profileRepository.getProfileById(user.getIdProfile()).get(0);
+        ProfileEntity profile = profileRepository.findProfileById(user.getIdProfile()).get(0);
 
         session.addParam("email", email);
         session.addParam("profile", profile.getProfileName());
@@ -99,7 +99,7 @@ public class AuthenticationService implements UserDetailsService {
 
     public void modifyUser(Mapper.UserMapper userMapper) {
 
-        UserEntity user = userRepository.getUserById(userMapper.getIdUser()).get(0);
+        UserEntity user = userRepository.findUserById(userMapper.getIdUser()).get(0);
         String password = user.getPassword();
 
         if(!password.equals(userMapper.getPassword())){
