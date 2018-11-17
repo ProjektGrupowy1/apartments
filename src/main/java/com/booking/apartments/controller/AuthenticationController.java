@@ -74,7 +74,7 @@ public class AuthenticationController {
         } else if (Profile.Owner.toString().contains(profile)) {
             redirectView = new RedirectView("/manage_hotels");
         } else if (Profile.Admin.toString().contains(profile)) {
-            redirectView = new RedirectView("/manage_account");
+            redirectView = new RedirectView("/manage_users");
         } else {
             throw new ApartmentException("Błąd biznesowy","W systemie nie ma takie profilu.");
         }
