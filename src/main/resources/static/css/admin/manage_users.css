@@ -12,3 +12,7 @@ input[type="checkbox"]{
 p[name="password"]{
     -webkit-text-security: disc;
 }
+
+#list_of_users span{
+    padding-left: 25px;
+}

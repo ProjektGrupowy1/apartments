@@ -24,7 +24,7 @@
         <a th:if="${profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
         <a th:if="${profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zestawienie rezerwacji</a>
 
-        <a th:if="${profile == 'Admin'}" type="button" th:href="@{/manage_account}">Zarządzaj kontami</a>
+        <a th:if="${profile == 'Admin'}" type="button" th:href="@{/manage_users}">Zarządzaj kontami</a>
 
         <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/user_profile}">Twój Profil</a>
         <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/logout}">Wyloguj się</a>
