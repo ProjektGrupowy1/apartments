@@ -100,12 +100,12 @@
 <script>
 
     $(document).ready(function() {
-        $("p:contains('Free')").text("Wolny");
-        $("p:contains('Reserved')").text("Zarezerwowany");
+        $("p:contains('Available')").text("Dostępny");
+        $("p:contains('Blocked')").text("Zablokowany");
 
         $("a").click(function(){
-            $("p:contains('Wolny')").text("Free");
-            $("p:contains('Zarezerwowany')").text("Reserved");
+            $("p:contains('Dostępny')").text("Available");
+            $("p:contains('Zablokowany')").text("Blocked");
         });
     });
 

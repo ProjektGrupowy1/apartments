@@ -71,6 +71,8 @@ public class Mapper {
         private String name;
         private String description;
         private String city;
+        private String state;
+        private String postalCode;
         private String street;
         private Integer rating;
     }
@@ -82,6 +84,8 @@ public class Mapper {
         private String name;
         private String description;
         private String city;
+        private String state;
+        private String postalCode;
         private String street;
         private Integer rating;
     }
@@ -163,8 +167,9 @@ public class Mapper {
 
     public Function<HotelEntity, HotelMapper> mapTheHotel = new Function<HotelEntity, HotelMapper>() {
         public HotelMapper apply(HotelEntity hotelEntity) {
-            return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), manageTheHotelService.getCityName(hotelEntity.getIdCity()),
-                    hotelEntity.getStreet(), hotelEntity.getRating());
+            CityEntity city = citiesService.getCityById(hotelEntity.getIdCity());
+            return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), city.getCityName(),
+                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating());
         }
     };
 

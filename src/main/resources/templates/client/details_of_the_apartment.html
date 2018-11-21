@@ -9,6 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/client/template_client.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/client/details_of_the_apartment.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
 <header class="container">
@@ -88,6 +89,17 @@
     </section>
 </main>
 <footer class="container"></footer>
+<script>
+    $(document).ready(function() {
+        $("p:contains('Available')").text("Dostępny");
+        $("p:contains('Blocked')").text("Zablokowany");
+
+        $("a").click(function(){
+            $("p:contains('Dostępny')").text("Available");
+            $("p:contains('Zablokowany')").text("Blocked");
+        });
+    });
+</script>
 </body>
 </html>
 

@@ -13,11 +13,12 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends CrudRepository<ReservationEntity, Integer> {
 
-    @Query("select r.idApartment from ReservationEntity r where r.startDate >= :startDate or r.endDate <= :endDate")
+    @Query("select r.idApartment from ReservationEntity r where (r.startDate >= :startDate or r.endDate <= :endDate) and r.status in ('Suspended','Waiting') ")
     List<Integer> findAllIdApartmentFromAGivenDateRange(@Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                                         @Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate);
 
-    @Query("select r from ReservationEntity r where r.startDate >= :startDate and r.idApartment = :idApartment or r.endDate <= :endDate and r.idApartment = :idApartment")
+    @Query("select r from ReservationEntity r where r.idApartment = :idApartment and (:startDate between r.startDate and r.endDate or :endDate between r.startDate and r.endDate " +
+            "or r.startDate between :startDate and :endDate or r.endDate between :startDate and :endDate) and r.status in ('Suspended','Waiting')")
     List<ReservationEntity> findAllIdApartmentFromAGivenDateRangeAndApartmentId(@Param("startDate")LocalDate startDate,
                                                                                 @Param("endDate")LocalDate endDate,
                                                                                 @Param("idApartment")Integer idApartment);

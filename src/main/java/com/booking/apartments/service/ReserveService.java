@@ -37,7 +37,7 @@ public class ReserveService {
     public boolean addNewReservation(Integer idApartment, LocalDate startDate, LocalDate endDate) {
         boolean condition = false;
 
-//        if (reservationRepository.findAllIdApartmentFromAGivenDateRangeAndApartmentId(startDate, endDate, idApartment).isEmpty()) {
+        if (reservationRepository.findAllIdApartmentFromAGivenDateRangeAndApartmentId(startDate, endDate, idApartment).isEmpty()) {
             ReservationEntity reservation = new ReservationEntity();
             reservation.setIdApartment(idApartment);
             reservation.setStartDate(startDate);
@@ -47,10 +47,9 @@ public class ReserveService {
             reservation.setStatus(Status.Waiting.toString());
             reservationRepository.save(reservation);
             condition = true;
-//        }
+        }
         return condition;
     }
-
 
     public List<Mapper.BookingInformation> findAllReservation(Set<Status> status) {
 

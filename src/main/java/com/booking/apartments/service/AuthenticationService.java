@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,7 @@ public class AuthenticationService implements UserDetailsService {
 
     public UserEntity addNewUser(Mapper.NewUserMapper newUserMapper) {
 
-        CityEntity city = checkIfCityExist(newUserMapper.getCity(), "PL" ,newUserMapper.getPostalCode(), newUserMapper.getState());
+        CityEntity city = checkIfCityExist(newUserMapper.getCity(), "PL", newUserMapper.getPostalCode(), newUserMapper.getState());
 
         UserEntity user = new UserEntity();
         user.setName(newUserMapper.getName());
@@ -103,18 +103,16 @@ public class AuthenticationService implements UserDetailsService {
         return new UserDetailsModel(user, profile);
     }
 
-    CityEntity checkIfCityExist(String cityName, String countryCode ,String postalCode, String state){
-        List<CityEntity> cities = cityRepository.findCityListByCityName(cityName);
+    CityEntity checkIfCityExist(String cityName, String countryCode, String postalCode, String state) {
+        List<CityEntity> cities = new ArrayList<>(cityRepository.findCityListByCityName(cityName));
         CityEntity city = null;
 
-        if(!cities.isEmpty() && cities.stream().anyMatch(c -> c.getCityName().contains(cityName) &&
-                c.getPostalCode().contains(postalCode) && c.getState().contains(state))){
-
+        if (!cities.isEmpty() && cities.stream().anyMatch(c -> c.getCityName().contains(cityName) &&
+                c.getPostalCode().contains(postalCode) && c.getState().contains(state))) {
             city = cityRepository.findCityListByCityName(cityName).stream()
                     .filter(c -> c.getCityName().contains(cityName) && c.getPostalCode().contains(postalCode) &&
                             c.getState().contains(state)).collect(Collectors.toList()).get(0);
-        }
-        else {
+        } else {
             city = addNewCity(cityName, countryCode, postalCode, state);
             cityRepository.save(city);
         }
@@ -134,7 +132,7 @@ public class AuthenticationService implements UserDetailsService {
 
         UserEntity user = userRepository.findUserById(userMapper.getIdUser()).get(0);
         String password = user.getPassword();
-        CityEntity city = checkIfCityExist(userMapper.getCity(), "PL" , userMapper.getPostalCode(), userMapper.getState());
+        CityEntity city = checkIfCityExist(userMapper.getCity(), "PL", userMapper.getPostalCode(), userMapper.getState());
 
         user.setIdUser(userMapper.getIdUser());
         user.setName(userMapper.getName());

@@ -39,7 +39,7 @@ public class SearchEngineService {
         List<HotelEntity> listOfHotels = (List<HotelEntity>) hotelRepository.findAll();
         List<Integer> listOfHotelsId = listOfHotels.stream().map(mapper.mapHotelsId).collect(Collectors.toList());
         List<Integer> reservedIdApartments = null;
-        List<ApartmentEntity> apartments = (List<ApartmentEntity>) apartmentRepository.findAll();
+        List<ApartmentEntity> apartments = (List<ApartmentEntity>) apartmentRepository.findAllAvailable();
 
 //        List<ReservationEntity> ra = reservationRepository.findAllIdApartmentFromAGivenDateRange();
 
