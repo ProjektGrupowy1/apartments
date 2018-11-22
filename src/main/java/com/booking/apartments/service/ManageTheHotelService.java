@@ -36,15 +36,16 @@ public class ManageTheHotelService {
     public List<ApartmentEntity> getApartments(int idHotel) {
         return apartmentRepository.findApartmentsByHotelId(idHotel);
     }
+
     public List<ApartmentEntity> getApartments(String hotelName) {
         return apartmentRepository.findApartmentsByHotelId(hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel());
     }
 
-    public List<ApartmentEntity> getAllApartments(){
+    public List<ApartmentEntity> getAllApartments() {
         return (List<ApartmentEntity>) apartmentRepository.findAll();
     }
 
-    public String getCityName(int idCity){
+    public String getCityName(int idCity) {
         return cityRepository.findCityNameById(idCity).get(0).getCityName();
     }
 
@@ -52,14 +53,14 @@ public class ManageTheHotelService {
         return hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel();
     }
 
-    public String getHotelName(int idHotel){
+    public String getHotelName(int idHotel) {
         return getHotel(idHotel).getName();
     }
 
     public Boolean addNewHotel(Mapper.NewHotelMapper newHotelMapper) {
 
         HotelEntity hotel = new HotelEntity();
-        hotel.setIdCity(authenticationService.checkIfCityExist(newHotelMapper.getCity(),"PL",newHotelMapper.getPostalCode(), newHotelMapper.getState()).getIdCity());
+        hotel.setIdCity(authenticationService.checkIfCityExist(newHotelMapper.getCity(), "PL", newHotelMapper.getPostalCode(), newHotelMapper.getState()).getIdCity());
         hotel.setIdOwner(userRepository.findUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
         hotel.setDescription(newHotelMapper.getDescription());
         hotel.setRating(newHotelMapper.getRating());
@@ -95,7 +96,7 @@ public class ManageTheHotelService {
 
         HotelEntity hotel = getHotel(hotelMapper.getIdHotel());
 
-        hotel.setIdCity(authenticationService.checkIfCityExist(hotelMapper.getCity(),"PL",hotelMapper.getPostalCode(), hotelMapper.getState()).getIdCity());
+        hotel.setIdCity(authenticationService.checkIfCityExist(hotelMapper.getCity(), "PL", hotelMapper.getPostalCode(), hotelMapper.getState()).getIdCity());
         hotel.setIdOwner(userRepository.findUserByEmail(session.getParam("email").toString()).get(0).getIdUser());
 
         hotel.setDescription(hotelMapper.getDescription());

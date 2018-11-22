@@ -53,7 +53,7 @@ public class SearchEngineController {
     }
 
     @RequestMapping(value = "/details_of_the_apartment", method = RequestMethod.POST)
-    public ModelAndView showDetailsOfTheApartmentPage(@RequestParam(value = "id_apartment") Integer idApartment) throws ApartmentException {
+    public ModelAndView showDetailsOfTheApartmentPage(@RequestParam(value = "id_apartment") Integer idApartment) {
         ModelAndView detailsOfTheApartmentModelAndView = new ModelAndView("/client/details_of_the_apartment");
 
         Mapper.CustomerInformationAboutTheApartmentMapper apartment = mapper.customerInformationAboutTheApartment

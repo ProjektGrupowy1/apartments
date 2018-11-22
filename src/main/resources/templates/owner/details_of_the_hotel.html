@@ -47,7 +47,6 @@
                             <option th:value="Available">Dostępny</option>
                             <option th:value="Blocked">Zablokowany</option>
                         </select>
-                        <!--<input type='text' name='status'/>-->
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="submit" value="Dodaj apartament"/>
@@ -114,6 +113,9 @@
                     $(this).replaceWith($("<select type=" + $(this).attr('type') + " name=" + $(this).attr('name') + ">" +
                         "<option value='Available'>Dostępny</option><option value='Blocked'>Zablokowany</option></select>"));
                 }
+                else if($(this).is("p[name='hotelName']")){
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " readonly>"));
+                }
                 else if(typeof attribute !== typeof undefined && attribute !== false){
                     $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
                 }
@@ -122,7 +124,6 @@
                 }
             });
             $(this).prop("type", "hidden");
-            // $("input[name='hotelName']").prop('disabled', true);
         });
 
         $(document).ready(function() {
@@ -132,7 +133,6 @@
             $("a").click(function(){
                 $("p:contains('Dostępny')").text("Available");
                 $("p:contains('Zablokowany')").text("Blocked");
-                // $("input[name='hotelName']").prop('disabled', false);
             });
         });
 

@@ -70,7 +70,7 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_hotel", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addNewHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) throws ApartmentException {
+    RedirectView addNewHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) {
 
         manageTheHotelService.addNewHotel(newHotelMapper);
 
