@@ -65,6 +65,7 @@
         </ul>
     </section>
     <h2 th:if="${not #lists.isEmpty(apartments)}">Dostępne apartamenty:</h2>
+    <h2 th:if="${#lists.isEmpty(apartments)}" class="error">Nieznaleziono apartamentów o podanych kryteriach.</h2>
     <section class="row panel" th:id="show_apartments">
         <ul>
             <li th:each="apartment,iter : ${apartments}">

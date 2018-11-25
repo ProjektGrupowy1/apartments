@@ -25,6 +25,8 @@
 </div>
 
 <main class="container">
+    <h2 th:if="${added_reservation == true}" class="statement">Została dodana nowa rezerwacja</h2>
+    <h2 th:if="${added_reservation == false}" class="statement">Apartament w tym terminie został już zarezerwowany</h2>
     <h2 th:if="${not #lists.isEmpty(reservations)}">Twoje rezerwacje:</h2>
     <section class="row panel" th:id="current_reservation">
         <ul>

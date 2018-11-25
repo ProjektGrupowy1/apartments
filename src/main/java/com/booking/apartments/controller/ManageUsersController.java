@@ -30,6 +30,7 @@ public class ManageUsersController {
 
         return manageUsersModelAndView;
     }
+
     @RequestMapping(value = "/remove_user/{id_user}", method = RequestMethod.GET)
     public RedirectView hotelRemoval(@PathVariable("id_user") Integer idUser) {
         manageUsersService.deleteUser(idUser);
@@ -40,7 +41,8 @@ public class ManageUsersController {
     public @ResponseBody
     RedirectView modifyUser(@ModelAttribute("modified_user") Mapper.UserMapper userMapper) throws ApartmentException {
 
-        System.out.println("Enable = "+userMapper.isEnabled());
+        AuthenticationController.validationOfUserData(false, userMapper.getEmail(), userMapper.getPassword(), userMapper.getName(), userMapper.getLastname(),
+                userMapper.getPhone(), userMapper.getStreet(), userMapper.getCity());
 
         manageUsersService.modifyUser(userMapper);
 
@@ -49,7 +51,10 @@ public class ManageUsersController {
 
     @RequestMapping(value = "/add_user", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addHotel(@ModelAttribute("new_user") Mapper.NewUserMapper newUserMapper) throws ApartmentException {
+    RedirectView addUser(@ModelAttribute("new_user") Mapper.NewUserMapper newUserMapper) throws ApartmentException {
+
+        AuthenticationController.validationOfUserData(true, newUserMapper.getEmail(), newUserMapper.getPassword(), newUserMapper.getName(), newUserMapper.getLastname(),
+                newUserMapper.getPhone(), newUserMapper.getStreet(), newUserMapper.getCity());
 
         manageUsersService.addNewUser(newUserMapper);
 

@@ -51,8 +51,6 @@ public class ManageTheHotelController {
                                                   @RequestParam(value = "hotel_name", required = false) String hotelName) {
         ModelAndView detailsOfTheHotelModelAndView = new ModelAndView("/owner/details_of_the_hotel");
 
-        System.out.println("hotelName = " + hotelName);
-
         List<Mapper.ApartmentMapper> apartments = null;
         if (idHotel != null) {
             apartments = manageTheHotelService.getApartments(idHotel).stream().map(mapper.mapTheApartment).collect(Collectors.toList());
@@ -70,7 +68,10 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/add_hotel", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView addNewHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) {
+    RedirectView addNewHotel(@ModelAttribute("new_hotel") Mapper.NewHotelMapper newHotelMapper) throws ApartmentException {
+
+        validationOfHotelData(true, newHotelMapper.getName(), newHotelMapper.getDescription(), newHotelMapper.getStreet(),
+                newHotelMapper.getCity(), newHotelMapper.getState(), newHotelMapper.getPostalCode());
 
         manageTheHotelService.addNewHotel(newHotelMapper);
 
@@ -80,6 +81,10 @@ public class ManageTheHotelController {
     @RequestMapping(value = "/hotel_modification", method = RequestMethod.POST)
     public @ResponseBody
     RedirectView modifyTheHotel(@ModelAttribute("modified_hotel") Mapper.HotelMapper hotelMapper) throws ApartmentException {
+
+        validationOfHotelData(false, hotelMapper.getName(), hotelMapper.getDescription(), hotelMapper.getStreet(),
+                hotelMapper.getCity(), hotelMapper.getState(), hotelMapper.getPostalCode());
+
 
         manageTheHotelService.modyfyTheHotel(hotelMapper);
 
@@ -98,6 +103,8 @@ public class ManageTheHotelController {
 
         RedirectView detailOfTheHotelRedirectView = new RedirectView("/details_of_the_hotel");
 
+        validationOfApartmentData(true, newApartmentMapper.getName());
+
         manageTheHotelService.addNewApartment(newApartmentMapper);
 
         detailOfTheHotelRedirectView.addStaticAttribute("hotel_name", newApartmentMapper.getHotelName());
@@ -107,8 +114,10 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/apartment_modification", method = RequestMethod.POST)
     public @ResponseBody
-    RedirectView modifyTheHotel(@ModelAttribute("modified_apartment") Mapper.ApartmentMapper apartmentMapper,
-                                RedirectAttributes redirectAttributes) throws ApartmentException {
+    RedirectView modifyTheApartment(@ModelAttribute("modified_apartment") Mapper.ApartmentMapper apartmentMapper,
+                                    RedirectAttributes redirectAttributes) throws ApartmentException {
+
+        validationOfApartmentData(false, apartmentMapper.getName());
 
         manageTheHotelService.modyfyTheApartment(apartmentMapper);
 
@@ -125,9 +134,48 @@ public class ManageTheHotelController {
         return detailOfTheHotelRedirectView;
     }
 
-//    @RequestMapping(value = "/delete_hotel/{id_hotel}", method = RequestMethod.DELETE)
-//    public void deleteHotel(@PathVariable("id_hotel") int hotelName) {
-//        manageTheHotelService.deleteHotel(hotelName);
-//        System.out.println("dupa");
-//    }
+    static void validationOfHotelData(boolean newHotel, String... data) throws ApartmentException {
+
+        String variableMessage = "", statement = "";
+
+        if (newHotel) {
+            variableMessage = " Hotel nie został dodany.";
+        } else {
+            variableMessage = " Dane o hotelu nie zostały zmienione.";
+        }
+
+        if (data[0] != null && data[0].length() > 100) {
+            statement = "Wprowadzono niepoprawny nazwe hotelu lub nazwa hotelu już istnieje w systemie." + variableMessage;
+        } else if (data[1] != null && data[1].length() > 2000) {
+            statement = "Wprowadzono niepoprawny opis hotelu." + variableMessage;
+        } else if (data[2] != null && data[2].length() > 100) {
+            statement = "Wprowadzono niepoprawną ulice." + variableMessage;
+        } else if (data[3] != null && data[3].length() > 100) {
+            statement = "Wprowadzono niepoprawne miasto." + variableMessage;
+        } else if (data[4] != null && data[4].length() > 100) {
+            statement = "Wprowadzono niepoprawne kraj." + variableMessage;
+        } else if (data[5] != null && data[5].length() > 10) {
+            statement = "Wprowadzono niepoprawne kod pocztowy." + variableMessage;
+        }
+
+        if (!"".contains(statement)) throw new ApartmentException("Błąd biznesowy", statement);
+    }
+
+    static void validationOfApartmentData(boolean newApartment, String name) throws ApartmentException {
+
+        String variableMessage = "", statement = "";
+
+        if (newApartment) {
+            variableMessage = " Apartment nie został dodany.";
+        } else {
+            variableMessage = " Dane o apartamencie nie zostały zmienione.";
+        }
+
+        if (name != null && name.length() > 60) {
+            statement = "Wprowadzono niepoprawny nazwe apartamentu." + variableMessage;
+        }
+
+        if (!"".contains(statement)) throw new ApartmentException("Błąd biznesowy", statement);
+    }
+
 }

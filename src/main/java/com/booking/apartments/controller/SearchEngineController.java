@@ -36,8 +36,10 @@ public class SearchEngineController {
     public ModelAndView showSearchEnginePage(@RequestParam(value = "city", required = false) String city,
                                              @RequestParam(value = "hotel_name", required = false) String hotelName,
                                              @RequestParam(value = "date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
-                                             @RequestParam(value = "date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateEnd) {
+                                             @RequestParam(value = "date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateEnd) throws ApartmentException {
         ModelAndView searchEngineModelAndView = new ModelAndView("/client/search_engine");
+
+        validationSearchEngineData(city,hotelName);
 
         List<Mapper.CustomerInformationAboutTheApartmentMapper> apartments = searchEngineService.findApartmentsThatMeetTheCriteria(city, hotelName, dateStart, dateEnd).stream().map(mapper.customerInformationAboutTheApartment).collect(Collectors.toList());
 
@@ -62,5 +64,17 @@ public class SearchEngineController {
         detailsOfTheApartmentModelAndView.addObject("apartment", apartment);
 
         return detailsOfTheApartmentModelAndView;
+    }
+
+    static void validationSearchEngineData(String... data) throws ApartmentException {
+
+        String statement = "";
+
+        if(data[0]!=null && data[0].length() > 100){
+            statement = "Wprowadzono niepoprawne miasto.";
+        } else if(data[1]!=null && data[1].length() > 100){
+            statement = "Wprowadzono niepoprawną nazwe hotelu.";
+        }
+        if(!"".contains(statement)) throw new ApartmentException("Błąd biznesowy", statement);
     }
 }
