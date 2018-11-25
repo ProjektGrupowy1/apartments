@@ -20,10 +20,16 @@ nav a:hover{
     border-bottom: solid 1px gray;
 }
 /*#list_of_users input:not([type='checkbox'])*/
-.added_user input:not([type='checkbox']){
+.added_user input:not([type='checkbox']), #new_user select, #list_of_users input:not([type='checkbox']), #list_of_users select{
     margin: 10px 5px 10px 5px;
     width: 100%;
     font-size: 16px;
+}
+
+#list_of_users select{
+    width: 100%;
+    font-size: 16px;
+    margin-left: 5px;
 }
 
 .panel{
@@ -54,5 +60,38 @@ nav a:hover{
 .green_buttom a{
     display: block;
     text-align: center;
-    margin: 15px 15px 0px 0px;
+    margin: 15px -5px 0px 5px;
+}
+
+input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+#new_user .green_buttom input{
+    margin-top: 40px;
+}
+
+p[name="password"]{
+    -webkit-text-security: disc;
+}
+
+#list_of_users span{
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+#new_user select{
+    height: 28px;
+    margin-bottom: 20px;
+}
+
+#list_of_users select{
+    height: 28px;
+}
+
+#list_of_users .row{
+    padding-left: 20px;
 }
