@@ -40,8 +40,8 @@ public class Beans {
     }
 
     @Bean
-    public ManageTheHotelService manageTheHotelService(HotelRepository hotelRepository, ApartmentRepository apartmentRepository, CityRepository cityRepository, UserRepository userRepository) {
-        return new ManageTheHotelService(session(), hotelRepository, apartmentRepository, cityRepository, userRepository);
+    public ManageTheHotelService manageTheHotelService(HotelRepository hotelRepository, ApartmentRepository apartmentRepository, CityRepository cityRepository, UserRepository userRepository, AuthenticationService authenticationService) {
+        return new ManageTheHotelService(session(), hotelRepository, apartmentRepository, cityRepository, userRepository, authenticationService );
     }
 
     @Bean

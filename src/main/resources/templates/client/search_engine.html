@@ -24,7 +24,7 @@
         <a th:if="${profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
         <a th:if="${profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zestawienie rezerwacji</a>
 
-        <a th:if="${profile == 'Admin'}" type="button" th:href="@{/manage_account}">Zarządzaj kontami</a>
+        <a th:if="${profile == 'Admin'}" type="button" th:href="@{/manage_users}">Zarządzaj kontami</a>
 
         <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/user_profile}">Twój Profil</a>
         <a th:if="${profile == 'Client' or profile == 'Owner' or profile == 'Admin'}" type="button" th:href="@{/logout}">Wyloguj się</a>
@@ -65,6 +65,7 @@
         </ul>
     </section>
     <h2 th:if="${not #lists.isEmpty(apartments)}">Dostępne apartamenty:</h2>
+    <h2 th:if="${#lists.isEmpty(apartments)}" class="error">Nieznaleziono apartamentów o podanych kryteriach.</h2>
     <section class="row panel" th:id="show_apartments">
         <ul>
             <li th:each="apartment,iter : ${apartments}">
@@ -100,12 +101,12 @@
 <script>
 
     $(document).ready(function() {
-        $("p:contains('Free')").text("Wolny");
-        $("p:contains('Reserved')").text("Zarezerwowany");
+        $("p:contains('Available')").text("Dostępny");
+        $("p:contains('Blocked')").text("Zablokowany");
 
         $("a").click(function(){
-            $("p:contains('Wolny')").text("Free");
-            $("p:contains('Zarezerwowany')").text("Reserved");
+            $("p:contains('Dostępny')").text("Available");
+            $("p:contains('Zablokowany')").text("Blocked");
         });
     });
 

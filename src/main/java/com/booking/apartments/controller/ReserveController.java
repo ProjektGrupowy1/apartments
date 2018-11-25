@@ -44,29 +44,20 @@ public class ReserveController {
 
         RedirectView reserveApartmentRedirectView = new RedirectView("/user_reservations");
 
-        reserveService.addNewReservation(idApartment, startDate, endDate);
+        boolean addedReservation =  reserveService.addNewReservation(idApartment, startDate, endDate);
+
+        reserveApartmentRedirectView.addStaticAttribute("added_reservation",addedReservation);
 
         return reserveApartmentRedirectView;
     }
 
-//    @RequestMapping(value = "/reserve_apartment", method = RequestMethod.POST)
-//    public RedirectView reserveApartment(@RequestParam(value = "id_apartment") Integer idApartment,
-//                                         @RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-//                                         @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-//
-//        RedirectView reserveApartmentRedirectView = new RedirectView("/user_reservations");
-//
-//        reserveService.addNewReservation(idApartment, startDate, endDate);
-//
-//        return reserveApartmentRedirectView;
-//    }
-
     @RequestMapping(value = "/user_reservations", method = RequestMethod.GET)
-    public ModelAndView showUserReservationPage() {
+    public ModelAndView showUserReservationPage(@RequestParam(value = "added_reservation", required = false) Boolean addedReservation) {
         ModelAndView userReservationModelAndView = new ModelAndView("/client/user_reservations");
 
         userReservationModelAndView.addObject("reservations", reserveService.findAllReservation(currentStatus));
         userReservationModelAndView.addObject("history", reserveService.findAllReservation(historicalStatus));
+        userReservationModelAndView.addObject("added_reservation", addedReservation);
 
         return userReservationModelAndView;
     }

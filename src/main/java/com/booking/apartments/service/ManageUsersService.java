@@ -19,6 +19,7 @@ public class ManageUsersService {
     private UserRepository userRepository;
     private CityRepository cityRepository;
     private ProfileRepository profileRepository;
+    private AuthenticationService authenticationService;
     private PasswordEncoder passwordEncoder;
 
     public List<UserEntity> getAllUsers() {
@@ -38,7 +39,7 @@ public class ManageUsersService {
     public void modifyUser(Mapper.UserMapper userMapper) {
         UserEntity user=  getUserById(userMapper.getIdUser());
 
-        user.setIdCity( cityRepository.findCityListByCityName(userMapper.getCity()).get(0).getIdCity());
+        user.setIdCity( authenticationService.checkIfCityExist(userMapper.getCity(),"PL",userMapper.getPostalCode(), userMapper.getState()).getIdCity());
         user.setEmail(userMapper.getEmail());
         user.setLastname(userMapper.getLastname());
         user.setPhone( userMapper.getPhone());
@@ -53,7 +54,7 @@ public class ManageUsersService {
 
     public void addNewUser(Mapper.NewUserMapper newUserMapper) {
         UserEntity user = new UserEntity();
-        user.setIdCity( cityRepository.findCityListByCityName(newUserMapper.getCity()).get(0).getIdCity());
+        user.setIdCity( authenticationService.checkIfCityExist(newUserMapper.getCity(),"PL",newUserMapper.getPostalCode(), newUserMapper.getState()).getIdCity() );
         user.setEmail(newUserMapper.getEmail());
         user.setLastname(newUserMapper.getLastname());
         user.setName(newUserMapper.getName());

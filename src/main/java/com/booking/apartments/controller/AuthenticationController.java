@@ -47,23 +47,43 @@ public class AuthenticationController {
     public @ResponseBody
     RedirectView signIn(@ModelAttribute("new_user") Mapper.NewUserMapper newUserMapper) throws ApartmentException {
 
-//        UserEntity user = new UserEntity();
-//        user.setName(newUserMapper.getName());
-//        user.setLastname(newUserMapper.getLastname());
-//        user.setStreet(newUserMapper.getStreet());
-////        user.setIdCity(1); // trzeba wyszukać na podstawie nazwy miasta identyfikator
-//
-//        user.setIdCity(authenticationService.getIdByCityName(newUserMapper.getCity())); // trzeba wyszukać na podstawie nazwy miasta identyfikator
-//        user.setPhone(newUserMapper.getPhone());
-//        user.setEmail(newUserMapper.getEmail());
-//        user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
-//        user.setIdProfile(authenticationService.getProfileId(newUserMapper.getProfile()));
-//        user.setEnabled(1);
+        validationOfUserData(true, newUserMapper.getEmail(), newUserMapper.getPassword(), newUserMapper.getName(), newUserMapper.getLastname(),
+                newUserMapper.getPhone(), newUserMapper.getStreet(), newUserMapper.getCity());
+
         authenticationService.addNewUser(newUserMapper);
         session.addParam("email", newUserMapper.getEmail());
         session.addParam("profile", newUserMapper.getProfile());
 
         return redirectUser(newUserMapper.getProfile());
+    }
+
+    static void validationOfUserData(boolean newUser, String... data) throws ApartmentException {
+
+        String variableMessage = "", statement = "";
+
+        if(newUser){
+            variableMessage = " Użytkownik nie został zarejestrowany.";
+        }else {
+            variableMessage = " Dane użytkownika nie zostały zmienione.";
+        }
+
+        if (data[0].length() > 40) {
+            statement = "Wprowadzono niepoprawny email." + variableMessage;
+        } else if(data[1].length() > 40){
+            statement = "Wprowadzono niepoprawne hasło." + variableMessage;
+        } else if(data[2].length() > 45){
+            statement = "Wprowadzono niepoprawne imie." + variableMessage;
+        } else if(data[3].length() > 45){
+            statement = "Wprowadzono niepoprawne nazwisko." + variableMessage;
+        } else if(data[4].length() > 45){
+            statement = "Wprowadzono niepoprawny telefon." + variableMessage;
+        }else if(data[5].length() > 200){
+            statement = "Wprowadzono niepoprawną ulice." + variableMessage;
+        }else if(data[6].length() > 100){
+            statement = "Wprowadzono niepoprawne miasto." + variableMessage;
+        }
+
+        if(!"".contains(statement)) throw new ApartmentException("Błąd biznesowy", statement);
     }
 
     private RedirectView redirectUser(String profile) throws ApartmentException {
@@ -76,7 +96,7 @@ public class AuthenticationController {
         } else if (Profile.Admin.toString().contains(profile)) {
             redirectView = new RedirectView("/manage_users");
         } else {
-            throw new ApartmentException("Błąd biznesowy","W systemie nie ma takie profilu.");
+            throw new ApartmentException("Błąd biznesowy", "W systemie nie ma takie profilu.");
         }
         return redirectView;
     }
@@ -99,23 +119,18 @@ public class AuthenticationController {
     public ModelAndView showUserProfilePage() {
         ModelAndView userProfileModelAndView = new ModelAndView("user_profile");
 
-        userProfileModelAndView.addObject("user",authenticationService.getUserByEmail(session.getParam("email").toString()));
+        userProfileModelAndView.addObject("user", authenticationService.getUserByEmail(session.getParam("email").toString()));
 
         return userProfileModelAndView;
     }
 
     @RequestMapping(value = "/modified_user", method = RequestMethod.POST)
-    public @ResponseBody RedirectView modifiedUser(@ModelAttribute("modified_user") Mapper.UserMapper userMapper) {
+    public @ResponseBody
+    RedirectView modifiedUser(@ModelAttribute("modified_user") Mapper.UserMapper userMapper) throws ApartmentException {
         RedirectView modifiedUserRedirectView = new RedirectView("/user_profile");
 
-//        System.out.println("userMapper.getEmail = "+userMapper.getEmail());
-//        System.out.println("userMapper.getEmail = "+userMapper.getPassword());
-//        System.out.println("userMapper.getEmail = "+userMapper.getLastname());
-//        System.out.println("userMapper.getEmail = "+userMapper.getName());
-//        System.out.println("userMapper.getEmail = "+userMapper.getProfile());
-//        System.out.println("userMapper.getEmail = "+userMapper.getStreet());
-//        System.out.println("userMapper.getEmail = "+userMapper);
-
+        validationOfUserData(false, userMapper.getEmail(), userMapper.getPassword(), userMapper.getName(), userMapper.getLastname(),
+                userMapper.getPhone(), userMapper.getStreet(), userMapper.getCity());
 
         authenticationService.modifyUser(userMapper);
         session.updateParam("email", userMapper.getEmail());

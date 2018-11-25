@@ -31,9 +31,9 @@
                 <li class="added_apartment">
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Nazwa Hotelu:</p>
-                        <input type='text' name='hotelName' th:value="${hotel_name}">
+                        <input type='text' name='hotelName' th:value="${hotel_name}" readonly>
                         <p>Nazwa Apartamentu:</p>
-                        <input type='text' name='name'/>
+                        <input type='text' name='name' />
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Rozmiary pomieszczenia:</p>
@@ -44,10 +44,9 @@
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Status:</p>
                         <select type='text' name='status'>
-                            <option th:value="Free">Wolny</option>
-                            <option th:value="Reserved">Zarezerwowany</option>
+                            <option th:value="Available">Dostępny</option>
+                            <option th:value="Blocked">Zablokowany</option>
                         </select>
-                        <!--<input type='text' name='status'/>-->
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="submit" value="Dodaj apartament"/>
@@ -112,7 +111,10 @@
                 }
                 else if($(this).is("p[name='status']")){
                     $(this).replaceWith($("<select type=" + $(this).attr('type') + " name=" + $(this).attr('name') + ">" +
-                        "<option value='Free'>Wolny</option><option value='Reserved'>Zarezerwowany</option></select>"));
+                        "<option value='Available'>Dostępny</option><option value='Blocked'>Zablokowany</option></select>"));
+                }
+                else if($(this).is("p[name='hotelName']")){
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " readonly>"));
                 }
                 else if(typeof attribute !== typeof undefined && attribute !== false){
                     $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
@@ -125,12 +127,12 @@
         });
 
         $(document).ready(function() {
-            $("p:contains('Free')").text("Wolny");
-            $("p:contains('Reserved')").text("Zarezerwowany");
+            $("p:contains('Available')").text("Dostępny");
+            $("p:contains('Blocked')").text("Zablokowany");
 
             $("a").click(function(){
-                $("p:contains('Wolny')").text("Free");
-                $("p:contains('Zarezerwowany')").text("Reserved");
+                $("p:contains('Dostępny')").text("Available");
+                $("p:contains('Zablokowany')").text("Blocked");
             });
         });
 

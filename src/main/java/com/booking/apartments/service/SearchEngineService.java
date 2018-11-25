@@ -1,6 +1,7 @@
 package com.booking.apartments.service;
 
 import com.booking.apartments.entity.ApartmentEntity;
+import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.ApartmentRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,18 +41,32 @@ public class SearchEngineService {
         List<HotelEntity> listOfHotels = (List<HotelEntity>) hotelRepository.findAll();
         List<Integer> listOfHotelsId = listOfHotels.stream().map(mapper.mapHotelsId).collect(Collectors.toList());
         List<Integer> reservedIdApartments = null;
-        List<ApartmentEntity> apartments = (List<ApartmentEntity>) apartmentRepository.findAll();
-
-//        List<ReservationEntity> ra = reservationRepository.findAllIdApartmentFromAGivenDateRange();
+        List<ApartmentEntity> apartments = (List<ApartmentEntity>) apartmentRepository.findAllAvailable();
 
 
-        if (city != null && !city.isEmpty()) {
-            idCity = cityRepository.findCityListByCityName(city).get(0).getIdCity();
-            listOfHotelsId = hotelRepository.findListOfHotelsByCityId(idCity);
+        if (city != null && !city.isEmpty() ) {
+            List<CityEntity> cities = cityRepository.findCityListByCityName(city);
+            if(!cities.isEmpty()){
+                listOfHotelsId.clear();
+                for (CityEntity ce:cities) {
+                    idCity = ce.getIdCity();
+                    listOfHotelsId.addAll(hotelRepository.findListOfHotelsByCityId(idCity));
+                }
+                if(listOfHotelsId.isEmpty()) return new ArrayList<>();
+            } else {
+                return new ArrayList<>();
+            }
         }
 
         if (hotelName != null && !hotelName.isEmpty()) {
-            listOfHotelsId.removeIf(h -> h != hotelRepository.findHotelByHotelName(hotelName).get(0).getIdHotel());
+
+            List<HotelEntity> hotelEntities = hotelRepository.findHotelByHotelName(hotelName);
+
+            if(!hotelEntities.isEmpty()){
+                listOfHotelsId.removeIf(h -> h != hotelEntities.get(0).getIdHotel());
+            } else {
+                return new ArrayList<>();
+            }
         }
 
         if (hotelName != null && !hotelName.isEmpty() || city != null && !city.isEmpty()) {

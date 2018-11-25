@@ -8,7 +8,6 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/template.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/admin/template_admin.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/admin/manage_users.css}" type="text/css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
@@ -36,22 +35,33 @@
                         <input type='text' name='lastname'/>
                         <p>Adres email:</p>
                         <input type='email' name='email'/>
-                    </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Numer telefonu:</p>
                         <input type='text' name='phone'/>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Miejscowość:</p>
                         <input type='text' name='city'/>
                         <p>Ulica:</p>
                         <input type='text' name='street'/>
+                        <p>Kraj:</p>
+                        <input type='text' name='state'/>
+                        <p>Kod pocztowy:</p>
+                        <input type='text' name='postalCode'/>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Profil:</p>
-                        <input  type='text' name='profile'/>
+                        <!--<input  type='text' name='profile'/>-->
+                        <select type='text' name='profile' class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                            <option th:value="Client">Klient</option>
+                            <option th:value="Owner">Właściciel</option>
+                            <option th:value="Admin">Administrator</option>
+                        </select>
                         <p>Hasło:</p>
-                        <input  type='text' name='password'/>
+                        <input type='text' name='password'/>
                         <p>Włączony:</p>
-                        <input  type='checkbox' name='enabled'/>
+
+                        <input type="checkbox" th:checked="true">
+                        <input type="hidden" name="enabled" th:value="true"/>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="submit" value="Dodaj użytkownika"/>
@@ -74,17 +84,21 @@
                         <p th:text="${user.lastname}" type='text' name='lastname'></p>
                         <p>Adres email:</p>
                         <p th:text="${user.email}" type='text' name='email'></p>
+                        <p>Numer telefonu:</p>
+                        <p th:text="${user.phone}" type='text' name='phone'></p>
                         <p th:text="${user.idUser}" type='text' name='idUser' hidden></p>
                     </span>
                         <span class="col-sm-3 col-md-3 col-lg-3">
-                        <p>Numer telefonu:</p>
-                        <p th:text="${user.phone}" type='text' name='phone'></p>
                         <p>Miejscowość:</p>
                         <p th:text="${user.city}" type='text' name='city'></p>
                         <p>Ulica:</p>
                         <p th:text="${user.street}" type='text' name='street'></p>
+                        <p>Kraj:</p>
+                        <p th:text="${user.state}" type='text' name='state'></p>
+                        <p>Kod pocztowy:</p>
+                        <p th:text="${user.postalCode}" type='text' name='postalCode'></p>
                     </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Profil:</p>
                         <p th:text="${user.profile}" type='text' name='profile'></p>
                         <p>Hasło:</p>
@@ -115,16 +129,15 @@
 <footer class="container"></footer>
 <script>
 
-    $(':checkbox').change(function() {
-        if($(this).is(":checked")){
-            $(this).siblings( "input[name='enabled']").val(true);
+    $(':checkbox').change(function () {
+        if ($(this).is(":checked")) {
+            $(this).siblings("input[name='enabled']").val(true);
         }
         else {
-            $(this).siblings( "input[name='enabled']").val(false);
+            $(this).siblings("input[name='enabled']").val(false);
         }
 
     });
-
 
     $('[id^=modify_submit_]').click(function () {
         var allDetailsOfUser = $(this).parent().prev().children().children();
@@ -132,17 +145,21 @@
 
             var attribute = $(this).attr('name');
 
-            if(!$(this).is("input[name='enabled']")){
+            if (!$(this).is("input[name='enabled']")) {
                 if ($(this).is('input') && $(this).prop("type") !== "checkbox") {
                     $(this).prop("type", "submit");
                 }
-                else if ($(this).is(":hidden") ) {
+                else if($(this).is("p[name='profile']")){
+                    $(this).replaceWith($("<select type=" + $(this).attr('type') + " name=" + $(this).attr('name') + ">" +
+                        "<option value='Client'>Klient</option><option value='Owner'>Właściciel</option><option value='Admin'>Administrator</option></select>"));
+                }
+                else if ($(this).is(":hidden")) {
                     if ($(this).prop("checked")) {
-                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + " checked  hidden>"));
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " checked  hidden>"));
                     } else {
-                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text()  + "  hidden>"));
+                        $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + "  hidden>"));
                     }
-                }else if (typeof attribute !== typeof undefined && attribute !== false) {
+                } else if (typeof attribute !== typeof undefined && attribute !== false) {
                     if ($(this).prop("checked")) {
                         $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " checked>"));
                     } else {

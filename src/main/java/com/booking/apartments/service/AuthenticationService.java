@@ -1,9 +1,10 @@
 package com.booking.apartments.service;
 
+import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.ProfileEntity;
+import com.booking.apartments.entity.UserDetailsModel;
 import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.mapper.Mapper;
-import com.booking.apartments.entity.UserDetailsModel;
 import com.booking.apartments.repository.CityRepository;
 import com.booking.apartments.repository.ProfileRepository;
 import com.booking.apartments.repository.UserRepository;
@@ -14,6 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,12 +36,13 @@ public class AuthenticationService implements UserDetailsService {
 
     public UserEntity addNewUser(Mapper.NewUserMapper newUserMapper) {
 
+        CityEntity city = checkIfCityExist(newUserMapper.getCity(), "PL", newUserMapper.getPostalCode(), newUserMapper.getState());
+
         UserEntity user = new UserEntity();
         user.setName(newUserMapper.getName());
         user.setLastname(newUserMapper.getLastname());
         user.setStreet(newUserMapper.getStreet());
-
-        user.setIdCity(getIdByCityName(newUserMapper.getCity()));
+        user.setIdCity(city.getIdCity());
         user.setPhone(newUserMapper.getPhone());
         user.setEmail(newUserMapper.getEmail());
         user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
@@ -47,21 +53,21 @@ public class AuthenticationService implements UserDetailsService {
         return user;
     }
 
-    public UserEntity getUserById(Integer idUser){
+    public UserEntity getUserById(Integer idUser) {
         return userRepository.findUserById(idUser).get(0);
     }
 
-    public Mapper.UserMapper getUserByEmail(String email){
+    public Mapper.UserMapper getUserByEmail(String email) {
 
         UserEntity user = userRepository.findUserByEmail(email).get(0);
-        String cityName = cityRepository.findCityNameById(user.getIdCity()).get(0).getCityName();
+        CityEntity city = cityRepository.findCityNameById(user.getIdCity()).get(0);
         String profileName = profileRepository.findProfileById(user.getIdProfile()).get(0).getProfileName();
 
-        return new Mapper.UserMapper(user.getIdUser(),user.getName(), user.getLastname(), user.getStreet(),cityName,user.getPhone(),user.getEmail(),
-                user.getPassword(),profileName,(user.getEnabled()==1));
+        return new Mapper.UserMapper(user.getIdUser(), user.getName(), user.getLastname(), user.getStreet(), city.getCityName(), city.getState(),
+                city.getPostalCode(), user.getPhone(), user.getEmail(), user.getPassword(), profileName, (user.getEnabled() == 1));
     }
 
-    public int getUserId(String email) {
+    public Integer getUserId(String email) {
 
         UserEntity user = userRepository.findUserByEmail(email).get(0);
 
@@ -75,11 +81,11 @@ public class AuthenticationService implements UserDetailsService {
         return profileRepository.findProfileById(user.getIdProfile()).get(0).getProfileName();
     }
 
-    public int getProfileId(String profileName) {
+    public Integer getProfileId(String profileName) {
         return profileRepository.findProfileByProfileName(profileName).get(0).getIdProfile();
     }
 
-    public int getIdByCityName(String cityName) {
+    public Integer getIdByCityName(String cityName) {
 
         return cityRepository.findCityListByCityName(cityName).get(0).getIdCity();
     }
@@ -97,21 +103,43 @@ public class AuthenticationService implements UserDetailsService {
         return new UserDetailsModel(user, profile);
     }
 
+    CityEntity checkIfCityExist(String cityName, String countryCode, String postalCode, String state) {
+        List<CityEntity> cities = new ArrayList<>(cityRepository.findCityListByCityName(cityName));
+        CityEntity city = null;
+
+        if (!cities.isEmpty() && cities.stream().anyMatch(c -> c.getCityName().contains(cityName) &&
+                c.getPostalCode().contains(postalCode) && c.getState().contains(state))) {
+            city = cityRepository.findCityListByCityName(cityName).stream()
+                    .filter(c -> c.getCityName().contains(cityName) && c.getPostalCode().contains(postalCode) &&
+                            c.getState().contains(state)).collect(Collectors.toList()).get(0);
+        } else {
+            city = addNewCity(cityName, countryCode, postalCode, state);
+            cityRepository.save(city);
+        }
+        return city;
+    }
+
+    private CityEntity addNewCity(String cityName, String countryCode, String postalCode, String state) {
+        CityEntity city = new CityEntity();
+        city.setCityName(cityName);
+        city.setCountryCode(countryCode);  // dla Polski
+        city.setState(state);
+        city.setPostalCode(postalCode);
+        return city;
+    }
+
     public void modifyUser(Mapper.UserMapper userMapper) {
 
         UserEntity user = userRepository.findUserById(userMapper.getIdUser()).get(0);
         String password = user.getPassword();
-
-        if(!password.equals(userMapper.getPassword())){
-            password = passwordEncoder.encode(userMapper.getPassword());
-        }
+        CityEntity city = checkIfCityExist(userMapper.getCity(), "PL", userMapper.getPostalCode(), userMapper.getState());
 
         user.setIdUser(userMapper.getIdUser());
         user.setName(userMapper.getName());
         user.setLastname(userMapper.getLastname());
         user.setStreet(userMapper.getStreet());
 
-        user.setIdCity(getIdByCityName(userMapper.getCity()));
+        user.setIdCity(city.getIdCity());
         user.setPhone(userMapper.getPhone());
         user.setEmail(userMapper.getEmail());
         user.setPassword(password);

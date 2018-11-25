@@ -32,18 +32,22 @@
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Nazwa hotelu:</p>
                         <input type='text' name='name'>
-                        <p>Gwiazdki:</p>
-                        <input type='number' name='rating'/>
-                    </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Ulica:</p>
                         <input type='text' name='street'/>
                         <p>Miejscowość:</p>
                         <input type='text' name='city'>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Gwiazdki:</p>
+                        <input type='number' name='rating'/>
+                        <p>Kraj:</p>
+                        <input type='text' name='state'/>
+                        <p>Kod pocztowy:</p>
+                        <input type='text' name='postalCode'>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Opis:</p>
-                        <textarea name="description" placeholder="Write something.." type='text'></textarea>
+                        <textarea name="description" placeholder="Write something.." type='text' pattern="{1,2000}"></textarea>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="submit" value="Dodaj hotel"/>
@@ -61,16 +65,20 @@
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Nazwa hotelu:</p>
                         <p th:text="${hotel.name}" type='text' name='name'></p>
-                        <p>Gwiazdki:</p>
-                        <p th:text="${hotel.rating}" type='number' name='rating' hidden></p>
-                        <th:block th:insert="template.html :: stars(rating = ${hotel.rating})"></th:block>
-                        <p th:text="${hotel.idHotel}" type='text' name='idHotel' hidden></p>
-                    </span>
-                    <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Ulica:</p>
                         <p th:text="${hotel.street}" type='text' name='street'></p>
                         <p>Miejscowość:</p>
                         <p th:text="${hotel.city}" type='text' name='city'></p>
+                        <p th:text="${hotel.idHotel}" type='text' name='idHotel' hidden></p>
+                    </span>
+                    <span class="col-sm-3 col-md-3 col-lg-3">
+                        <p>Kraj:</p>
+                        <p th:text="${hotel.state}" type='text' name='state'></p>
+                        <p>Kod pocztowy:</p>
+                        <p th:text="${hotel.postalCode}" type='text' name='postalCode'></p>
+                        <p>Gwiazdki:</p>
+                        <p th:text="${hotel.rating}" type='number' name='rating' hidden></p>
+                        <th:block th:insert="template.html :: stars(rating = ${hotel.rating})"></th:block>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Opis:</p>

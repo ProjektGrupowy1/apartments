@@ -1,9 +1,6 @@
 package com.booking.apartments.mapper;
 
-import com.booking.apartments.entity.ApartmentEntity;
-import com.booking.apartments.entity.HotelEntity;
-import com.booking.apartments.entity.ReservationEntity;
-import com.booking.apartments.entity.UserEntity;
+import com.booking.apartments.entity.*;
 import com.booking.apartments.service.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +39,8 @@ public class Mapper {
         private String lastname;
         private String street;
         private String city;
+        private String state;
+        private String postalCode;
         private String phone;
         private String email;
         private String password;
@@ -57,6 +56,8 @@ public class Mapper {
         private String lastname;
         private String street;
         private String city;
+        private String state;
+        private String postalCode;
         private String phone;
         private String email;
         private String password;
@@ -70,6 +71,8 @@ public class Mapper {
         private String name;
         private String description;
         private String city;
+        private String state;
+        private String postalCode;
         private String street;
         private Integer rating;
     }
@@ -81,6 +84,8 @@ public class Mapper {
         private String name;
         private String description;
         private String city;
+        private String state;
+        private String postalCode;
         private String street;
         private Integer rating;
     }
@@ -162,19 +167,22 @@ public class Mapper {
 
     public Function<HotelEntity, HotelMapper> mapTheHotel = new Function<HotelEntity, HotelMapper>() {
         public HotelMapper apply(HotelEntity hotelEntity) {
-            return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), manageTheHotelService.getCityName(hotelEntity.getIdCity()),
-                    hotelEntity.getStreet(), hotelEntity.getRating());
+            CityEntity city = citiesService.getCityById(hotelEntity.getIdCity());
+            return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), city.getCityName(),
+                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating());
         }
     };
 
     public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
         public UserMapper apply(UserEntity entity) {
+            CityEntity city = citiesService.getCityById(entity.getIdCity());
             return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
-                    ,citiesService.getCityById(entity.getIdCity()).getCityName(),entity.getPhone(), entity.getEmail()
+                    ,city.getCityName(), city.getState(), city.getPostalCode() ,entity.getPhone(), entity.getEmail()
                     ,entity.getPassword(),profileService.getProfileNameById(entity.getIdProfile()),(entity.getEnabled() == 1 ? true : false)
                    );
         }
     };
+
 
     public Function<ApartmentEntity, ApartmentMapper> mapTheApartment = new Function<ApartmentEntity, ApartmentMapper>() {
         public ApartmentMapper apply(ApartmentEntity apartmentEntity) {
