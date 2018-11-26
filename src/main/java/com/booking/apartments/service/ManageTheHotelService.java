@@ -1,6 +1,7 @@
 package com.booking.apartments.service;
 
 import com.booking.apartments.entity.ApartmentEntity;
+import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.ApartmentRepository;
@@ -136,5 +137,9 @@ public class ManageTheHotelService {
         hotel.setEnabled(!hotel.isEnabled());
         hotelRepository.save(hotel);
 
+    }
+
+    public CityEntity getCityById(int idCity) {
+            return cityRepository.findCityNameById(idCity).get(0);
     }
 }

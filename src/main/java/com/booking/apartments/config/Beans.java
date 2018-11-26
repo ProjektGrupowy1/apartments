@@ -54,15 +54,6 @@ public class Beans {
     public ReserveService reserveService(AuthenticationService authenticationService, ManageTheHotelService manageTheHotelService, ReservationRepository reservationRepository){
         return new ReserveService(mapper(), session(),authenticationService,manageTheHotelService,reservationRepository);
     }
-    @Bean
-    public CitiesService citiesService(CityRepository cityRepository){
-        return new CitiesService();
-    }
-
-    @Bean
-    public ProfileService profileService(ProfileRepository profileRepository){
-        return new ProfileService(session(),profileRepository);
-    }
 
     @Bean
     public Mapper mapper() {
