@@ -45,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/user_profile", "/manage_account").hasAuthority("Admin")
                 .antMatchers("/details_of_the_apartment", "/user_reservations").hasAuthority("Client")
                 .antMatchers("/manage_hotels", "/add_hotel", "/hotel_modification", "/remove_hotel", "/details_of_the_hotel", "/reserved_apartments").hasAuthority("Owner")
+                .antMatchers("/manage_hotels_admin").hasAuthority("Admin")
+                .antMatchers("/manage_hotels").hasAuthority("Admin")
                 .antMatchers("/manage_users").hasAuthority("Admin")
                 .antMatchers("/user_profile", "/select_the_page").hasAuthority("User")
                 .anyRequest().authenticated()

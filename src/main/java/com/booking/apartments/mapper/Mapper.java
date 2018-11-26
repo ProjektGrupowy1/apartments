@@ -75,6 +75,7 @@ public class Mapper {
         private String postalCode;
         private String street;
         private Integer rating;
+        private boolean enabled;
     }
 
     @Getter
@@ -88,6 +89,7 @@ public class Mapper {
         private String postalCode;
         private String street;
         private Integer rating;
+        private boolean enabled;
     }
 
     @Getter
@@ -169,7 +171,7 @@ public class Mapper {
         public HotelMapper apply(HotelEntity hotelEntity) {
             CityEntity city = citiesService.getCityById(hotelEntity.getIdCity());
             return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), city.getCityName(),
-                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating());
+                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating(),hotelEntity.isEnabled());
         }
     };
 

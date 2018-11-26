@@ -130,4 +130,11 @@ public class ManageTheHotelService {
     public HotelEntity getHotelNameByApartmentId(int idApartment) {
         return hotelRepository.findHotelById(apartmentRepository.findApartmentsByApartmentId(idApartment).get(0).getIdHotel()).get(0);
     }
+
+    public void changeHotelStatus(int idHotel) {
+        HotelEntity hotel = getHotel(idHotel);
+        hotel.setEnabled(!hotel.isEnabled());
+        hotelRepository.save(hotel);
+
+    }
 }

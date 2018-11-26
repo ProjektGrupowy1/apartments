@@ -13,7 +13,7 @@
 </head>
 <body>
 <header class="container">
-    <h1><b>Zarządzaj hotelami</b></h1>
+    <h1><b>Zarządzaj hotelami - owner</b></h1>
 </header>
 
 <div class="line">
@@ -48,6 +48,9 @@
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Opis:</p>
                         <textarea name="description" placeholder="Write something.." type='text' pattern="{1,2000}"></textarea>
+                        <p>Aktywny:</p>
+                        <input type="checkbox" th:checked="true">
+                        <input type="hidden" name="enabled" th:value="true"/>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="submit" value="Dodaj hotel"/>
@@ -83,6 +86,9 @@
                     <span class="col-sm-3 col-md-3 col-lg-3">
                         <p>Opis:</p>
                         <p th:text="${hotel.description}" type='text' name='description'></p>
+                        <p>Aktywny:</p>
+                        <input type="checkbox" th:id="enabled" th:checked="${hotel.enabled}">
+                        <input type="hidden" name="enabled" th:value="${hotel.enabled}"/>
                     </span>
                     <span class="col-sm-3 col-md-3 col-lg-3 green_buttom">
                         <input name="submit" type="hidden" value="Zapisz zmiany"
@@ -118,13 +124,21 @@
                 $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
             }
             else if ($(this).is(":hidden")) {
-                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " hidden>"));
+                 if ($(this).prop("checked")) {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + " checked  hidden>"));
+                } else {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + "  hidden>"));
+                }
             }
             else if($(this).hasClass("image")){
                 $(this).hide();
             }
             else if(typeof attribute !== typeof undefined && attribute !== false){
-                $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                if ($(this).prop("checked")) {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " checked>"));
+                } else {
+                    $(this).replaceWith($("<input type=" + $(this).attr('type') + " name=" + $(this).attr('name') + " value=" + $(this).text() + ">"));
+                }
             }
         });
         $(this).prop("type", "hidden");
