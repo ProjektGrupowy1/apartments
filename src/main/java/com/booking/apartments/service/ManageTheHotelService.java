@@ -70,6 +70,7 @@ public class ManageTheHotelService {
         hotel.setRating(newHotelMapper.getRating());
         hotel.setStreet(newHotelMapper.getStreet());
         hotel.setName(newHotelMapper.getName());
+        hotel.setEnabled(newHotelMapper.isEnabled());
 
         hotelRepository.save(hotel);
         return true;
@@ -107,6 +108,7 @@ public class ManageTheHotelService {
         hotel.setRating(hotelMapper.getRating());
         hotel.setStreet(hotelMapper.getStreet());
         hotel.setName(hotelMapper.getName());
+        hotel.setEnabled(hotelMapper.isEnabled());
 
         hotelRepository.save(hotel);
     }
