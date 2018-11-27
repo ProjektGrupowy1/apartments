@@ -34,13 +34,7 @@ public class ManageTheHotelController {
 
     @RequestMapping(value = "/manage_hotels", method = RequestMethod.GET)
     public ModelAndView showManageHotelsPage() {
-        ModelAndView manageHotelsModelAndView;
-        String a = session.getParam("profile").toString();
-        if (session.getParam("profile").toString().equals("Admin")) {
-            manageHotelsModelAndView = new ModelAndView("/admin/manage_hotels_admin");
-        } else {
-            manageHotelsModelAndView = new ModelAndView("/owner/manage_hotels");
-        }
+        ModelAndView manageHotelsModelAndView = new ModelAndView("/owner/manage_hotels");
 
         int idOwner = authenticationService.getUserId(session.getParam("email").toString());
 
