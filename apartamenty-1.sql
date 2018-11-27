@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 27 Paź 2018, 17:33
+-- Czas generowania: 27 Lis 2018, 22:05
 -- Wersja serwera: 10.1.36-MariaDB
--- Wersja PHP: 7.2.11
+-- Wersja PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,14 +30,13 @@ USE `apartamenty`;
 -- Struktura tabeli dla tabeli `apartment`
 --
 
-DROP TABLE IF EXISTS `apartment`;
 CREATE TABLE IF NOT EXISTS `apartment` (
   `id_apartment` int(10) NOT NULL AUTO_INCREMENT,
   `id_hotel` int(11) DEFAULT NULL,
   `name` varchar(60) COLLATE utf8_polish_ci DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL,
+  `status` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id_apartment`),
   UNIQUE KEY `id_UNIQUE` (`id_apartment`),
   KEY `room_hotel_fk_idx` (`id_hotel`)
@@ -49,7 +48,6 @@ CREATE TABLE IF NOT EXISTS `apartment` (
 -- Struktura tabeli dla tabeli `city`
 --
 
-DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
   `id_city` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -59,20 +57,12 @@ CREATE TABLE IF NOT EXISTS `city` (
   PRIMARY KEY (`id_city`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
---
--- Zrzut danych tabeli `city`
---
-
-INSERT INTO `city` (`id_city`, `name`, `country_code`, `state`, `postal_code`) VALUES
-(1, 'Warszawa', 'PL', 'Mazowieckie', '00-300');
-
 -- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `hotel`
 --
 
-DROP TABLE IF EXISTS `hotel`;
 CREATE TABLE IF NOT EXISTS `hotel` (
   `id_hotel` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -81,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `hotel` (
   `id_owner` int(10) DEFAULT NULL,
   `id_city` int(11) DEFAULT NULL,
   `street` varchar(200) COLLATE utf8_polish_ci DEFAULT NULL,
+  `enabled` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_hotel`),
   UNIQUE KEY `id_UNIQUE` (`id_hotel`),
   KEY `hotel_user_fk_idx` (`id_owner`),
@@ -93,13 +84,12 @@ CREATE TABLE IF NOT EXISTS `hotel` (
 -- Struktura tabeli dla tabeli `profile`
 --
 
-DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
   `id_profile` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id_profile`),
   UNIQUE KEY `id_UNIQUE` (`id_profile`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- --------------------------------------------------------
 
@@ -107,9 +97,8 @@ CREATE TABLE IF NOT EXISTS `profile` (
 -- Struktura tabeli dla tabeli `reservation`
 --
 
-DROP TABLE IF EXISTS `reservation`;
 CREATE TABLE IF NOT EXISTS `reservation` (
-  `id_reservation` int(10) NOT NULL  AUTO_INCREMENT,
+  `id_reservation` int(10) NOT NULL AUTO_INCREMENT,
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
   `price` float DEFAULT NULL,
@@ -128,7 +117,6 @@ CREATE TABLE IF NOT EXISTS `reservation` (
 -- Struktura tabeli dla tabeli `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(40) COLLATE utf8_polish_ci DEFAULT NULL,
@@ -144,9 +132,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `id_UNIQUE` (`id_user`),
   KEY `user_profile_fk_idx` (`id_profile`),
   KEY `user_city_fk_idx` (`id_city`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
-
+--
+-- Ograniczenia dla zrzutów tabel
+--
 
 --
 -- Ograniczenia dla tabeli `apartment`
