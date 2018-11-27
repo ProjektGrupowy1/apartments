@@ -14,6 +14,9 @@ public interface HotelRepository extends CrudRepository<HotelEntity,Integer> {
     @Query("select h from HotelEntity h where h.idOwner = :idOwner")
     List<HotelEntity> findListOfHotelsByOwnerId(@Param("idOwner") int idOwner);
 
+    @Query("select h from HotelEntity h")
+    List<HotelEntity> findAllHotels();
+
     @Query("select h from HotelEntity h where h.idHotel = :idHotel")
     List<HotelEntity> findHotelById(@Param("idHotel") int idHotel);
 

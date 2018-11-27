@@ -12,6 +12,9 @@ import com.booking.apartments.utility.Session;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -141,5 +144,9 @@ public class ManageTheHotelService {
 
     public CityEntity getCityById(int idCity) {
             return cityRepository.findCityNameById(idCity).get(0);
+    }
+
+    public List<HotelEntity> getAllHotels() {
+        return hotelRepository.findAllHotels();
     }
 }
