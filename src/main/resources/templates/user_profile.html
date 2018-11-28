@@ -19,6 +19,7 @@
         <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/search_engine}">Wyszukiwarka apartamentów</a>
         <a th:if="${user.profile == 'Client'}" type="button" th:href="@{/user_reservations}">Twoje rezerwacje</a>
         <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/manage_hotels}">Zarządzaj hotelami</a>
+        <a th:if="${user.profile == 'Admin'}" type="button" th:href="@{/manage_hotels_admin}">Zarządzaj hotelami</a>
         <a th:if="${user.profile == 'Owner'}" type="button" th:href="@{/reserved_apartments}">Zarezerwowane
             apartamenty</a>
         <a th:if="${user.profile == 'Admin'}" type="button" th:href="@{/manage_users}">Zarządzaj użytkownikami</a>

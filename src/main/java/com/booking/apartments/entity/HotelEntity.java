@@ -27,6 +27,8 @@ public class HotelEntity implements Serializable {
 
     private String description;
 
+    private boolean enabled;
+
     @Column(name = "id_owner")
     private int idOwner;
 

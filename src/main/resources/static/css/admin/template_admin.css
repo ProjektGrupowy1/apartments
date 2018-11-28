@@ -15,12 +15,12 @@ nav a:hover{
     color: black;
 }
 
-#new_user li, #list_of_users li {
+#new_user li, #list_of_users li, #list_of_hotels li{
     display: flow-root;
     border-bottom: solid 1px gray;
 }
 /*#list_of_users input:not([type='checkbox'])*/
-.added_user input:not([type='checkbox']), #new_user select, #list_of_users input:not([type='checkbox']), #list_of_users select{
+.added_user input:not([type='checkbox']), #new_user select, #list_of_users input:not([type='checkbox']), #list_of_users select, #list_of_hotels input:not([type='checkbox']){
     margin: 10px 5px 10px 5px;
     width: 100%;
     font-size: 16px;
@@ -94,4 +94,16 @@ p[name="password"]{
 
 #list_of_users .row{
     padding-left: 20px;
+}
+
+.added_hotel textarea{
+    min-height: 105px;
+}
+
+#new_hotel span {
+    padding-bottom: 10px;
+}
+
+.green_buttom form input:nth-child(2){
+    margin-top: 10px;
 }

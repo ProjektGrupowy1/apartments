@@ -26,11 +26,7 @@ public class Mapper {
     @Autowired
     AuthenticationService authenticationService;
 
-    @Autowired
-    CitiesService citiesService;
 
-    @Autowired
-    ProfileService profileService;
 
     @Getter
     @AllArgsConstructor
@@ -75,6 +71,7 @@ public class Mapper {
         private String postalCode;
         private String street;
         private Integer rating;
+        private boolean enabled;
     }
 
     @Getter
@@ -88,6 +85,7 @@ public class Mapper {
         private String postalCode;
         private String street;
         private Integer rating;
+        private boolean enabled;
     }
 
     @Getter
@@ -167,18 +165,19 @@ public class Mapper {
 
     public Function<HotelEntity, HotelMapper> mapTheHotel = new Function<HotelEntity, HotelMapper>() {
         public HotelMapper apply(HotelEntity hotelEntity) {
-            CityEntity city = citiesService.getCityById(hotelEntity.getIdCity());
+            CityEntity city = manageTheHotelService.getCityById(hotelEntity.getIdCity());
             return new HotelMapper(hotelEntity.getIdHotel(), hotelEntity.getName(), hotelEntity.getDescription(), city.getCityName(),
-                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating());
+                    city.getState(), city.getPostalCode(), hotelEntity.getStreet(), hotelEntity.getRating(),hotelEntity.isEnabled());
         }
     };
 
     public Function<UserEntity, UserMapper> mapUser = new Function<UserEntity, UserMapper>() {
         public UserMapper apply(UserEntity entity) {
-            CityEntity city = citiesService.getCityById(entity.getIdCity());
+            CityEntity city = manageTheHotelService.getCityById(entity.getIdCity());
+            ProfileEntity profileEntity = manageUsersService.getProfileById(entity.getIdProfile());
             return new UserMapper(entity.getIdUser(), entity.getName(), entity.getLastname(), entity.getStreet()
                     ,city.getCityName(), city.getState(), city.getPostalCode() ,entity.getPhone(), entity.getEmail()
-                    ,entity.getPassword(),profileService.getProfileNameById(entity.getIdProfile()),(entity.getEnabled() == 1 ? true : false)
+                    ,entity.getPassword(),  profileEntity.getProfileName(),(entity.getEnabled() == 1 ? true : false)
                    );
         }
     };

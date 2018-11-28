@@ -41,7 +41,18 @@ public class ManageTheHotelController {
         List<Mapper.HotelMapper> hotels = manageTheHotelService.getHotels(idOwner).stream().map(mapper.mapTheHotel).collect(Collectors.toList());
 
         manageHotelsModelAndView.addObject("hotels", hotels);
-//        manageHotelsModelAndView.addObject("stars", );
+
+        return manageHotelsModelAndView;
+    }
+
+    @RequestMapping(value = "/manage_hotels_admin", method = RequestMethod.GET)
+    public ModelAndView showManageHotelsForAdminPage() {
+        ModelAndView manageHotelsModelAndView;
+        manageHotelsModelAndView = new ModelAndView("/admin/manage_hotels_admin");
+
+        List<Mapper.HotelMapper> hotels = manageTheHotelService.getAllHotels().stream().map(mapper.mapTheHotel).collect(Collectors.toList());
+
+        manageHotelsModelAndView.addObject("hotels", hotels);
 
         return manageHotelsModelAndView;
     }
@@ -94,6 +105,12 @@ public class ManageTheHotelController {
     @RequestMapping(value = "/remove_hotel/{id_hotel}", method = RequestMethod.GET)
     public RedirectView hotelRemoval(@PathVariable("id_hotel") int idHotel) {
         manageTheHotelService.deleteHotel(idHotel);
+        return new RedirectView("/manage_hotels");
+    }
+
+    @RequestMapping(value = "/change_hotel_status/{id_hotel}", method = RequestMethod.GET)
+    public RedirectView hotelStatusChange(@PathVariable("id_hotel") int idHotel) {
+        manageTheHotelService.changeHotelStatus(idHotel);
         return new RedirectView("/manage_hotels");
     }
 

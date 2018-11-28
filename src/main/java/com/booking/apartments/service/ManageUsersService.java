@@ -1,5 +1,6 @@
 package com.booking.apartments.service;
 
+import com.booking.apartments.entity.ProfileEntity;
 import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.CityRepository;
@@ -65,5 +66,9 @@ public class ManageUsersService {
         user.setEnabled((newUserMapper.isEnabled()? 1 : 0));
         userRepository.save(user);
 
+    }
+
+    public ProfileEntity getProfileById(int idProfile) {
+        return profileRepository.findProfileById(idProfile).get(0);
     }
 }

@@ -1,6 +1,7 @@
 package com.booking.apartments.service;
 
 import com.booking.apartments.entity.ApartmentEntity;
+import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.HotelEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.ApartmentRepository;
@@ -11,6 +12,9 @@ import com.booking.apartments.utility.Session;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -66,6 +70,7 @@ public class ManageTheHotelService {
         hotel.setRating(newHotelMapper.getRating());
         hotel.setStreet(newHotelMapper.getStreet());
         hotel.setName(newHotelMapper.getName());
+        hotel.setEnabled(newHotelMapper.isEnabled());
 
         hotelRepository.save(hotel);
         return true;
@@ -103,6 +108,7 @@ public class ManageTheHotelService {
         hotel.setRating(hotelMapper.getRating());
         hotel.setStreet(hotelMapper.getStreet());
         hotel.setName(hotelMapper.getName());
+        hotel.setEnabled(hotelMapper.isEnabled());
 
         hotelRepository.save(hotel);
     }
@@ -129,5 +135,20 @@ public class ManageTheHotelService {
 
     public HotelEntity getHotelNameByApartmentId(int idApartment) {
         return hotelRepository.findHotelById(apartmentRepository.findApartmentsByApartmentId(idApartment).get(0).getIdHotel()).get(0);
+    }
+
+    public void changeHotelStatus(int idHotel) {
+        HotelEntity hotel = getHotel(idHotel);
+        hotel.setEnabled(!hotel.isEnabled());
+        hotelRepository.save(hotel);
+
+    }
+
+    public CityEntity getCityById(int idCity) {
+            return cityRepository.findCityNameById(idCity).get(0);
+    }
+
+    public List<HotelEntity> getAllHotels() {
+        return hotelRepository.findAllHotels();
     }
 }

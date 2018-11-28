@@ -20,7 +20,7 @@ nav a:hover{
     border-bottom: solid 1px gray;
 }
 
-#list_of_hotels input, .added_hotel input, .added_hotel textarea, .added_apartment input, #list_of_apartments input,
+#list_of_hotels input:not([type='checkbox']), .added_hotel input, .added_hotel textarea, .added_apartment input, #list_of_apartments input,
 #list_of_apartments select, #added_apartment select{
     margin: 10px 5px 10px 5px;
     width: 100%;
@@ -60,4 +60,11 @@ nav a:hover{
     display: block;
     text-align: center;
     margin: 10px -5px 0px 5px;
+}
+
+input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-top: 10px;
 }
