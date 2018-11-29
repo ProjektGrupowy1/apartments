@@ -111,7 +111,7 @@ public class ManageTheHotelController {
     @RequestMapping(value = "/change_hotel_status/{id_hotel}", method = RequestMethod.GET)
     public RedirectView hotelStatusChange(@PathVariable("id_hotel") int idHotel) {
         manageTheHotelService.changeHotelStatus(idHotel);
-        return new RedirectView("/manage_hotels");
+        return new RedirectView("/manage_hotels_admin");
     }
 
     @RequestMapping(value = "/add_apartment", method = RequestMethod.POST)
