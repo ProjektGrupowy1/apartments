@@ -69,7 +69,7 @@ public class AuthenticationController {
 
         if (data[0].length() > 40) {
             statement = "Wprowadzono niepoprawny email." + variableMessage;
-        } else if(data[1].length() > 40){
+        } else if(data[1].length() > 200){
             statement = "Wprowadzono niepoprawne hasło." + variableMessage;
         } else if(data[2].length() > 45){
             statement = "Wprowadzono niepoprawne imie." + variableMessage;
