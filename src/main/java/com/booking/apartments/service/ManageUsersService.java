@@ -63,7 +63,7 @@ public class ManageUsersService {
         user.setStreet(newUserMapper.getStreet());
         user.setIdProfile(profileRepository.findProfileByProfileName(newUserMapper.getProfile()).get(0).getIdProfile());
         user.setPassword(passwordEncoder.encode(newUserMapper.getPassword()));
-        user.setEnabled((newUserMapper.isEnabled()? 1 : 0));
+        user.setEnabled((newUserMapper.getEnabled() ? 1 : 0));
         userRepository.save(user);
 
     }

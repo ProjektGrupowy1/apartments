@@ -2,6 +2,7 @@ package com.booking.apartments.config;
 
 import com.booking.apartments.entity.CityEntity;
 import com.booking.apartments.entity.ProfileEntity;
+import com.booking.apartments.entity.UserEntity;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.*;
 import com.booking.apartments.service.*;
@@ -85,7 +86,11 @@ public class Beans {
             profileRepository.save(new ProfileEntity("Admin"));
 
             cityRepository.save(new CityEntity("Warszawa","PL","Mazowieckie","00-300"));
-//
+
+            userRepository.save(new UserEntity("admin", "admin", "admin@wp.pl", "$2a$10$fj1O5fqp8f/W7O9AWr4/aOeAEv0DN.VB.mtm76yOw7DPVcCEgJnwu", "admin", "admin", 3, 1, 1));
+            userRepository.save(new UserEntity("user", "user", "user@wp.pl", "$2a$10$50IcwAXaRKuVAnSbvlqPtecWTAfHaPLVVNXJrz0G.BrYPTFTtt5ru", "user", "user", 3, 1, 1));
+
+
 //            userRepository.save(new UserEntity("Agnieszka", "Sz", "aga@gmail.com", "$2a$10$nQtRtmS45kHNjfeycb44vux3P0eBLWqh5c7wGWR/NKRFzQer9HHBC", "555555555", "Waryńskiego", 2, 1, 1));
 //            userRepository.save(new UserEntity("Agnieszka", "Sz", "aga@gmail.com", "$2a$04$qRz8rKuG9IjxHcIcLUAJzurefZj2Vy7.7k3cnJT74PGEyF2OIckNK", "555555555", "Waryńskiego", 2, 1, 1));
 
