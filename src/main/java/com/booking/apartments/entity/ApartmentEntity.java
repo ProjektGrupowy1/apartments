@@ -46,4 +46,12 @@ public class ApartmentEntity implements Serializable {
         this.price = price;
         this.status = status;
     }
+
+    public ApartmentEntity(int idHotel, String name, int size, float price, String status) {
+        this.idHotel = idHotel;
+        this.name = name;
+        this.size = size;
+        this.price = price;
+        this.status = status;
+    }
 }
