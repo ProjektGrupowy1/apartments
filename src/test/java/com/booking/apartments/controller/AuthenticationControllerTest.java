@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -62,7 +63,8 @@ public class AuthenticationControllerTest {
     @Test
     public void loginTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/screenname", "user@wp.pl", "$2a$10$50IcwAXaRKuVAnSbvlqPtecWTAfHaPLVVNXJrz0G.BrYPTFTtt5ru"));
+                .post("/screenname", "user@wp.pl", "$2a$10$50IcwAXaRKuVAnSbvlqPtecWTAfHaPLVVNXJrz0G.BrYPTFTtt5ru"))
+                .andExpect(status().is3xxRedirection());
     }
 
 }

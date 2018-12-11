@@ -1,7 +1,5 @@
 package com.booking.apartments.controller;
 
-import com.booking.apartments.service.AuthenticationService;
-import com.booking.apartments.service.ManageTheHotelService;
 import com.booking.apartments.service.ReserveService;
 import com.booking.apartments.utility.Session;
 import com.booking.apartments.utility.enums.Profile;
@@ -44,9 +42,9 @@ public class ReserveController {
 
         RedirectView reserveApartmentRedirectView = new RedirectView("/user_reservations");
 
-        boolean addedReservation =  reserveService.addNewReservation(idApartment, startDate, endDate);
+        boolean addedReservation = reserveService.addNewReservation(idApartment, startDate, endDate);
 
-        reserveApartmentRedirectView.addStaticAttribute("added_reservation",addedReservation);
+        reserveApartmentRedirectView.addStaticAttribute("added_reservation", addedReservation);
 
         return reserveApartmentRedirectView;
     }
