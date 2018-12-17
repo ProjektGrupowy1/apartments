@@ -1,10 +1,12 @@
 package com.booking.apartments.config;
 
-import com.booking.apartments.entity.CityEntity;
-import com.booking.apartments.entity.ProfileEntity;
+import com.booking.apartments.entity.*;
 import com.booking.apartments.mapper.Mapper;
 import com.booking.apartments.repository.*;
-import com.booking.apartments.service.*;
+import com.booking.apartments.service.AuthenticationService;
+import com.booking.apartments.service.ManageTheHotelService;
+import com.booking.apartments.service.ReserveService;
+import com.booking.apartments.service.SearchEngineService;
 import com.booking.apartments.utility.Session;
 import com.booking.apartments.utility.SessionBeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -19,6 +21,10 @@ import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 @Configuration
 public class Beans {
@@ -41,18 +47,18 @@ public class Beans {
 
     @Bean
     public ManageTheHotelService manageTheHotelService(HotelRepository hotelRepository, ApartmentRepository apartmentRepository, CityRepository cityRepository, UserRepository userRepository, AuthenticationService authenticationService) {
-        return new ManageTheHotelService(session(), hotelRepository, apartmentRepository, cityRepository, userRepository, authenticationService );
+        return new ManageTheHotelService(session(), hotelRepository, apartmentRepository, cityRepository, userRepository, authenticationService);
     }
 
     @Bean
     public SearchEngineService searchEngineService(HotelRepository hotelRepository, ApartmentRepository apartmentRepository,
-                                                   CityRepository cityRepository, ReservationRepository reservationRepository){
-        return new SearchEngineService(mapper(), hotelRepository,apartmentRepository,cityRepository, reservationRepository);
+                                                   CityRepository cityRepository, ReservationRepository reservationRepository) {
+        return new SearchEngineService(mapper(), hotelRepository, apartmentRepository, cityRepository, reservationRepository);
     }
 
     @Bean
-    public ReserveService reserveService(AuthenticationService authenticationService, ManageTheHotelService manageTheHotelService, ReservationRepository reservationRepository){
-        return new ReserveService(mapper(), session(),authenticationService,manageTheHotelService,reservationRepository);
+    public ReserveService reserveService(AuthenticationService authenticationService, ManageTheHotelService manageTheHotelService, ReservationRepository reservationRepository) {
+        return new ReserveService(mapper(), session(), authenticationService, manageTheHotelService, reservationRepository);
     }
 
     @Bean
@@ -77,23 +83,55 @@ public class Beans {
     }
 
     @Bean
-    CommandLineRunner insertToDatabase(UserRepository userRepository, ProfileRepository profileRepository, CityRepository cityRepository, HotelRepository hotelRepository) {
+    CommandLineRunner insertToDatabase(UserRepository userRepository, ProfileRepository profileRepository, CityRepository cityRepository,
+                                       HotelRepository hotelRepository, ApartmentRepository apartmentRepository, ReservationRepository reservationRepository) {
         return args -> {
 
-            profileRepository.save(new ProfileEntity("Client"));
-            profileRepository.save(new ProfileEntity("Owner"));
-            profileRepository.save(new ProfileEntity("Admin"));
+            List<UserEntity> owners = userRepository.findUserByEmail("owner@wp.pl");
+            List<UserEntity> clients = userRepository.findUserByEmail("user@wp.pl");
+            List<HotelEntity> hotels = hotelRepository.findHotelByHotelName("hotel");
 
-            cityRepository.save(new CityEntity("Warszawa","PL","Mazowieckie","00-300"));
-//
-//            userRepository.save(new UserEntity("Agnieszka", "Sz", "aga@gmail.com", "$2a$10$nQtRtmS45kHNjfeycb44vux3P0eBLWqh5c7wGWR/NKRFzQer9HHBC", "555555555", "Waryńskiego", 2, 1, 1));
-//            userRepository.save(new UserEntity("Agnieszka", "Sz", "aga@gmail.com", "$2a$04$qRz8rKuG9IjxHcIcLUAJzurefZj2Vy7.7k3cnJT74PGEyF2OIckNK", "555555555", "Waryńskiego", 2, 1, 1));
+            if (profileRepository.findProfileByProfileName("Client").isEmpty()) {
+                profileRepository.save(new ProfileEntity("Client"));
+            }
+            if (profileRepository.findProfileByProfileName("Owner").isEmpty()) {
+                profileRepository.save(new ProfileEntity("Owner"));
+            }
+            if (profileRepository.findProfileByProfileName("Admin").isEmpty()) {
+                profileRepository.save(new ProfileEntity("Admin"));
+            }
+            if (cityRepository.findCityListByCityName("Warszawa").isEmpty()) {
+                cityRepository.save(new CityEntity("Warszawa", "PL", "Polska", "00-300"));
+            }
+            if (userRepository.findUserByEmail("admin@wp.pl").isEmpty()) {
+                userRepository.save(new UserEntity("admin", "admin", "admin@wp.pl", "$2a$10$fj1O5fqp8f/W7O9AWr4/aOeAEv0DN.VB.mtm76yOw7DPVcCEgJnwu", "admin", "admin", 3, 1, 1));
+            }
+            if (owners.isEmpty()) {
+                UserEntity owner = new UserEntity("owner", "owner", "owner@wp.pl", "$2a$10$fj1O5fqp8f/W7O9AWr4/aOeAEv0DN.VB.mtm76yOw7DPVcCEgJnwu", "owner", "owner", 2, 1, 1);
+                owners.add(owner);
+                userRepository.save(owner);
+            }
+            if (clients.isEmpty()) {
+                UserEntity client = new UserEntity("user", "user", "user@wp.pl", "$2a$10$50IcwAXaRKuVAnSbvlqPtecWTAfHaPLVVNXJrz0G.BrYPTFTtt5ru", "user", "user", 1, 1, 1);
+                clients.add(client);
+                userRepository.save(client);
+            }
+            if (hotels.isEmpty()) {
+                HotelEntity hotel = new HotelEntity("hotel", 4, "hotel", owners.get(0).getIdUser(), 1, "hotel");
+                hotels.add(hotel);
+                hotelRepository.save(hotel);
+                ApartmentEntity apartment = new ApartmentEntity(hotel.getIdHotel(), "apartment", 60, 200.0f, "Available");
+                ApartmentEntity apartment2 = new ApartmentEntity(hotel.getIdHotel(), "apartment2", 60, 200.0f, "Available");
+                apartmentRepository.save(apartment);
+                apartmentRepository.save(apartment2);
+                reservationRepository.save(new ReservationEntity(LocalDate.of(2018, Month.SEPTEMBER, 2),
+                        LocalDate.of(2018, Month.SEPTEMBER, 10), 200.0f,
+                        apartment.getIdApartment(), clients.get(0).getIdUser(), "Waiting"));
+                reservationRepository.save(new ReservationEntity(LocalDate.of(2018, Month.SEPTEMBER, 20),
+                        LocalDate.of(2018, Month.SEPTEMBER, 30), 200.0f,
+                        apartment2.getIdApartment(), clients.get(0).getIdUser(), "Waiting"));
+            }
 
-//            hotelRepository.save(new HotelEntity("Porażka", 4,"Porażka to piękny hotel !", 1, 1, "ul. Nijaka"));
-
-//            userRepository.save(new UserEntity("Tomasz", "Nowak", "user", "password", "Client", 1));
-//            userRepository.save(new UserEntity("Jan", "Kowalski", "user2", "password", "Admin", 1));
-//            userRepository.save(new UserEntity("Jan", "Kowalski", "user3", "$2a$04$qRz8rKuG9IjxHcIcLUAJzurefZj2Vy7.7k3cnJT74PGEyF2OIckNK", "Client", 1));
         };
     }
 

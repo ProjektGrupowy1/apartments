@@ -41,7 +41,7 @@ public class Mapper {
         private String email;
         private String password;
         private String profile;
-        private boolean enabled;
+        private Boolean enabled;
     }
 
     @Getter
