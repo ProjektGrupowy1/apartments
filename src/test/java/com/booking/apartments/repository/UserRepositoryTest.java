@@ -28,7 +28,8 @@ public class UserRepositoryTest {
     public void findUserByEmailTest() {
 
         //given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 1, 1, 1);
         entityManager.persist(user);
         entityManager.flush();
 
@@ -52,7 +53,8 @@ public class UserRepositoryTest {
     public void findUserByIdTest() {
 
         //given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 1, 1, 1);
         entityManager.persist(user);
         entityManager.flush();
 
@@ -75,9 +77,12 @@ public class UserRepositoryTest {
     public void findAllUsersTest() {
 
         //given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
-        UserEntity user2 = new UserEntity("name2", "lastname2", "email2", "password2", "phone2", "street2", 1, 1, 1);
-        UserEntity user3 = new UserEntity("name3", "lastname3", "email3", "password3", "phone3", "street3", 1, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 1, 1, 1);
+        UserEntity user2 = new UserEntity("Zbigniew", "Nowak", "zbigniew.nowak@wp.pl",
+                "zbigniew", "+48503987234", "ul. Paderewskiego", 1, 1, 1);
+        UserEntity user3 = new UserEntity("Malwina", "Nowacka", "malwina.nowacka@wp.pl",
+                "malwina", "+48950487235", "ul. Wojska Polskiego 98", 1, 1, 1);
         entityManager.persist(user);
         entityManager.persist(user2);
         entityManager.persist(user3);
@@ -98,7 +103,8 @@ public class UserRepositoryTest {
     public void saveUserTest() {
 
         //given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 1, 1, 1);
 
         // when
         userRepository.save(user);
@@ -121,7 +127,8 @@ public class UserRepositoryTest {
     public void removeUserTest() {
 
         //given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 1, 1, 1);
         userRepository.save(user);
         UserEntity existing = userRepository.findUserById(user.getIdUser()).get(0);
         assertThat(existing.getEmail()).isEqualTo(user.getEmail());

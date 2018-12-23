@@ -41,37 +41,35 @@ public class ReservationRepositoryTest {
 
     @Before
     public void init(){
-
         // given
-        owner = new UserEntity("name", "lastname", "email", "password", "phone", "street", 2, 1, 1);
+        owner = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48503654234", "ul. Waryńskiego 34", 2, 1, 1);
         entityManager.persist(owner);
-        client = new UserEntity("name", "lastname", "email", "password", "phone", "street", 1, 1, 1);
+        client = new UserEntity("Zbigniew", "Nowak", "zbigniew.nowak@wp.pl",
+                "zbigniew", "+48503987234", "ul. Paderewskiego", 1, 1, 1);
         entityManager.persist(client);
-        client2 = new UserEntity("name2", "lastname2", "email2", "password2", "phone2", "street2", 1, 1, 1);
+        client2 = new UserEntity("Malwina", "Nowacka", "malwina.nowacka@wp.pl",
+                "malwina", "+48950487235", "ul. Wojska Polskiego 98", 1, 1, 1);
         entityManager.persist(client2);
         entityManager.flush();
-        HotelEntity hotel = new HotelEntity("Nazwa hotelu", 4, "description", owner.getIdUser(), 1, "street");
+        HotelEntity hotel = new HotelEntity("Bellotto", 4, "", owner.getIdUser(), 1, "ul. Żelazna 39");
         entityManager.persist(hotel);
         entityManager.flush();
-        apartment = new ApartmentEntity(hotel.getIdHotel(), "Nazwa apartamentu", 20, 200.0f, "Available");
+        apartment = new ApartmentEntity(hotel.getIdHotel(), "Apartament - dwa pokoje", 20, 200.0f, "Available");
         entityManager.persist(apartment);
         entityManager.flush();
-
         ReservationEntity reservation =
                 new ReservationEntity(LocalDate.of(2018, Month.DECEMBER, 2),
                         LocalDate.of(2018, Month.DECEMBER, 10),200.0f,
                         apartment.getIdApartment(),client.getIdUser(),"Approved");
-
         ReservationEntity reservation2 =
                 new ReservationEntity(LocalDate.of(2018, Month.DECEMBER, 12),
                         LocalDate.of(2018, Month.DECEMBER, 22),400.0f,
                         apartment.getIdApartment(),client.getIdUser(),"Approved");
-
         ReservationEntity reservation3 =
                 new ReservationEntity(LocalDate.of(2018, Month.DECEMBER, 24),
                         LocalDate.of(2018, Month.DECEMBER, 30),500.0f,
                         apartment.getIdApartment(),client.getIdUser(),"Approved");
-
         entityManager.persist(reservation);
         entityManager.persist(reservation2);
         entityManager.persist(reservation3);
@@ -80,7 +78,6 @@ public class ReservationRepositoryTest {
         reservations = Arrays.asList(
                 reservation, reservation2, reservation3
         );
-
     }
 
     @Test

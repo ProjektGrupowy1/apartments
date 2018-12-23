@@ -37,15 +37,19 @@ public class ApartmentRepositoryTest {
     public void init(){
 
         // given
-        UserEntity user = new UserEntity("name", "lastname", "email", "password", "phone", "street", 2, 1, 1);
+        UserEntity user = new UserEntity("Jan", "Kowalski", "jan.kowalski@wp.pl",
+                "jan", "+48510876543", "ul. Waryńskiego 29", 2, 1, 1);
         entityManager.persist(user);
         entityManager.flush();
-        hotel = new HotelEntity("Nazwa hotelu", 4, "description", user.getIdUser(), 1, "street");
+        hotel = new HotelEntity("Bellotto", 4, "", user.getIdUser(), 1, "ul. Żelazna 39");
         entityManager.persist(hotel);
         entityManager.flush();
-        ApartmentEntity apartment = new ApartmentEntity(hotel.getIdHotel(), "Nazwa apartamentu", 20, 200.0f, "Available");
-        ApartmentEntity apartment2 = new ApartmentEntity(hotel.getIdHotel(), "Nazwa apartamentu 2", 40, 300.0f, "Available");
-        ApartmentEntity apartment3 = new ApartmentEntity(hotel.getIdHotel(), "Nazwa apartamentu 3", 60, 400.0f, "Available");
+        ApartmentEntity apartment = new ApartmentEntity(hotel.getIdHotel(),
+                "Apartament - dwa pokoje", 20, 200.0f, "Available");
+        ApartmentEntity apartment2 = new ApartmentEntity(hotel.getIdHotel(),
+                "Apartament - trzy pokoje", 40, 300.0f, "Available");
+        ApartmentEntity apartment3 = new ApartmentEntity(hotel.getIdHotel(),
+                "Apartament - cztery pokoje", 60, 400.0f, "Available");
         entityManager.persist(apartment);
         entityManager.persist(apartment2);
         entityManager.persist(apartment3);
@@ -93,7 +97,8 @@ public class ApartmentRepositoryTest {
     public void saveApartmentTest() {
 
         //given
-        ApartmentEntity apartment4 = new ApartmentEntity(hotel.getIdHotel(), "Nazwa apartamentu 4", 80, 500.0f, "Available");
+        ApartmentEntity apartment4 = new ApartmentEntity(hotel.getIdHotel(),
+                "Apartament - pięć pokoje", 80, 500.0f, "Available");
         apartmentRepository.save(apartment4);
         // when
 
